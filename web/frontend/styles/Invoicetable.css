@@ -1,0 +1,279 @@
+.invoice_Table {
+  padding: 11px 0px 55px 20px;
+  width: 98%;
+  min-width: max-content;
+}
+.invoice_Table .number_invoice {
+  color: #848d9d;
+  font-weight: 600;
+}
+.invoice_Table table tbody tr {
+  height: 50px;
+}
+.Polaris-IndexTable__Table {
+  background-color: white;
+  border-radius: 10px;
+}
+.Polaris-IndexTable__Table thead tr :nth-child(7) {
+  text-align: center;
+}
+.Polaris-IndexTable__ScrollBarContainer {
+  display: none;
+}
+.Polaris-IndexTable__TableHeading {
+  font-size: 14px;
+  color: #363b44;
+  font-weight: 600;
+}
+
+.Polaris-Checkbox__Backdrop {
+  width: 12px;
+  height: 12px;
+  border: 1px solid #ccc;
+}
+.Polaris-Checkbox__Backdrop::before {
+  background-color: white;
+  border: 1px solid #835ff3;
+  width: 12px;
+  box-shadow: none;
+  height: 12px;
+}
+.Polaris-Choice--labelHidden .Polaris-Choice__Control {
+  width: 12px;
+  height: 12px;
+}
+.status_td {
+  display: flex;
+  justify-content: center;
+}
+.status_paid span {
+  background-color: #eafbf1 !important;
+  color: #47b27f !important;
+}
+.status_td > span {
+  font-size: 14px;
+  font-weight: 600;
+  width: max-content;
+  padding: 1px 10px;
+  color: #835ff3;
+  background-color: #f4f3ff;
+  border-radius: 12px;
+  text-transform: capitalize;
+}
+
+.status_td > .Polaris-Button > span {
+  font-size: 0.75em;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.Polaris-Checkbox__Input.Polaris-Checkbox__Input--indeterminate
+  + .Polaris-Checkbox__Backdrop {
+  border-color: white;
+}
+.Polaris-Checkbox__Backdrop::before {
+  content: "\2713";
+  display: inline-block;
+  color: #835ff3;
+  top: -5px !important;
+  left: 0px;
+  background-color: transparent !important;
+  border: none !important;
+  z-index: 11;
+}
+.Polaris-Checkbox__Input:checked + .Polaris-Checkbox__Backdrop {
+  border: 1px solid #ccc;
+}
+.Polaris-IndexTable__TableRow.Polaris-IndexTable__TableRow--selected,
+.Polaris-IndexTable__TableRow.Polaris-IndexTable__TableRow--selected
+  .Polaris-IndexTable__TableCell--first,
+.Polaris-IndexTable__TableRow.Polaris-IndexTable__TableRow--selected
+  .Polaris-IndexTable__TableCell--first,
+.Polaris-IndexTable__TableRow.Polaris-IndexTable__TableRow--selected
+  .Polaris-IndexTable__TableCell--first
+  + .Polaris-IndexTable__TableCell {
+  background-color: #f0ecff;
+}
+.Polaris-IndexTable__TableRow--hovered {
+  background-color: #f3f3f3 !important;
+  border-left: 3px solid #835ff3 !important;
+}
+.Polaris-IndexTable__TableRow--hovered td {
+  /* background-color: #f0ecff !important; */
+}
+.Polaris-IndexTable__TableRow {
+  border-left: 3px solid white;
+}
+.invoice_Table .order_table {
+  font-size: 11px;
+  color: #999;
+}
+.Polaris-IndexTable__TableHeading--first {
+  padding-left: 21px;
+}
+.invoice_Table .Polaris-IndexTable__TableHeading--last {
+  text-align: center !important;
+}
+.table_header_invoice {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+}
+.table_header_invoice .Polaris-Heading {
+  font-size: 27px !important;
+  font-weight: 600;
+  padding-bottom: 5px;
+}
+.table_header_invoice > button {
+  max-width: 138px;
+  width: 100%;
+  height: 41px;
+  border-radius: 10px;
+}
+.table_header_invoice > button > span {
+  color: white;
+  font-weight: 600;
+}
+
+.Polaris-Button:not(.Polaris-Button--plain) .Polaris-Button__Content {
+  font-weight: 600;
+  padding-top: 0px;
+}
+
+.Polaris-Popover__Section {
+  display: flex;
+  padding: 0;
+}
+
+.Polaris-Popover__Section .sort_status .Polaris-OptionList {
+  border-top: 0.5px solid #ccc;
+  padding: 0;
+}
+.Polaris-Scrollable--vertical {
+  overflow: hidden;
+}
+.Polaris-Popover__Section .sort_status > :first-child {
+  border-top: 0;
+}
+
+.Polaris-Popover__Section .sort_status {
+  width: 50%;
+}
+.Polaris-PositionedOverlay:has(.more) {
+  width: 180px;
+  left: 560px !important;
+}
+.more .Polaris-OptionList {
+  padding: 0;
+}
+.more > .Polaris-OptionList-Option__Label,
+.Polaris-OptionList-Option__SingleSelectOption {
+  font-size: 12px;
+}
+
+.Polaris-Checkbox__Input.Polaris-Checkbox__Input--indeterminate
+  + .Polaris-Checkbox__Backdrop {
+  border: 1px solid #ccc;
+}
+.table_header_invoice > button {
+  width: max-content;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  height: 30px;
+  text-align: center;
+  border-radius: 6px;
+  background-color: #6d27e7;
+}
+.table_header_invoice > .Polaris-Button svg {
+  fill: white;
+}
+.table_header_invoice > .Polaris-Button:hover {
+  background: #6d27e7 !important;
+}
+
+.tabs_filter .Polaris-Tabs__Wrapper {
+  width: max-content;
+  padding-bottom: 20px;
+}
+.Polaris-Tabs__Tab--selected .Polaris-Tabs__Title,
+.Polaris-Tabs--fitted .Polaris-Tabs__Title {
+  padding: 0 !important;
+}
+.Polaris-Tabs__Tab--selected .Polaris-Tabs__Title:before {
+  background-color: #6d27e7;
+}
+.Polaris-Tabs__Tab--selected .Polaris-Tabs__Title span {
+  color: #6d27e7;
+  font-weight: 600;
+}
+.tabs_filter {
+  padding-bottom: 20px;
+}
+.Polaris-DatePicker__MonthContainer table {
+  width: max-content;
+}
+.search_date_picker_div {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 15px;
+}
+.search_date_picker_div .Polaris-TextField__Backdrop {
+  border-radius: 10px;
+  border: 0.5px solid #ccc;
+}
+.search_date_picker_div .Polaris-Icon__Svg {
+  width: 16px;
+  height: 16px;
+  fill: #6d27e7;
+}
+.search_date_picker_div .Polaris-Button {
+  border-radius: 10px;
+  border: 0.5px solid #ccc;
+}
+.date_picker_select {
+  position: relative;
+  display: flex;
+  gap: 10px;
+}
+.date_picker_select .Polaris-DatePicker {
+  position: absolute !important;
+  z-index: 10;
+  background-color: white;
+  left: -73px;
+  border-radius: 10px;
+  border: 0.5px solid #ccc;
+  top: 43px;
+}
+.date_picker_select .Polaris-DatePicker__Month {
+  width: 290px;
+  margin: auto;
+}
+.date_picker_select .Polaris-DatePicker__Month .Polaris-DatePicker__Title {
+  color: #6d27e7;
+}
+.date_picker_select .Polaris-DatePicker__Header {
+  left: 32px;
+  width: 80%;
+}
+
+.date_picker_select .Polaris-DatePicker__MonthLayout {
+  margin-top: 0;
+}
+.date_picker_select .Polaris-Button--iconOnly {
+  box-shadow: none;
+}
+.date_picker_select .Polaris-Button--iconOnly .Polaris-Icon__Svg {
+  fill: #6d27e7;
+}
+.Polaris-DatePicker__Day:hover {
+  background: #6d27e7;
+}
+.Polaris-DatePicker__Day--selected {
+  background: #6d27e7;
+}
+.date_picker_select .print_download-invoice {
+  display: flex;
+  gap: 10px;
+}

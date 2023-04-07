@@ -1,0 +1,32 @@
+# fly.toml file generated for shoppppppppp on 2023-04-03T18:55:37+04:00
+
+app = "shoppppppppp"
+kill_signal = "SIGINT"
+kill_timeout = 5
+mounts = []
+primary_region = "ams"
+processes = []
+
+[env]
+  PORT = "8081"
+  HOST = "https://shoppppppppp.fly.dev"
+  SHOPIFY_API_KEY = "54dd7e5c4be92800b94cb0c66daf0b53"
+  SCOPES = "write_products,write_draft_orders,write_orders,read_orders,read_draft_orders,read_themes,write_themes,read_price_rules,read_discounts,read_customers"
+
+[[services]]
+  PORT = 8081
+  processes = ["app"]
+  protocol = "tcp"
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.ports]]
+    force_https = true
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443

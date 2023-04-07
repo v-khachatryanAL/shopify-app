@@ -1,0 +1,94 @@
+.detail_invoice {
+  padding-bottom: 20px;
+}
+.detail_invoice .header {
+  font-size: 27px !important;
+  font-weight: 600;
+  padding-bottom: 5px;
+}
+.detail_invoice .status {
+  color: #6d27e7;
+  background-color: #f4f3ff;
+  padding: 3px 5px;
+  border: 1px solid #6d27e7;
+  border-radius: 4px;
+}
+.detail_div {
+  padding: 20px;
+  margin: auto;
+  width: max-content;
+}
+.detail_invoice {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.invoice_paper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: white;
+  width: 794px;
+  border: 1px solid #cdc6c6;
+  padding: 20px;
+  min-height: 1120px;
+  height: 100%;
+}
+.invoice_paper .logo_div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #cdc6c6;
+}
+.invoice_paper .logo_div .logo {
+  width: 104px;
+  height: 109px;
+}
+.invoice_paper .logo_div .logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.invoice_paper .logo_div .invoice_count {
+  display: flex;
+  gap: 5px;
+  align-self: flex-start;
+}
+.invoice_paper .logo_div .invoice_count span {
+  font-weight: 600;
+  font-size: 20px;
+  color: #3805d3;
+}
+.invoice_paper .info_shop {
+  padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  font-weight: 600;
+  gap: 5px;
+  border-bottom: 1px solid #cdc6c6;
+}
+.invoice_paper .info_shop div {
+  display: flex;
+  justify-content: space-between;
+}
+.invoice_paper .info_shop span {
+  text-transform: capitalize;
+}
+
+.invoice_paper .item_detail {
+  font-weight: 600;
+  font-size: 20px;
+  padding: 10px;
+  display: block;
+}
+.invoice_paper .dataTable {
+  margin-top: 50px;
+}
+
+.invoice_paper .question_email {
+  text-align: center;
+  margin-top: 50px;
+  display: block;
+}
