@@ -1,0 +1,8 @@
+.purple__btn {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.purple__btn:hover {
+  background: #6d27e7;
+  color: #fff;
+}

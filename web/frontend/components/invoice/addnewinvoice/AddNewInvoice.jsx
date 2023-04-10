@@ -1,161 +1,144 @@
 import { FormLayout, Heading, TextField, Autocomplete } from "@shopify/polaris";
 import { React, useState } from "react";
-
-const addressTypes = [
-  {
-    name: "Billing address",
-    value: "billing",
-  },
-  {
-    name: "Shipping address",
-    value: "shipping",
-  },
-];
+import InvoiceTable from "../invoiceTable/InvoiceTable";
+import { generateId } from "../../../utils/helpers";
+import NewInvoiceTop from "./NewInvoiceTop";
+import NewInvoiceBody from "./NewInvoiceBody";
 
 const AddNewInvoice = () => {
   const [addressType, setAddressType] = useState("billing");
-  const [showBody, setShowBody] = useState(false);
+  const [showMoreOpt, setShowMoreOpt] = useState(true);
+  const [newRows, setNewRows] = useState([
+    {
+      id: generateId(),
+      item: "",
+      description: "",
+      quantity: "",
+      unitPrice: "",
+      discount: "",
+      vat: "",
+      total: "",
+    },
+  ]);
+  const handleAddNewRow = () => {
+    setNewRows((prev) => {
+      return [
+        ...prev,
+        {
+          id: generateId(),
+          item: "",
+          description: "",
+          quantity: "",
+          unitPrice: "",
+          discount: "",
+          vat: "",
+          total: "",
+        },
+      ];
+    });
+  };
+
+  const [newItem, setNewItem] = useState({
+    invoiceNumber: "",
+    issueDate: "",
+    deliveryDate: "",
+    dueIn: "",
+    client: "",
+    paymentMethod: "",
+    bankAccount: "",
+    orderNumber: "",
+    discount: "",
+    shipping: "",
+    currency: "",
+    language: "",
+    notes: "Uw inkoop referentie: {{ order.note }}",
+  });
+
+  const handleDeleteRow = (id) => {
+    setNewRows((prev) => {
+      return [...prev.filter((e) => e.id !== id)];
+    });
+  };
+
+  const handleChangeRow = (id, key, val) => {
+    setNewRows((prev) => {
+      const changedRowIndex = prev.findIndex((el) => el.id === id);
+      prev[changedRowIndex][key] = val;
+      return [...prev];
+    });
+  };
+
+  const handleSetNewItem = (key, val) => {
+    setNewItem((prev) => {
+      return {
+        ...prev,
+        [key]: val,
+      };
+    });
+  };
 
   return (
     <div className="newInvoice">
       <Heading element="h1">New Invoice</Heading>
       <FormLayout>
-        <div className="newInvoice-newInvoiceTop">
-          <div className="newInvoiceTop__left newInvoice__paddCase">
-            <div className="newInvoice__input">
-              <TextField
-                label="Invoice number:"
-                onChange={() => {}}
-                autoComplete="off"
-              />
-            </div>
-            <div className="newInvoice__input">
-              <TextField
-                label="Invoice number:"
-                onChange={() => {}}
-                autoComplete="off"
-              />
-            </div>
-            <div className="newInvoice__input">
-              <TextField
-                label="Issue date:"
-                onChange={() => {}}
-                autoComplete="off"
-              />
-            </div>
-            <div className="newInvoice__input">
-              <TextField label="Delivery date:" onChange={() => {}} />
-            </div>
-            <div className="newInvoice__input min">
-              <TextField label="Due in:" onChange={() => {}} />
-              <div className="newInvoice__dateArea">
-                <span>04/16/2023</span>
+        <NewInvoiceTop
+          invoiceNumber={newItem.invoiceNumber}
+          issueDate={newItem.issueDate}
+          deliveryDate={newItem.deliveryDate}
+          dueIn={newItem.dueIn}
+          addressType={addressType}
+          client={newItem.client}
+          showMore={() => {
+            setShowMoreOpt(!showMoreOpt);
+          }}
+          setAddressType={(v) => {
+            setAddressType(v);
+          }}
+          changeNewItemVal={(key, val) => {
+            handleSetNewItem(key, val);
+          }}
+        />
+        <NewInvoiceBody
+          showMoreOpt={showMoreOpt}
+          paymentMethod={newItem.paymentMethod}
+          bankAccount={newItem.bankAccount}
+          orderNumber={newItem.orderNumber}
+          discount={newItem.discount}
+          shipping={newItem.shipping}
+          currency={newItem.currency}
+          language={newItem.language}
+          changeNewItemVal={(key, val) => {
+            handleSetNewItem(key, val);
+          }}
+        />
+
+        <div className="newInvoice__bottom">
+          <InvoiceTable
+            rows={newRows}
+            addNewRow={handleAddNewRow}
+            deleteRow={handleDeleteRow}
+            changeRow={handleChangeRow}
+          />
+          <div className="newInvoice-invActions">
+            <div className="invActions__left">
+              <div className="invActions__input">
+                <label>
+                  <span>Notes</span>
+                  <textarea
+                    type="textArea"
+                    label="Notes:"
+                    value={newItem.notes}
+                    onChange={(e) => {
+                      handleSetNewItem("notes", e.target.value);
+                    }}
+                    className="invActions__textArea"
+                    placeholder="Uw inkoop referentie: {{ order.note }}"
+                  />
+                </label>
               </div>
             </div>
-            <div className="newInvoiceTop__lineEnd">
-              <div
-                className="newInvoiceTop__moreBtn"
-                onClick={() => {
-                  setShowBody(!showBody);
-                }}
-              >
-                More options
-              </div>
-            </div>
-          </div>
-          <div className="newInvoiceTop__right">
-            <div className="newInvoice__papper">
-              <div className="newInvoice__input max">
-                <TextField
-                  label="Client:"
-                  onChange={() => {}}
-                  autoComplete="off"
-                />
-              </div>
-              <div className="newInvoiceTop__tabs">
-                {addressTypes.map((e, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className={`newInvoiceTop__tab ${
-                        addressType === e.value ? "_active" : "_none"
-                      }`}
-                      onClick={() => {
-                        setAddressType(e.value);
-                      }}
-                    >
-                      {e.name}
-                    </div>
-                  );
-                })}
-              </div>
-              {/* <div className="newInvoiceTop__another">
-                <div className="newInvoice__selectStr">
-                  Select another contact
-                </div>
-                <div>
-                  <div className="newInvoice__input-min">
-                    <TextField
-                      label="Invoice number:"
-                      onChange={() => {}}
-                      autoComplete="off"
-                    />
-                  </div>
-                </div>
-              </div> */}
-            </div>
-          </div>
-        </div>
-        {/* showBody */}
-        <div
-          className={`newInvoice-newInvoiceBody ${showBody ? "_active" : ""}`}
-        >
-          <div className="newInvoiceBody__left newInvoice__paddCase">
-            <div className="newInvoice__input">
-              <TextField
-                label="Payment method:"
-                onChange={() => {}}
-                autoComplete="off"
-              />
-            </div>
-            <div className="newInvoice__input">
-              <TextField
-                label="Bank account:"
-                onChange={() => {}}
-                autoComplete="off"
-              />
-            </div>
-            <div className="newInvoice__input">
-              <TextField
-                label="Order number:"
-                onChange={() => {}}
-                autoComplete="off"
-              />
-            </div>
-          </div>
-          <div className="newInvoiceBody__right">
-            <div className="newInvoice__papper">
-              <div className="newInvoice__input start">
-                <TextField
-                  label="Shipping:"
-                  onChange={() => {}}
-                  autoComplete="off"
-                />
-              </div>
-              <div className="newInvoice__input start">
-                <TextField
-                  label="Currency:"
-                  onChange={() => {}}
-                  autoComplete="off"
-                />
-              </div>
-              <div className="newInvoice__input start">
-                <TextField
-                  label="Language:"
-                  onChange={() => {}}
-                  autoComplete="off"
-                />
-              </div>
+            <div className="invActions__right">
+              <div className="invActions__btn purple__btn">Save</div>
             </div>
           </div>
         </div>

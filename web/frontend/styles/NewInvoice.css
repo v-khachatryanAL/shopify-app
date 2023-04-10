@@ -12,10 +12,20 @@
 }
 .newInvoice-newInvoiceTop {
   display: flex;
+  width: max-content;
   align-items: flex-start;
 }
 .newInvoiceTop__left {
   width: max-content;
+  width: 340px;
+}
+.newInvoiceTop__right {
+  display: flex;
+  width: auto;
+  flex-direction: column;
+  flex: 1 1 auto;
+  justify-content: flex-end;
+  padding-left: 70px;
 }
 .newInvoice__paddCase {
   display: flex;
@@ -37,7 +47,7 @@
 .newInvoice__input .Polaris-Labelled__LabelWrapper {
   display: flex;
   align-items: center;
-  min-width: 54px;
+  min-width: 60px;
   justify-content: flex-end;
 }
 
@@ -50,7 +60,8 @@
   font-weight: 600;
 }
 
-.newInvoice__input .Polaris-TextField input {
+.newInvoice__input .Polaris-TextField input,
+.inputTwice__area .Polaris-TextField input {
   box-shadow: none !important;
   border: 1px solid #e2e2e2;
   border-radius: none;
@@ -83,14 +94,6 @@
 .newInvoice__dateArea span {
   margin-left: 26px;
 }
-.newInvoiceTop__right {
-  display: flex;
-  width: auto;
-  flex-direction: column;
-  flex: 1 1 auto;
-  justify-content: flex-end;
-  padding-left: 70px;
-}
 .newInvoiceTop__tabs {
   display: flex;
   padding: 2px;
@@ -108,6 +111,7 @@
   width: 50%;
   padding: 5px 10px;
   border-radius: 8px;
+  text-align: center;
   background: transparent;
   transition: all 0.2s ease;
   cursor: pointer;
@@ -145,6 +149,7 @@
   background: #dedede;
   color: #222;
   text-align: center;
+  transition: all 0.2s ease;
   text-transform: uppercase;
 }
 .newInvoice__input.max,
@@ -157,24 +162,29 @@
 .newInvoice__papper {
   width: max-content;
 }
+.newInvoice__input.max .Polaris-Labelled__LabelWrapper {
+  justify-content: flex-start;
+}
 .newInvoice__input.max .Polaris-Connected {
   width: auto !important;
 }
 
 .newInvoiceBody__left {
-  width: max-content;
-  padding-bottom: 45px;
+  width: 340px;
+  max-width: 100%;
+  height: 100%;
 }
 .newInvoice-newInvoiceBody {
   display: flex;
   align-items: flex-start;
   padding: 55px 0 0 0;
+  max-width: 720px;
   height: 0;
   overflow: hidden;
   transition: all 0.3s ease;
 }
 .newInvoice-newInvoiceBody._active {
-  height: 240px !important;
+  height: 320px !important;
 }
 
 .newInvoiceBody__right .newInvoice__papper {
@@ -188,4 +198,172 @@
 }
 .newInvoice__input.start > div:first-child {
   justify-content: flex-start;
+}
+.newInvoice-inputTwice {
+  display: flex;
+  justify-content: flex-start;
+  gap: 8px;
+}
+.inputTwice__area {
+  display: grid;
+  margin-left: 10px;
+  width: 176px;
+  grid-template-columns: 65% 35%;
+  gap: 5px;
+}
+.inputTwice__label {
+  min-width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.inputTwice__label span {
+  font-size: 13.8px;
+  font-weight: 500;
+  color: #333;
+  text-align: right;
+  vertical-align: middle;
+  font-weight: 600;
+}
+.invoice__select .Polaris-Select__Backdrop {
+  border: 1px solid #e2e2e2;
+}
+.newRow__table {
+  width: 840px;
+}
+.newRow__table table {
+  max-width: 99%;
+  border: none !important;
+  padding: 0 0 5px 5px;
+}
+.newRow__table table tr input {
+  border: none !important;
+}
+.newRow__table table tbody tr td,
+.newRow__table table tbody tr th {
+  padding: 0 0 3px 0 !important;
+}
+.newRow__table table tbody tr td {
+  border: none;
+}
+.newRow__table table thead,
+.newRow__table table tbody {
+  border: none !important;
+}
+.newRow__table table thead tr th {
+  font-size: 13.8px;
+  font-weight: 600;
+  color: #333;
+  border: none;
+}
+.newRow__btn {
+  background-color: #dedede;
+  border: 0;
+  border-radius: 0;
+  color: #222;
+  font-family: Brandon-Text, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  outline: none;
+  padding: 8px 16px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.newRow__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 10px 5px 10px 5px;
+}
+.newRow__line {
+  display: flex;
+  justify-content: space-between;
+  width: 280px;
+  padding: 10px 0;
+  border-bottom: 1px solid #cacaca;
+}
+.newRow__line span {
+  color: #222;
+  font-size: 16px;
+  font-weight: 500;
+}
+.cancel-ic {
+  width: 15px;
+}
+.newRow__table table tr {
+  border: none !important;
+}
+.newRow__table table .Polaris-TextField__Backdrop {
+  border: none !important;
+}
+.newRow__table table tbody td:hover {
+  border: none !important;
+}
+.newRow__table tbody th {
+  display: none !important;
+}
+.newRow__table tbody th,
+.newRow__table tbody td {
+  border: none;
+  border-right: 1px solid #e2e2e2 !important;
+}
+.newRow__table tbody td:last-child {
+  border: none !important;
+}
+.newRow__table tbody td button {
+  border: none !important;
+  background: transparent;
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+.newRow__table tbody td button:hover {
+  border: none !important;
+  outline: none !important;
+  opacity: 1;
+}
+.newInvoice__bottom {
+  width: 773px;
+}
+.invActions__input {
+  width: 280px;
+}
+.newInvoice-invActions {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 70px;
+}
+.invActions__textArea {
+  width: 280px;
+  min-height: 80px;
+  resize: none;
+  border: 1px solid #cacaca;
+  color: rgb(117, 117, 117);
+  padding: 10px;
+}
+.invActions__textArea:focus {
+  border: 1px solid #6d27e7;
+  outline: none;
+}
+.invActions__input label span {
+  color: #222;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+.invActions__right {
+  display: flex;
+  padding-top: 150px;
+  align-items: flex-end;
+}
+
+.invActions__btn {
+  width: max-content;
+  background-color: #333;
+  font-size: 12px;
+  color: #fff;
+  line-height: 1.4em;
+  padding: 15px 30px;
+  text-transform: uppercase;
 }

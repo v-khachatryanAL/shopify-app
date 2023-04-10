@@ -117,7 +117,20 @@ app.get("/api/products/:id.json", async (req, res) => {
   res.status(200).send(getData);
 });
 
+app.post("/api/orders/create", async (_req, res) => {
+  try {
+    const order = new shopify.api.rest.Order({ session: res.locals.shopify.session });
+    
+    await order.save({
+      update: true,
+    });
+    res.status(200).send(order);
+  } catch (err) {
+    console.log(`Failed to process products/create: ${err.message}`);
+    res.status(500).send({ err: err.message });
+  }
 
+})
 
 
 app.get("/api/products/create", async (_req, res) => {
