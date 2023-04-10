@@ -16,6 +16,7 @@ export const mutationRequest = (url, method, urlBody, type) => {
 
     };
 };
+
 const apiRequest = async ({
     url,
     body,
@@ -25,7 +26,7 @@ const apiRequest = async ({
     type
 }) => {
     try {
-        const options = { method };
+        const options = { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) };
         const uri = !type ? url + body + ".json" : url + ".json" + urlBody
         const response = await fetchFunction(uri, options);
         checkHeadersForReauthorization(response.headers, app);

@@ -6,3 +6,8 @@
   background: #6d27e7;
   color: #fff;
 }
+.def-input-purple
+  .Polaris-TextField.Polaris-TextField--focus
+  .Polaris-TextField__Backdrop {
+  border: 2px solid#6d27e7 !important;
+}

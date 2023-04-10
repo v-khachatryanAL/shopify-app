@@ -19,13 +19,11 @@ const NewInvoiceTop = ({
   showMore,
   client,
   changeNewItemVal,
-  addressType,
-  setAddressType,
 }) => {
   return (
     <div className="newInvoice-newInvoiceTop">
       <div className="newInvoiceTop__left newInvoice__paddCase">
-        <div className="newInvoice__input">
+        <div className="newInvoice__input def-input-purple">
           <TextField
             label="Invoice number:"
             value={invoiceNumber}
@@ -35,7 +33,7 @@ const NewInvoiceTop = ({
             autoComplete="off"
           />
         </div>
-        <div className="newInvoice__input">
+        <div className="newInvoice__input def-input-purple">
           <TextField
             label="Issue date:"
             value={issueDate}
@@ -45,7 +43,7 @@ const NewInvoiceTop = ({
             autoComplete="off"
           />
         </div>
-        <div className="newInvoice__input">
+        <div className="newInvoice__input def-input-purple">
           <TextField
             value={deliveryDate}
             label="Delivery date:"
@@ -54,7 +52,7 @@ const NewInvoiceTop = ({
             }}
           />
         </div>
-        <div className="newInvoice__input min">
+        <div className="newInvoice__input def-input-purple min">
           <TextField
             value={dueIn}
             label="Due in:"
@@ -79,7 +77,7 @@ const NewInvoiceTop = ({
       </div>
       <div className="newInvoiceTop__right">
         <div className="newInvoice__papper">
-          <div className="newInvoice__input max">
+          <div className="newInvoice__input def-input-purple max">
             <TextField
               value={client}
               label="Client:"
@@ -89,7 +87,7 @@ const NewInvoiceTop = ({
               autoComplete="on"
             />
           </div>
-          <div className="newInvoiceTop__tabs">
+          {/* <div className="newInvoiceTop__tabs">
             {addressTypes.map((e, index) => {
               return (
                 <div
@@ -105,7 +103,7 @@ const NewInvoiceTop = ({
                 </div>
               );
             })}
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

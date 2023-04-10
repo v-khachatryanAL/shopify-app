@@ -22,7 +22,7 @@ const NewInvoiceBody = ({
       className={`newInvoice-newInvoiceBody ${showMoreOpt ? "_active" : ""}`}
     >
       <div className="newInvoiceBody__left newInvoice__paddCase">
-        <div className="newInvoice__input">
+        <div className="newInvoice__input def-input-purple">
           <TextField
             label="Payment method:"
             value={paymentMethod}
@@ -32,7 +32,7 @@ const NewInvoiceBody = ({
             autoComplete="off"
           />
         </div>
-        <div className="newInvoice__input">
+        <div className="newInvoice__input def-input-purple">
           <TextField
             label="Bank account:"
             value={bankAccount}
@@ -42,7 +42,7 @@ const NewInvoiceBody = ({
             autoComplete="off"
           />
         </div>
-        <div className="newInvoice__input">
+        <div className="newInvoice__input def-input-purple">
           <TextField
             label="Order number:"
             value={orderNumber}
@@ -71,7 +71,7 @@ const NewInvoiceBody = ({
               {/* <TextField onChange={() => {}} autoComplete="off" /> */}
             </div>
           </div>
-          <div className="newInvoice__input start">
+          <div className="newInvoice__input def-input-purple start">
             <TextField
               label="Shipping:"
               value={shipping}
@@ -81,7 +81,7 @@ const NewInvoiceBody = ({
               autoComplete="off"
             />
           </div>
-          <div className="newInvoice__input start">
+          <div className="newInvoice__input def-input-purple start">
             <TextField
               label="Currency:"
               value={currency}
@@ -91,7 +91,7 @@ const NewInvoiceBody = ({
               autoComplete="off"
             />
           </div>
-          <div className="newInvoice__input start">
+          <div className="newInvoice__input def-input-purple start">
             <TextField
               value={language}
               label="Language:"
