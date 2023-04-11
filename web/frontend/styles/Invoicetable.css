@@ -3,6 +3,14 @@
   width: 98%;
   min-width: max-content;
 }
+.invoice_Table-loading {
+  display: flex;
+  justify-content: center;
+  padding: 45px 0;
+}
+.Polaris-Spinner.Polaris-Spinner--sizeLarge svg {
+  fill: #6d27e7 !important;
+}
 .invoice_Table .number_invoice {
   color: #848d9d;
   font-weight: 600;

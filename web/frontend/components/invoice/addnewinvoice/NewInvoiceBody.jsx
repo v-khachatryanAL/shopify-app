@@ -1,9 +1,22 @@
 import { TextField } from "@shopify/polaris";
 import InvoiceSelect from "../select/InvoiceSelect";
+import InvoiceSelectMain from "../select/InvoiceSelectMain";
 
 const selectOptions = [
-  { label: "$", value: "percent" },
-  { label: "L", value: "l" },
+  { label: "$", value: "$" },
+  { label: "₽", value: "₽" },
+  { label: "L", value: "L" },
+];
+
+const languageSelectOptions = [
+  { label: "English", value: "english" },
+  { label: "Russian", value: "russian" },
+  { label: "Armenian", value: "armenian" },
+];
+const currencySelectOptions = [
+  { label: "United States Dollar", value: "$" },
+  { label: "EUR", value: "e" },
+  { label: "RUB", value: "₽" },
 ];
 
 const NewInvoiceBody = ({
@@ -16,6 +29,7 @@ const NewInvoiceBody = ({
   currency,
   language,
   changeNewItemVal,
+  discountType,
 }) => {
   return (
     <div
@@ -59,7 +73,7 @@ const NewInvoiceBody = ({
             <div className="inputTwice__label">
               <span>Discount:</span>
             </div>
-            <div className="inputTwice__area">
+            <div className="inputTwice__area def-input-purple">
               <TextField
                 value={discount}
                 onChange={(val) => {
@@ -67,7 +81,13 @@ const NewInvoiceBody = ({
                 }}
                 autoComplete="off"
               />
-              <InvoiceSelect options={selectOptions} />
+              <InvoiceSelect
+                options={selectOptions}
+                val={discountType}
+                changeVal={(val) => {
+                  changeNewItemVal("discountType", val);
+                }}
+              />
               {/* <TextField onChange={() => {}} autoComplete="off" /> */}
             </div>
           </div>
@@ -81,24 +101,24 @@ const NewInvoiceBody = ({
               autoComplete="off"
             />
           </div>
-          <div className="newInvoice__input def-input-purple start">
-            <TextField
-              label="Currency:"
+          <div>
+            <InvoiceSelectMain
+              label="Currency"
+              options={currencySelectOptions}
               value={currency}
-              onChange={(val) => {
+              changeVal={(val) => {
                 changeNewItemVal("currency", val);
               }}
-              autoComplete="off"
             />
           </div>
-          <div className="newInvoice__input def-input-purple start">
-            <TextField
+          <div>
+            <InvoiceSelectMain
+              label="Language"
+              options={languageSelectOptions}
               value={language}
-              label="Language:"
-              onChange={(val) => {
+              changeVal={(val) => {
                 changeNewItemVal("language", val);
               }}
-              autoComplete="off"
             />
           </div>
         </div>

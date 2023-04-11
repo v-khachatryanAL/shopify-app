@@ -1,5 +1,12 @@
 .newInvoice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 40px 30px 20px;
+}
+.newInvoice > .Polaris-Heading {
+  width: 840px;
+  padding-left: 20px !important;
 }
 .newInvoice > .Polaris-Heading {
   font-size: 24px;
@@ -37,18 +44,24 @@
 }
 .newInvoice__input > div:first-child {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   min-width: 280px;
   align-items: center;
   max-width: 320px;
   gap: 8px;
 }
-
+.newInvoice__input .Polaris-TextField__Backdrop {
+  border-radius: 12px !important;
+  -webkit-border-radius: 12px !important;
+  -moz-border-radius: 12px !important;
+  -ms-border-radius: 12px !important;
+  -o-border-radius: 12px !important;
+}
 .newInvoice__input .Polaris-Labelled__LabelWrapper {
   display: flex;
   align-items: center;
   min-width: 60px;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 .newInvoice__input .Polaris-Label__Text {
@@ -59,12 +72,27 @@
   vertical-align: middle;
   font-weight: 600;
 }
-
+.newInvoice__input .Polaris-TextField,
+.newInvoice__input .Polaris-TextField__Backdrop,
+.inputTwice__area .Polaris-TextField__Backdrop,
+.inputTwice__area .Polaris-TextField__Backdrop,
+.inputTwice__area .Polaris-Select__Backdrop {
+  height: 32px !important;
+  border-radius: 12px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+}
+.inputTwice__area .Polaris-Select__Backdrop:after {
+  content: none;
+}
 .newInvoice__input .Polaris-TextField input,
 .inputTwice__area .Polaris-TextField input {
   box-shadow: none !important;
   border: 1px solid #e2e2e2;
   border-radius: none;
+  height: 32px !important;
   padding-top: 5px !important;
   padding-bottom: 5px !important;
   position: relative !important;
@@ -140,18 +168,22 @@
 .newInvoiceTop__lineEnd {
   display: flex;
   justify-content: end;
-  padding: 0 30px 0 0;
+  padding: 0 60px 0 0;
 }
 
 .newInvoiceTop__moreBtn {
-  padding: 6px 12px;
-  width: 150px;
+  padding: 10px 15px;
+  border-radius: 8px;
   cursor: pointer;
   background: #dedede;
   color: #222;
   text-align: center;
   transition: all 0.2s ease;
   text-transform: uppercase;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
 }
 .newInvoice__input.max,
 .newInvoice__input.max > div:first-child {
@@ -216,7 +248,6 @@
   min-width: 60px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
 }
 .inputTwice__label span {
   font-size: 13.8px;
@@ -227,7 +258,7 @@
   font-weight: 600;
 }
 .invoice__select .Polaris-Select__Backdrop {
-  border: 1px solid #e2e2e2;
+  border: 1px solid rgba(174, 180, 185, 1);
 }
 .newRow__table {
   width: 840px;
@@ -259,6 +290,7 @@
 }
 .newRow__btn {
   background-color: #dedede;
+  border-radius: 8px !important;
   border: 0;
   border-radius: 0;
   color: #222;
@@ -269,6 +301,24 @@
   padding: 8px 16px;
   text-transform: uppercase;
   cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  -webkit-border-radius: 8px !important;
+  -moz-border-radius: 8px !important;
+  -ms-border-radius: 8px !important;
+  -o-border-radius: 8px !important;
+}
+.newRow__btn:hover {
+  background: #6d27e7;
+  color: #fff;
+  border-radius: 10px !important;
+  -webkit-border-radius: 10px !important;
+  -moz-border-radius: 10px !important;
+  -ms-border-radius: 10px !important;
+  -o-border-radius: 10px !important;
 }
 .newRow__actions {
   display: flex;
@@ -366,8 +416,13 @@
   color: #fff;
   line-height: 1.4em;
   transition: all 0.2s ease;
+  border-radius: 10px;
   padding: 15px 30px;
   text-transform: uppercase;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
 }
 .invActions__right._disable button {
   background: rgb(134, 134, 134);
@@ -428,4 +483,97 @@ input:focus-visible {
   outline: 0 !important;
   border: 0 !important;
   box-shadow: none !important;
+}
+
+.newInvoice-dateSelect {
+  display: flex;
+  position: relative;
+  align-items: center;
+  gap: 8px;
+  justify-content: space-between;
+  position: relative;
+}
+.dateSelect__datePicker {
+  position: absolute;
+  right: -100%;
+}
+.dateSelect__datePicker .Polaris-DatePicker {
+  background: #fff;
+  z-index: 999;
+  padding: 0 10px;
+}
+.dateSelect__datePicker .Polaris-DatePicker__Header {
+  width: 90%;
+}
+.dateSelect__label {
+  font-size: 13.8px;
+  font-weight: 500;
+  color: #333;
+  text-align: right;
+  vertical-align: middle;
+  font-weight: 600;
+}
+.dateSelect__input {
+  width: 181px;
+  margin-left: 10px;
+  padding: 5px 12px;
+  background: #fff;
+  border-radius: 12px;
+  height: 32px;
+  border: 1px solid rgba(201, 204, 207, 1);
+  line-height: var(--p-line-height-3);
+  display: flex;
+  justify-content: flex-start;
+  cursor: pointer;
+  align-items: center;
+  font-size: var(--p-font-size-4);
+  font-family: var(--p-font-family-sans);
+  caret-color: var(--p-text);
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+}
+.dateSelect__input .Polaris-Icon__Svg {
+  fill: #6d27e7 !important;
+  width: 15px !important;
+  height: 15px !important;
+}
+.dateSelect__input .Polaris-Icon {
+  margin: 0;
+  margin-top: 4px;
+}
+.newInvoice-dateSelect._active .dateSelect__input {
+  border: 1px solid #6d27e7;
+}
+.invoice__MainSelect {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.invoice__MainSelect > div:last-child {
+  width: 181px;
+  margin-right: 20px;
+  height: 32px;
+}
+.invoice__MainSelect .Polaris-Select__Backdrop {
+  border-radius: 12px !important;
+  -webkit-border-radius: 12px !important;
+  -moz-border-radius: 12px !important;
+  -ms-border-radius: 12px !important;
+  -o-border-radius: 12px !important;
+  height: 32px;
+}
+.invoice__MainSelect .Polaris-Select__Backdrop::after {
+  content: none;
+}
+.invoice__MainSelec-label {
+  font-size: 13.8px;
+  font-weight: 500;
+  color: #333;
+  text-align: right;
+  vertical-align: middle;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
 }

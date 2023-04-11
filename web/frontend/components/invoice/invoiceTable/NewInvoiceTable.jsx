@@ -13,29 +13,37 @@ const headers = [
   "",
 ];
 
-const InvoiceTable = ({ rows, addNewRow, deleteRow, changeRow }) => {
+const NewInvoiceTable = ({
+  rows,
+  addNewRow,
+  deleteRow,
+  changeRow,
+  totalPrice,
+  currency,
+}) => {
   const [validTouch, setValidTouch] = useState({});
-
-  const totalCount = useMemo(() => {
-    let count = 0;
-    rows.forEach((element) => {
-      if (element.quantity) count += element.quantity * element.unitPrice;
-    });
-    return count.toFixed(2);
-  }, [rows]);
 
   useEffect(() => {
     setValidTouch(() => {
-      return rows.map((e) => {
+      return rows?.map((e) => {
         return {
           id: e.id,
+          title: false,
           quantity: false,
           price: false,
         };
       });
     });
   }, [rows]);
-
+  const checkValid = (key, row) => {
+    if (key === "quantity" || key === "price" || key === "title") {
+      setValidTouch((prev) => {
+        const findIndex = prev.findIndex((el) => el.id === row.id);
+        prev[findIndex][key] = true;
+        return [...prev];
+      });
+    }
+  };
   return (
     <div className="newRow__body">
       <div className="newRow__table">
@@ -52,7 +60,8 @@ const InvoiceTable = ({ rows, addNewRow, deleteRow, changeRow }) => {
                       className={`${
                         (value <= 0 || value.length < 1) &&
                         validTouch.length &&
-                        validTouch.filter((e) => e.id === row.id)[0][key]
+                        validTouch?.filter((e) => e.id === row.id).length &&
+                        validTouch?.filter((e) => e.id === row.id)[0][key]
                           ? "_error"
                           : ""
                       } newRow__input`}
@@ -63,25 +72,15 @@ const InvoiceTable = ({ rows, addNewRow, deleteRow, changeRow }) => {
                             ? "number"
                             : "text"
                         }
+                        autoComplete
                         value={value}
+                        onFocus={() => {
+                          checkValid(key, row);
+                        }}
                         disabled={key === "total" ? true : false}
                         onChange={(val) => {
                           changeRow(row.id, key, val);
-                        }}
-                        onFocus={() => {
-                          if (
-                            key === "quantity" ||
-                            key === "price" ||
-                            key === "title"
-                          ) {
-                            setValidTouch((prev) => {
-                              const findIndex = prev.findIndex(
-                                (el) => el.id === row.id
-                              );
-                              prev[findIndex][key] = true;
-                              return [...prev];
-                            });
-                          }
+                          checkValid(key, row);
                         }}
                       />
                     </div>
@@ -106,11 +105,17 @@ const InvoiceTable = ({ rows, addNewRow, deleteRow, changeRow }) => {
         <div className="newRow__info">
           <div className="newRow__line">
             <span>Total</span>
-            <span>L{totalCount}</span>
+            <span>
+              {currency}
+              {totalPrice.toFixed(2)}
+            </span>
           </div>
           <div className="newRow__line">
             <span>Amount Due</span>
-            <span>L0.00</span>
+            <span>
+              {currency}
+              {totalPrice.toFixed(2)}
+            </span>
           </div>
         </div>
       </div>
@@ -118,4 +123,4 @@ const InvoiceTable = ({ rows, addNewRow, deleteRow, changeRow }) => {
   );
 };
 
-export default InvoiceTable;
+export default NewInvoiceTable;

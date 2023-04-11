@@ -4,6 +4,7 @@ import {
   useIndexResourceState,
   Icon,
   Pagination,
+  Spinner,
 } from "@shopify/polaris";
 import { TickMinor } from "@shopify/polaris-icons";
 import moment from "moment";
@@ -11,6 +12,7 @@ import React, { useEffect, useState } from "react";
 import { useAppQuery } from "../../hooks";
 import { customers, invoiceTableHeader } from "../../utils/constants";
 import InvoiceSortTable from "./InvoiceSortTable";
+import { mutationRequest } from "../../hooks/useAppMutation";
 import InvoiceTableHeader from "./InvoiceTableHeader";
 
 const Table = () => {
@@ -24,6 +26,7 @@ const Table = () => {
     all: 0,
   });
   const [orderData, setOrderData] = useState([]);
+  const [tableLoading, setTableLoading] = useState(false);
 
   useEffect(() => {
     if (isSuccess) {
@@ -106,23 +109,32 @@ const Table = () => {
     <div className="invoice_Table">
       <InvoiceTableHeader />
       <InvoiceSortTable
+        checkLoading={(val) => {
+          setTableLoading(val);
+        }}
         setOrderData={setOrderData}
         orderData={orderData}
         ordersCount={ordersCount}
         refetch={refetch}
         selectedResources={selectedResources}
       />
-      <IndexTable
-        resourceName={resourceName}
-        itemCount={customers.length}
-        selectedItemsCount={
-          allResourcesSelected ? "All" : selectedResources.length
-        }
-        onSelectionChange={handleSelectionChange}
-        headings={invoiceTableHeader}
-      >
-        {rowMarkup}
-      </IndexTable>
+      {!tableLoading ? (
+        <IndexTable
+          resourceName={resourceName}
+          itemCount={customers.length}
+          selectedItemsCount={
+            allResourcesSelected ? "All" : selectedResources.length
+          }
+          onSelectionChange={handleSelectionChange}
+          headings={invoiceTableHeader}
+        >
+          {rowMarkup}
+        </IndexTable>
+      ) : (
+        <div className="invoice_Table-loading">
+          <Spinner size="large" />
+        </div>
+      )}
     </div>
   );
 };

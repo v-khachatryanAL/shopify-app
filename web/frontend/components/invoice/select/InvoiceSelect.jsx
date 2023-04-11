@@ -1,20 +1,13 @@
 import { Select } from "@shopify/polaris";
-import { useState } from "react";
 
-const InvoiceSelect = ({ options, label }) => {
-  const [selectedOption, setSelectedOption] = useState("");
-
-  const handleSelectChange = (value) => {
-    setSelectedOption(value);
-  };
-
+const InvoiceSelect = ({ options, label, val, changeVal }) => {
   return (
-    <div className="invoice__select">
+    <div className="invoice__select def__select">
       <Select
         label={label}
         options={options}
-        value={selectedOption}
-        onChange={handleSelectChange}
+        value={val}
+        onChange={changeVal}
       />
     </div>
   );

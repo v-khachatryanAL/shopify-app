@@ -120,7 +120,6 @@ app.get("/api/products/:id.json", async (req, res) => {
 app.post("/api/orders/create.json", async (req, res) => {
   try {
     const orderData = req.body;
-    console.log(orderData, "orderData");
     const order = new shopify.api.rest.Order({ session: res.locals.shopify.session });
     order.line_items = req.body.order.line_items
 
@@ -131,8 +130,6 @@ app.post("/api/orders/create.json", async (req, res) => {
     }]
     order.test = req.body.order.test
     order.financial_status = req.body.order.financial_status
-
-    console.log(order.line_items, 'orderrrrrrr');
     await order.save({
       update: true,
     });

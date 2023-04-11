@@ -13,6 +13,7 @@ const InvoiceSortTable = ({
   refetch,
   setOrderData,
   ordersCount,
+  checkLoading,
 }) => {
   const [selected, setSelected] = useState({ index: 0, label: "" });
   const [dateSort, setDateSort] = useState({ min: "", max: "" });
@@ -37,6 +38,10 @@ const InvoiceSortTable = ({
       setSelected({ index: selectedTabIndex, label: "pending" });
     }
   }, []);
+
+  useEffect(() => {
+    checkLoading(mutateStatus.isLoading);
+  }, [mutateStatus]);
 
   useEffect(() => {
     mutateStatus.mutate();
@@ -200,17 +205,23 @@ const InvoiceSortTable = ({
                 ).format("MMM DD,YYYY")} `
               : `${moment(selectedDates.start).format("MMM DD,YYYY")}`}
           </Button>
-          {datePickerActive && (
-            <OrderDate
-              handleChangeDate={handleChangeDate}
-              month={month}
-              selectedDates={selectedDates}
-              year={year}
-              handleMonthChange={handleMonthChange}
-            />
-          )}
+          <div>
+            {datePickerActive && (
+              <OrderDate
+                handleOpenMenu={() => {
+                  setDatePickerActive(false);
+                }}
+                handleChangeDate={handleChangeDate}
+                month={month}
+                selectedDates={selectedDates}
+                year={year}
+                handleMonthChange={handleMonthChange}
+              />
+            )}
+          </div>
 
           <InvoiceTableMoreAction
+            itemsLength={selectedResources?.length}
             selectedResources={selectedResources}
             refetch={refetch}
           />

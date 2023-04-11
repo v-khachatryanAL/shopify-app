@@ -1,15 +1,7 @@
 import { TextField } from "@shopify/polaris";
-
-const addressTypes = [
-  {
-    name: "Billing address",
-    value: "billing",
-  },
-  {
-    name: "Shipping address",
-    value: "shipping",
-  },
-];
+import { useState, useRef } from "react";
+import InvoiceDatePicker from "../InvoiceDatePicker";
+import moment from "moment";
 
 const NewInvoiceTop = ({
   invoiceNumber,
@@ -19,7 +11,18 @@ const NewInvoiceTop = ({
   showMore,
   client,
   changeNewItemVal,
+  changeItemDate,
+  fromIssue,
 }) => {
+  const [deliveryDateActive, setDeliveryDateActive] = useState(false);
+  const [issueDateActive, setIssueDateActive] = useState(false);
+  const deliveryRef = useRef();
+  const issueRef = useRef();
+
+  const convertedDate = (date) => {
+    return moment(date).format("D/MM/YYYY");
+  };
+
   return (
     <div className="newInvoice-newInvoiceTop">
       <div className="newInvoiceTop__left newInvoice__paddCase">
@@ -33,25 +36,30 @@ const NewInvoiceTop = ({
             autoComplete="off"
           />
         </div>
-        <div className="newInvoice__input def-input-purple">
-          <TextField
-            label="Issue date:"
-            value={issueDate}
-            onChange={(val) => {
-              changeNewItemVal("issueDate", val);
-            }}
-            autoComplete="off"
-          />
-        </div>
-        <div className="newInvoice__input def-input-purple">
-          <TextField
-            value={deliveryDate}
-            label="Delivery date:"
-            onChange={(val) => {
-              changeNewItemVal("deliveryDate", val);
-            }}
-          />
-        </div>
+        <InvoiceDatePicker
+          date={deliveryDate}
+          show={deliveryDateActive}
+          title={"Delivery Date"}
+          dateKey={"deliveryDate"}
+          changeDate={(date, key) => {
+            changeItemDate(date, key);
+          }}
+          handleOpenMenu={(val) => {
+            setDeliveryDateActive(val);
+          }}
+        />
+        <InvoiceDatePicker
+          date={issueDate}
+          title={"Issue Date"}
+          dateKey={"issueDate"}
+          show={issueDateActive}
+          changeDate={(date, key) => {
+            changeItemDate(date, key);
+          }}
+          handleOpenMenu={(val) => {
+            setIssueDateActive(val);
+          }}
+        />
         <div className="newInvoice__input def-input-purple min">
           <TextField
             value={dueIn}
@@ -61,7 +69,7 @@ const NewInvoiceTop = ({
             }}
           />
           <div className="newInvoice__dateArea">
-            <span>04/16/2023</span>
+            <span>{convertedDate(fromIssue)}</span>
           </div>
         </div>
         <div className="newInvoiceTop__lineEnd">

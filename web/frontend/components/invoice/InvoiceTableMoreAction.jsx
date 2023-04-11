@@ -9,7 +9,11 @@ import { AppProvider } from "@shopify/polaris";
 import InvoiceDetailPaper from "./invoicepaper/InvoiceDetailPaper";
 import moment from "moment";
 
-const InvoiceTableMoreAction = ({ selectedResources, refetch }) => {
+const InvoiceTableMoreAction = ({
+  selectedResources,
+  refetch,
+  itemsLength,
+}) => {
   const [getData, setGetData] = useState([]);
   const { data } = useAppQuery({
     url: `/api/shop.json`,
@@ -142,6 +146,7 @@ const InvoiceTableMoreAction = ({ selectedResources, refetch }) => {
         return (
           <Button
             key={index}
+            disabled={itemsLength < 1}
             icon={item.icon}
             onClick={() => handleAction(item.id)}
           >
