@@ -57,6 +57,20 @@ app.get("/api/products/count", async (_req, res) => {
 //   res.status(200).send(countData);
 // });
 
+app.get("/api/currencies.json", async (req, res) => {
+  const currencies = await shopify.api.rest.Currency.all({
+    session: res.locals.shopify.session,
+  });
+  res.status(200).send(currencies);
+})
+
+app.get("/api/locations.json", async (req, res) => {
+  const languages = await shopify.api.rest.Location.all({
+    session: res.locals.shopify.session,
+  });
+  res.status(200).send(languages);
+})
+
 app.get("/api/orders.json", async (req, res) => {
   const countData = await shopify.api.rest.Order.all({
     session: res.locals.shopify.session,
@@ -85,6 +99,14 @@ app.get("/api/orders/:id.json", async (req, res) => {
   });
   res.status(200).send(getData);
 });
+
+app.get("/api/customers.json", async (req, res) => {
+  const getData = await shopify.api.rest.Customer.all({
+    session: res.locals.shopify.session,
+
+  });
+  res.status(200).send(getData);
+})
 
 // app.get("/api/invoice", async (req, res, next) => {
 //   const stream = res.writeHead(200, {

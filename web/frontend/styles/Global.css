@@ -9,5 +9,21 @@
 .def-input-purple
   .Polaris-TextField.Polaris-TextField--focus
   .Polaris-TextField__Backdrop {
-  border: 1px solid#6d27e7 !important;
+  border: 1px solid#6d27e7;
+}
+.purple__btn-dark button {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.purple__btn-dark button:hover {
+  background: #36038f;
+  color: #fff;
+}
+.def-input-label {
+  font-size: 13.8px;
+  font-weight: 500;
+  color: #333;
+  text-align: right;
+  vertical-align: middle;
+  font-weight: 600;
 }

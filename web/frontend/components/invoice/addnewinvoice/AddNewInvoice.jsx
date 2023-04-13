@@ -1,5 +1,5 @@
 import { FormLayout, Heading, Button } from "@shopify/polaris";
-import { React, useState, useMemo } from "react";
+import { React, useState, useMemo, useEffect } from "react";
 import NewInvoiceTable from "../invoiceTable/NewInvoiceTable";
 import { generateId } from "../../../utils/helpers";
 import NewInvoiceTop from "./NewInvoiceTop";
@@ -7,10 +7,12 @@ import NewInvoiceBody from "./NewInvoiceBody";
 import { mutationRequest } from "../../../hooks/useAppMutation";
 import moment from "moment";
 import axios from "axios";
+import { useAppQuery } from "../../../hooks";
 
 const AddNewInvoice = () => {
-  const { mutate } = mutationRequest("/api/orders/create", "post", "", true);
   const [showMoreOpt, setShowMoreOpt] = useState(false);
+  const [languages, setLanguages] = useState([]);
+  const [invoicesNumbers, setInvoicesNumbers] = useState([]);
   const [newItem, setNewItem] = useState({
     invoiceNumber: "",
     issueDate: new Date(),
@@ -23,7 +25,7 @@ const AddNewInvoice = () => {
     discount: "",
     shipping: "",
     currency: "e",
-    language: "english",
+    language: "eng",
     fromIssue: new Date(),
     notes: "Uw inkoop referentie: {{ order.note }}",
     line_items: [
@@ -50,6 +52,13 @@ const AddNewInvoice = () => {
       },
     ],
   });
+  const { mutate } = mutationRequest("/api/orders/create", "post", "", true);
+  const { data: currenciesOptions } = useAppQuery({
+    url: "/api/currencies.json",
+  });
+  const { data: invoices, isSuccess: invoicesSuccess } = useAppQuery({
+    url: "/api/orders.json?status=any",
+  });
 
   const handleAddNewRow = () => {
     setNewItem((prev) => {
@@ -59,7 +68,7 @@ const AddNewInvoice = () => {
           ...prev.line_items,
           {
             id: generateId(),
-            item: "",
+            title: "",
             description: "",
             quantity: "",
             price: "",
@@ -73,17 +82,19 @@ const AddNewInvoice = () => {
   };
 
   const handleDeleteRow = (id) => {
-    setNewItem((prev) => {
-      let totalPrice = 0;
-      prev.line_items = prev.line_items.filter((e) => e.id !== id);
-      prev.line_items.forEach((e) => {
-        e.total >= 1 ? (totalPrice += e.total) : (totalPrice += 0);
+    if (newItem.line_items.length > 1) {
+      setNewItem((prev) => {
+        let totalPrice = 0;
+        prev.line_items = prev.line_items.filter((e) => e.id !== id);
+        prev.line_items.forEach((e) => {
+          e.total >= 1 ? (totalPrice += e.total) : (totalPrice += 0);
+        });
+        prev.totalOrders = totalPrice;
+        return {
+          ...prev,
+        };
       });
-      prev.totalOrders = totalPrice;
-      return {
-        ...prev,
-      };
-    });
+    }
   };
 
   const handleChangeRow = (id, key, val) => {
@@ -140,6 +151,47 @@ const AddNewInvoice = () => {
     return val;
   }, [newItem]);
 
+  useEffect(() => {
+    const fetchLanguages = async () => {
+      try {
+        const response = await axios.get(
+          "https://restcountries.com/v3.1/all?fields=languages"
+        );
+        const countries = response.data;
+        const languagesTemp = [];
+        countries.forEach((e) => {
+          let item = null;
+          if (Object.entries(e?.languages)[0]) {
+            item = {
+              type: Object.entries(e?.languages)[0][0],
+              label: Object.entries(e?.languages)[0][1],
+              value: Object.entries(e?.languages)[0][0],
+            };
+          }
+          if (
+            item &&
+            !languagesTemp.filter((el) => {
+              if (el?.type === item.type) {
+                return el;
+              }
+            }).length
+          ) {
+            languagesTemp.push(item);
+          }
+        });
+        setLanguages(languagesTemp);
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+      }
+    };
+
+    fetchLanguages();
+  }, []);
+
+  useEffect(() => {
+    invoicesSuccess && setInvoicesNumbers(invoices.map((e) => e.number));
+  }, [invoicesSuccess]);
+
   return (
     <div className="newInvoice">
       <Heading element="h1">New Invoice</Heading>
@@ -151,6 +203,7 @@ const AddNewInvoice = () => {
           dueIn={newItem.dueIn}
           client={newItem.client}
           fromIssue={newItem.fromIssue}
+          invoicesNumbers={invoicesNumbers}
           showMore={() => {
             setShowMoreOpt(!showMoreOpt);
           }}
@@ -179,6 +232,8 @@ const AddNewInvoice = () => {
           currency={newItem.currency}
           language={newItem.language}
           fromIssue={newItem.fromIssue}
+          languageOptions={languages}
+          currenciesOptions={currenciesOptions}
           changeNewItemVal={(key, val) => {
             handleSetNewItem(key, val);
           }}
@@ -191,7 +246,7 @@ const AddNewInvoice = () => {
             deleteRow={handleDeleteRow}
             changeRow={handleChangeRow}
             totalPrice={newItem.totalOrders}
-            currency={newItem.discountType}
+            currency={newItem.currency}
           />
           <div className="newInvoice-invActions">
             <div className="invActions__left">

@@ -1,0 +1,27 @@
+.defaultToggle {
+  position: relative;
+  width: 28px;
+  height: 18px;
+  border-radius: 10px;
+  background: rgb(185, 185, 185);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.defaultToggle._active {
+  background: #6d27e7;
+}
+.defaultToggle__bullet {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: (167, 167, 167);
+  transition: all 0.3s ease;
+  background: #fff;
+  left: 2px;
+}
+.defaultToggle._active .defaultToggle__bullet {
+  left: calc(100% - 16px);
+}

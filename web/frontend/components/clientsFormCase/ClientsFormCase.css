@@ -1,0 +1,38 @@
+.clientsFormCase {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.clientsFormCase-editCase {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.clientsFormCase__top {
+  display: flex;
+  justify-content: flex-end;
+}
+.clientInfo__list {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+.editCase__inputs {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.clientsFormCase-clientInfo {
+  width: 100%;
+  padding: 0 0 0 63px;
+}
+.clientsFormCase__toggle {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+.clientsFormCase__toggle span {
+  font-family: "Titillium Web", sans-serif;
+}

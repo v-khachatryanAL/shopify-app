@@ -24,30 +24,27 @@
 }
 .newInvoiceTop__left {
   width: max-content;
-  width: 340px;
 }
 .newInvoiceTop__right {
   display: flex;
+  min-width: 404px;
   width: auto;
   flex-direction: column;
   flex: 1 1 auto;
   justify-content: flex-end;
-  padding-left: 70px;
 }
 .newInvoice__paddCase {
   display: flex;
   min-width: 25%;
   flex-direction: column;
   grid-gap: 15px;
-  padding-right: 35px;
+  padding: 0 35px 0 0;
   border-right: 1px solid rgb(223, 223, 223);
 }
 .newInvoice__input > div:first-child {
   display: flex;
-  justify-content: space-between;
-  min-width: 280px;
+  justify-content: flex-end;
   align-items: center;
-  max-width: 320px;
   gap: 8px;
 }
 .newInvoice__input .Polaris-TextField__Backdrop {
@@ -57,11 +54,12 @@
   -ms-border-radius: 12px !important;
   -o-border-radius: 12px !important;
 }
+
 .newInvoice__input .Polaris-Labelled__LabelWrapper {
   display: flex;
   align-items: center;
   min-width: 60px;
-  justify-content: flex-start;
+  justify-content: flex-end;
 }
 
 .newInvoice__input .Polaris-Label__Text {
@@ -98,20 +96,29 @@
   position: relative !important;
 }
 
-.newInvoice__input.min .Polaris-TextField input::after {
-  content: "days";
-  position: absolute;
-  right: -100%;
-}
-
 .newInvoice__input .Polaris-Connected {
-  width: 181px !important;
-  margin-left: 10px;
+  width: 240px !important;
 }
 .newInvoice__input.min .Polaris-TextField {
+  position: relative;
   width: 90px !important;
 }
-
+.newInvoice__input.min
+  .Polaris-Connected__Item.Polaris-Connected__Item--primary {
+  position: relative;
+}
+.newInvoice__input.min
+  .Polaris-Connected__Item.Polaris-Connected__Item--primary:after {
+  content: "days";
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  -webkit-transform: translate(0, -50%);
+  -moz-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  -o-transform: translate(0, -50%);
+  right: 100px;
+}
 .newInvoice__dateArea {
   display: flex;
   width: max-content;
@@ -120,11 +127,10 @@
   padding: 5px 0 0 0;
   color: rgb(121, 121, 121);
 }
-.newInvoice__dateArea span {
-  margin-left: 26px;
-}
-.newInvoiceTop__tabs {
-  display: flex;
+.def-form-tabs {
+  width: 240px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   padding: 2px;
   border-radius: 8px;
   align-items: center;
@@ -132,20 +138,22 @@
   margin-top: 25px;
   justify-content: flex-end;
   background: rgb(221, 221, 221);
+  margin-bottom: 15px;
 }
-.newInvoiceTop__tab._active {
-  background: #fff;
+.def-form-tab._active {
+  background: #6d27e7;
+  color: #fff;
 }
-.newInvoiceTop__tab {
-  width: 50%;
+.def-form-tab {
   padding: 5px 10px;
+  width: 120px;
   border-radius: 8px;
   text-align: center;
   background: transparent;
   transition: all 0.2s ease;
   cursor: pointer;
 }
-.newInvoiceTop__tab._none:hover {
+.def-form-tab._none:hover {
   background: rgb(184, 184, 184);
 }
 
@@ -168,18 +176,17 @@
 .newInvoiceTop__lineEnd {
   display: flex;
   justify-content: end;
-  padding: 0 60px 0 0;
 }
 
-.newInvoiceTop__moreBtn {
+.form__defBtn button {
   padding: 10px 15px;
   border-radius: 8px;
   cursor: pointer;
-  background: #dedede;
-  color: #222;
+  background: #6d27e7;
+  color: #fff;
+  font-weight: 600;
   text-align: center;
   transition: all 0.2s ease;
-  text-transform: uppercase;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   -ms-border-radius: 8px;
@@ -194,6 +201,7 @@
 }
 .newInvoice__papper {
   width: max-content;
+  min-width: 404px;
 }
 .newInvoice__input.max .Polaris-Labelled__LabelWrapper {
   justify-content: flex-start;
@@ -203,7 +211,6 @@
 }
 
 .newInvoiceBody__left {
-  width: 340px;
   max-width: 100%;
   height: 100%;
 }
@@ -211,7 +218,6 @@
   display: flex;
   align-items: flex-start;
   padding: 55px 0 0 0;
-  max-width: 720px;
   height: 0;
   overflow: hidden;
   transition: all 0.3s ease;
@@ -221,7 +227,6 @@
 }
 
 .newInvoiceBody__right .newInvoice__papper {
-  padding-left: 70px;
   display: flex;
   width: auto;
   flex-direction: column;
@@ -230,22 +235,20 @@
   justify-content: flex-end;
 }
 .newInvoice__input.start > div:first-child {
-  justify-content: flex-start;
+  justify-content: flex-end;
 }
 .newInvoice-inputTwice {
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   gap: 8px;
 }
 .inputTwice__area {
   display: grid;
-  margin-left: 10px;
-  width: 176px;
-  grid-template-columns: 65% 35%;
+  width: 240px;
+  grid-template-columns: 2fr 1fr;
   gap: 5px;
 }
 .inputTwice__label {
-  min-width: 60px;
   display: flex;
   align-items: center;
 }
@@ -261,22 +264,105 @@
   border: 1px solid rgba(174, 180, 185, 1);
 }
 .newRow__table {
-  width: 840px;
+  width: 920px;
 }
 .newRow__table table {
   max-width: 99%;
   border: none !important;
   padding: 0 0 5px 5px;
 }
+.newRow__table table thead {
+  background: #fff;
+}
+.newRow__table table thead > tr > th:last-child {
+  display: none !important;
+}
+.newRow__table table thead > tr > th:first-child {
+  border-radius: 15px 0 0 0;
+  -webkit-border-radius: 15px 0 0 0;
+  -moz-border-radius: 15px 0 0 0;
+  -ms-border-radius: 15px 0 0 0;
+  -o-border-radius: 15px 0 0 0;
+  padding-left: 10px !important;
+}
+.newRow__table table thead > tr > th {
+  padding: 5px 0 5px 5px;
+}
+.newRow__table table thead > tr > th:nth-child(7) {
+  border-radius: 0 15px 0 0;
+  -webkit-border-radius: 0 15px 0 0;
+  -moz-border-radius: 0 15px 0 0;
+  -ms-border-radius: 0 15px 0 0;
+  -o-border-radius: 0 15px 0 0;
+}
 .newRow__table table tr input {
   border: none !important;
 }
+
+.newRow__table
+  table
+  > tbody
+  > tr:last-child
+  > td:nth-child(2)
+  .Polaris-TextField__Backdrop {
+  border-radius: 0 0 0 20px !important;
+  -webkit-border-radius: 0 0 0 20px !important;
+  -moz-border-radius: 0 0 0 20px !important;
+  -ms-border-radius: 0 0 0 20px !important;
+  -o-border-radius: 0 0 0 20px !important;
+}
+.newRow__table
+  table
+  > tbody
+  > tr:last-child
+  > td:nth-child(8)
+  .Polaris-TextField__Backdrop {
+  border-radius: 0 0 20px 0 !important;
+  -webkit-border-radius: 0 0 20px 0 !important;
+  -moz-border-radius: 0 0 20px 0 !important;
+  -ms-border-radius: 0 0 20px 0 !important;
+  -o-border-radius: 0 0 20px 0 !important;
+}
+.newRow__table
+  td.Polaris-DataTable__Cell.Polaris-DataTable__Cell--verticalAlignTop.Polaris-DataTable__Cell--hovered {
+  border-bottom: 1px solid #cacaca !important;
+}
+.newRow__table
+  table
+  > tbody
+  td.Polaris-DataTable__Cell.Polaris-DataTable__Cell--verticalAlignTop.Polaris-DataTable__Cell--hovered:last-child {
+  border: none !important;
+}
+.newRow__table
+  td.Polaris-DataTable__Cell.Polaris-DataTable__Cell--verticalAlignTop.Polaris-DataTable__Cell--hovered
+  .Polaris-TextField__Backdrop {
+  background: #f1f1f1;
+}
+
 .newRow__table table tbody tr td,
 .newRow__table table tbody tr th {
   padding: 0 0 3px 0 !important;
 }
 .newRow__table table tbody tr td {
-  border: none;
+  border: none !important;
+  border-bottom: 1px solid #cacaca !important;
+}
+.newRow__table table tbody tr:last-child td {
+  border: none !important;
+}
+.newRow__table
+  table
+  tbody
+  tr:last-child
+  td.Polaris-DataTable__Cell.Polaris-DataTable__Cell--verticalAlignTop.Polaris-DataTable__Cell--hovered {
+  border-bottom: none !important;
+}
+
+.newRow__table
+  td.Polaris-DataTable__Cell.Polaris-DataTable__Cell--verticalAlignTop.Polaris-DataTable__Cell--hovered:nth-child(
+    2
+  ) {
+  border-left: 2px solid #6d27e7 !important;
 }
 .newRow__table table thead,
 .newRow__table table tbody {
@@ -335,8 +421,11 @@
 }
 .newRow__line span {
   color: #222;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
+}
+.newRow__line-title {
+  font-weight: 600 !important;
 }
 .cancel-ic {
   width: 15px;
@@ -346,6 +435,10 @@
 }
 .newRow__table table .Polaris-TextField__Backdrop {
   border: none !important;
+}
+.newRow__table table tbody tr td input {
+  font-size: 14px !important;
+  font-family: "Titillium Web", sans-serif !important;
 }
 .newRow__table table tbody td:hover {
   border: none !important;
@@ -373,7 +466,8 @@
   opacity: 1;
 }
 .newInvoice__bottom {
-  width: 773px;
+  width: 859px;
+  padding-top: 35px;
 }
 .invActions__input {
   width: 280px;
@@ -411,7 +505,7 @@
 
 .invActions__right button {
   width: max-content;
-  background-color: #333;
+  background-color: #6d27e7;
   font-size: 12px;
   color: #fff;
   line-height: 1.4em;
@@ -432,7 +526,7 @@
   background: rgb(134, 134, 134);
 }
 .invActions__right button:hover {
-  background: #6d27e7;
+  background: #36038f;
   color: #fff;
 }
 
@@ -490,7 +584,7 @@ input:focus-visible {
   position: relative;
   align-items: center;
   gap: 8px;
-  justify-content: space-between;
+  justify-content: flex-end;
   position: relative;
 }
 .dateSelect__datePicker {
@@ -514,8 +608,7 @@ input:focus-visible {
   font-weight: 600;
 }
 .dateSelect__input {
-  width: 181px;
-  margin-left: 10px;
+  width: 240px;
   padding: 5px 12px;
   background: #fff;
   border-radius: 12px;
@@ -549,12 +642,16 @@ input:focus-visible {
 .invoice__MainSelect {
   display: flex;
   width: 100%;
-  justify-content: space-between;
+  justify-content: flex-end;
+  gap: 10px;
 }
-.invoice__MainSelect > div:last-child {
-  width: 181px;
-  margin-right: 20px;
-  height: 32px;
+.invoice__MainSelect > .invoice__MainSelect-wrapper.min {
+  width: 240px;
+  /* height: 32px; */
+}
+.invoice__MainSelect > .invoice__MainSelect-wrapper.medium {
+  width: 240px;
+  /* height: 32px; */
 }
 .invoice__MainSelect .Polaris-Select__Backdrop {
   border-radius: 12px !important;
@@ -576,4 +673,42 @@ input:focus-visible {
   font-weight: 600;
   display: flex;
   align-items: center;
+}
+.invoice__MainSelect select option {
+  margin: 5px;
+}
+#PolarisSelect5 option {
+  padding: 10px;
+}
+.invoice__MainSelect-wrapper button {
+  width: 100%;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+.Polaris-Popover__Pane.Polaris-Scrollable.Polaris-Scrollable--vertical.Polaris-Scrollable--hasBottomShadow.Polaris-Scrollable--verticalHasScrolling {
+  overflow: auto !important;
+}
+.newInvoice__input._error .Polaris-TextField__Backdrop {
+  border: 1px solid red !important;
+}
+.newInvoice__input-error {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 5px;
+  color: red;
+}
+.changePaper__left {
+  min-width: 385px !important;
+}
+.invoice__MainSelect-label {
+  color: #999;
+  display: block;
+  font-size: 14px;
+  line-height: 1.3em;
+  padding-left: 8px;
+  padding-right: 8px;
+  margin-top: 3px;
 }

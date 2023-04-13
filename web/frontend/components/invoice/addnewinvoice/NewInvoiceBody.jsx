@@ -1,12 +1,8 @@
 import { TextField } from "@shopify/polaris";
+import { useEffect } from "react";
+import { useState } from "react";
 import InvoiceSelect from "../select/InvoiceSelect";
 import InvoiceSelectMain from "../select/InvoiceSelectMain";
-
-const selectOptions = [
-  { label: "$", value: "$" },
-  { label: "₽", value: "₽" },
-  { label: "L", value: "L" },
-];
 
 const languageSelectOptions = [
   { label: "English", value: "english" },
@@ -30,12 +26,28 @@ const NewInvoiceBody = ({
   language,
   changeNewItemVal,
   discountType,
+  languageOptions,
+  currenciesOptions,
 }) => {
+  const [selectOptions, setSelectOptions] = useState([
+    { label: "$", value: "$" },
+    { label: "%", value: "%" },
+  ]);
+
+  useEffect(() => {
+    setSelectOptions((prev) => {
+      const newVal = prev;
+      newVal[0].label = currency;
+      newVal[0].value = currency;
+      return [...newVal];
+    });
+  }, [currency]);
+
   return (
     <div
       className={`newInvoice-newInvoiceBody ${showMoreOpt ? "_active" : ""}`}
     >
-      <div className="newInvoiceBody__left newInvoice__paddCase">
+      <div className="newInvoiceBody__left changePaper__left newInvoice__paddCase">
         <div className="newInvoice__input def-input-purple">
           <TextField
             label="Payment method:"
@@ -104,8 +116,9 @@ const NewInvoiceBody = ({
           <div>
             <InvoiceSelectMain
               label="Currency"
+              width="min"
               options={currencySelectOptions}
-              value={currency}
+              val={currency}
               changeVal={(val) => {
                 changeNewItemVal("currency", val);
               }}
@@ -114,8 +127,9 @@ const NewInvoiceBody = ({
           <div>
             <InvoiceSelectMain
               label="Language"
-              options={languageSelectOptions}
-              value={language}
+              width="min"
+              options={languageOptions}
+              val={language}
               changeVal={(val) => {
                 changeNewItemVal("language", val);
               }}

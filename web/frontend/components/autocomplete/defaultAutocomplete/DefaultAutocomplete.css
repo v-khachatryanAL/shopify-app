@@ -1,0 +1,36 @@
+.defaultAutocomplete.medium {
+  width: 300px;
+}
+.defaultAutocomplete.medium .Polaris-TextField {
+  width: 240px !important;
+}
+.defaultAutocomplete .Polaris-TextField {
+  height: 32px;
+}
+.defaultAutocomplete__textField > div {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.defaultAutocomplete__textField .Polaris-Labelled__LabelWrapper {
+  margin-bottom: 0;
+}
+.defaultAutocomplete .Polaris-Icon__Svg {
+  fill: #6d27e7;
+}
+.defaultAutocomplete .Polaris-TextField__Backdrop {
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+}
+.defaultAutocomplete .Polaris-Label__Text {
+  font-size: 13.8px;
+  font-weight: 500;
+  color: #333;
+  text-align: right;
+  vertical-align: middle;
+  font-weight: 600;
+}

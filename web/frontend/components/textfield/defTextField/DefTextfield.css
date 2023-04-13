@@ -1,0 +1,20 @@
+.defFextField {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.defFextField.medium .Polaris-TextField {
+  width: 240px;
+  height: 32px !important;
+}
+.defFextField .Polaris-TextField__Backdrop {
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+.defFextField .Polaris-TextField--focus .Polaris-TextField__Backdrop {
+  border-color: #6d27e7;
+}

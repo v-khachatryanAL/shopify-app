@@ -21,7 +21,7 @@ const NewInvoiceTable = ({
   totalPrice,
   currency,
 }) => {
-  const [validTouch, setValidTouch] = useState({});
+  const [validTouch, setValidTouch] = useState([]);
 
   useEffect(() => {
     setValidTouch(() => {
@@ -35,6 +35,7 @@ const NewInvoiceTable = ({
       });
     });
   }, [rows]);
+
   const checkValid = (key, row) => {
     if (key === "quantity" || key === "price" || key === "title") {
       setValidTouch((prev) => {
@@ -104,14 +105,14 @@ const NewInvoiceTable = ({
         </div>
         <div className="newRow__info">
           <div className="newRow__line">
-            <span>Total</span>
+            <span className="newRow__line-title">Total</span>
             <span>
               {currency}
               {totalPrice.toFixed(2)}
             </span>
           </div>
           <div className="newRow__line">
-            <span>Amount Due</span>
+            <span className="newRow__line-title">Amount Due</span>
             <span>
               {currency}
               {totalPrice.toFixed(2)}

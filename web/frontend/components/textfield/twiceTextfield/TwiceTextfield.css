@@ -1,0 +1,40 @@
+.twiceTextfield {
+  display: flex;
+  align-items: start;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.twiceTextfield__inputs {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 240px;
+}
+.twiceTextfield__label {
+  margin-top: 3px;
+}
+.twiceTextfield__inputs .Polaris-TextField {
+  height: 32px !important;
+}
+.twiceTextfield__inputs .Polaris-TextField__Backdrop {
+  border-radius: 10px !important;
+  -webkit-border-radius: 10px !important;
+  -moz-border-radius: 10px !important;
+  -ms-border-radius: 10px !important;
+  -o-border-radius: 10px !important;
+}
+.twiceTextfield__inputs .Polaris-TextField--focus .Polaris-TextField__Backdrop {
+  border: 1px solid #6d27e7;
+}
+.twiceTextfield__inputs > div {
+  display: flex;
+  flex-direction: column-reverse;
+}
+.twiceTextfield__inputs .Polaris-Label {
+  color: #999;
+  display: block;
+  font-size: 12px;
+  line-height: 1.3em;
+  padding-left: 8px;
+  padding-right: 8px;
+}
