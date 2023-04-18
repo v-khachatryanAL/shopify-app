@@ -1,6 +1,5 @@
 import React from "react";
 import { DatePicker } from "@shopify/polaris";
-import { mutationRequest } from "../../hooks/useAppMutation";
 import { useState, useRef, useEffect } from "react";
 
 const useOutsideClick = (ref, callback) => {

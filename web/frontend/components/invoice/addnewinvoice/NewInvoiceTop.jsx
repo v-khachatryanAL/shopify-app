@@ -1,7 +1,7 @@
 import ClientsFormCase from "../../clientsFormCase/ClientsFormCase";
 import { Button, TextField } from "@shopify/polaris";
 import { useState } from "react";
-import InvoiceDatePicker from "../InvoiceDatePicker";
+import DefaultDatePicker from "../../datePicker/DefaultDatePicker";
 import moment from "moment";
 
 const NewInvoiceTop = ({
@@ -10,12 +10,12 @@ const NewInvoiceTop = ({
   deliveryDate,
   dueIn,
   showMore,
-  client,
   changeNewItemVal,
   changeItemDate,
   fromIssue,
   invoicesNumbers,
-  clientsOptions,
+  clientSearch,
+  sendClient,
 }) => {
   const [deliveryDateActive, setDeliveryDateActive] = useState(false);
   const [issueDateActive, setIssueDateActive] = useState(false);
@@ -44,16 +44,6 @@ const NewInvoiceTop = ({
     });
   };
 
-  const checkValid = (key) => {
-    const el = validTouch.map((e) => {
-      if (e.type === key) {
-        e.touch = true;
-        e.value = val;
-      }
-      return e;
-    })[0];
-  };
-
   const invoiceNumberError = () => {
     return (
       validTouch.filter((e) => {
@@ -63,8 +53,8 @@ const NewInvoiceTop = ({
   };
 
   return (
-    <div className="newInvoice-newInvoiceTop">
-      <div className="newInvoiceTop__left changePaper__left newInvoice__paddCase">
+    <div className="newInvoice-newInvoiceTop new-element-line">
+      <div className="newInvoice__paddCase new-element-list">
         <div
           className={`newInvoice__input def-input-purple ${
             invoiceNumberError() && "_error"
@@ -80,7 +70,6 @@ const NewInvoiceTop = ({
             onFocus={() => {
               handleValidateTouch("invoiceNumber");
             }}
-            autoComplete="off"
           />
           {invoiceNumberError() ? (
             <div className="newInvoice__input-error">
@@ -90,10 +79,10 @@ const NewInvoiceTop = ({
             ""
           )}
         </div>
-        <InvoiceDatePicker
+        <DefaultDatePicker
           date={deliveryDate}
           show={deliveryDateActive}
-          title={"Delivery Date"}
+          title={"Delivery date"}
           dateKey={"deliveryDate"}
           changeDate={(date, key) => {
             changeItemDate(date, key);
@@ -102,9 +91,9 @@ const NewInvoiceTop = ({
             setDeliveryDateActive(val);
           }}
         />
-        <InvoiceDatePicker
+        <DefaultDatePicker
           date={issueDate}
-          title={"Issue Date"}
+          title={"Issue date"}
           dateKey={"issueDate"}
           show={issueDateActive}
           changeDate={(date, key) => {
@@ -139,9 +128,14 @@ const NewInvoiceTop = ({
         </div>
       </div>
       <div className="newInvoiceTop__right">
-        <div className="newInvoice__papper">
-          <ClientsFormCase />
-        </div>
+        <ClientsFormCase
+          sendClient={(client) => {
+            sendClient(client);
+          }}
+          clientSearch={(val) => {
+            clientSearch(val);
+          }}
+        />
       </div>
     </div>
   );

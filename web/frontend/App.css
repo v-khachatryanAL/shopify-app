@@ -2,6 +2,8 @@
 @import "./styles/Invoicetable.css";
 @import "./styles/DetailInvoice.css";
 @import "./styles/NewInvoice.css";
+@import "./styles/NewCredit.css";
+
 body,
 span,
 a,

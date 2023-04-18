@@ -20,7 +20,7 @@ const custUseOutsideClick = (ref, callback) => {
   return;
 };
 
-const InvoiceDatePicker = ({
+const DefaultDatePicker = ({
   date,
   handleOpenMenu,
   show,
@@ -85,4 +85,4 @@ const InvoiceDatePicker = ({
   );
 };
 
-export default InvoiceDatePicker;
+export default DefaultDatePicker;

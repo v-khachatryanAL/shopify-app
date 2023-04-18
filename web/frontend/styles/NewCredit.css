@@ -1,0 +1,24 @@
+.newCredit {
+  padding: 40px 30px 20px;
+}
+.newCredit__wrapper {
+  width: 840px;
+  max-width: 100%;
+}
+.newCredit__wrapper > .Polaris-Heading {
+  font-size: 24px;
+  line-height: 32px;
+  overflow: hidden;
+  vertical-align: middle;
+  white-space: nowrap;
+  word-break: break-all;
+  padding: 0 0 45px 0;
+}
+
+.newCredit-newCreditTop {
+  min-height: 240px;
+  padding: 0px 0px 35px 0px;
+}
+.newCredit__bottom {
+  padding-top: 35px;
+}

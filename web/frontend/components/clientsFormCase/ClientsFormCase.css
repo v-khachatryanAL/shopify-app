@@ -15,7 +15,7 @@
 .clientInfo__list {
   display: flex;
   flex-direction: column;
-  margin: 15px 0;
+  margin: 10px 0;
 }
 .editCase__inputs {
   margin-top: 25px;
@@ -24,8 +24,12 @@
   gap: 10px;
 }
 .clientsFormCase-clientInfo {
+  display: flex;
+  justify-content: flex-end;
   width: 100%;
-  padding: 0 0 0 63px;
+}
+.clientInfo__wrapper {
+  width: 240px;
 }
 .clientsFormCase__toggle {
   display: flex;

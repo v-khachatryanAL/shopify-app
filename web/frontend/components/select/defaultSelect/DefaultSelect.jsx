@@ -1,6 +1,6 @@
 import { Select } from "@shopify/polaris";
 
-const InvoiceSelect = ({ options, label, val, changeVal }) => {
+const DefaultSelect = ({ options, label, val, changeVal }) => {
   return (
     <div className="invoice__select def__select">
       <Select
@@ -13,4 +13,4 @@ const InvoiceSelect = ({ options, label, val, changeVal }) => {
   );
 };
 
-export default InvoiceSelect;
+export default DefaultSelect;

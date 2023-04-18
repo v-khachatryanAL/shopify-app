@@ -1,24 +1,22 @@
-import { FormLayout, Heading, Button } from "@shopify/polaris";
-import { React, useState, useMemo, useEffect } from "react";
+import { FormLayout, Heading } from "@shopify/polaris";
+import { useState, useEffect } from "react";
+import NewCreditTop from "./NewCreditTop";
+import NewElementBody from "../../NewElementBody";
 import NewElemProductTable from "../../newElemProductTable/NewElemProductTable";
 import { generateId } from "../../../utils/helpers";
-import NewInvoiceTop from "./NewInvoiceTop";
-import NewElementBody from "../../NewElementBody";
-import { mutationRequest } from "../../../hooks/useAppMutation";
+import { useAppQuery } from "../../../hooks";
 import moment from "moment";
 import axios from "axios";
-import { useAppQuery } from "../../../hooks";
 
-const AddNewInvoice = () => {
+const AddNewCredit = () => {
   const [showMoreOpt, setShowMoreOpt] = useState(false);
   const [languages, setLanguages] = useState([]);
-  const [invoicesNumbers, setInvoicesNumbers] = useState([]);
-  const [newClient, setNewClient] = useState(0);
-  const [newProduct, setNewProduct] = useState(0);
+  const [invoicesOptions, setInvoicesOptions] = useState([]);
   const [currenciesOptions, setCurrenciesOptions] = useState([]);
   const [newItem, setNewItem] = useState({
     invoiceNumber: "",
     issueDate: new Date(),
+    forInvoiceNumber: "",
     deliveryDate: new Date(),
     dueIn: "",
     client: "",
@@ -30,12 +28,11 @@ const AddNewInvoice = () => {
     currency: "USD",
     language: "eng",
     fromIssue: new Date(),
-    totalOrdersVat: 0,
     notes: "",
-    line_items: [],
     test: true,
-    discountType: "USD",
+    discountType: "$",
     totalOrders: 0,
+    creditNumber: "",
     transactions: [
       {
         test: true,
@@ -50,14 +47,12 @@ const AddNewInvoice = () => {
       id: generateId(),
       title: "",
       description: "",
-      price: "",
-      quantity: "",
       variants: [
         {
           id: generateId(),
           created_at: new Date(),
-          price: 0,
-          inventory_quantity: 0,
+          price: "",
+          inventory_quantity: "",
         },
       ],
       discount: "",
@@ -65,22 +60,11 @@ const AddNewInvoice = () => {
       total: "",
     },
   ]);
-  const { mutate: newInvoice, isSuccess: newInvoiceSuccess } = mutationRequest(
-    "/api/orders/create",
-    "post",
-    "",
-    true
-  );
-  const { mutate: newCustomer } = mutationRequest(
-    "/api/customers/create",
-    "post",
-    "",
-    true
-  );
-  // const { data: currenciesOptions } = useAppQuery({
-  //   url: "/api/currencies.json",
-  // });
-  const { data: invoices, isSuccess: invoicesSuccess } = useAppQuery({
+  const {
+    data: invoices,
+    isSuccess: invoicesSuccess,
+    isLoading: invoicesLoading,
+  } = useAppQuery({
     url: "/api/orders.json?status=any",
   });
 
@@ -91,9 +75,7 @@ const AddNewInvoice = () => {
         {
           id: generateId(),
           title: "",
-          body_html: "",
-          price: "",
-          quantity: "",
+          description: "",
           variants: [
             {
               id: generateId(),
@@ -128,11 +110,14 @@ const AddNewInvoice = () => {
       });
     }
   };
+
   const handleChangeRow = (id, key, val, inputTxt = "") => {
+    // if (key !== "title") {
     setItemProducts((prev) => {
       const changedRowIndex = prev.findIndex((el) => el.id === id);
       let totalPrice = 0;
       let totalPriceVat = 0;
+
       if (key !== "title") {
         if (key === "inventory_quantity" || key === "price") {
           key === "inventory_quantity"
@@ -144,11 +129,10 @@ const AddNewInvoice = () => {
         }
       } else {
         if (val) {
-          prev[changedRowIndex] = { ...val, id: val.id };
+          prev[changedRowIndex] = val;
         } else {
-          const elId = generateId();
           prev[changedRowIndex] = {
-            id: elId,
+            id: generateId(),
             body_html: "",
             variants: [
               {
@@ -165,6 +149,7 @@ const AddNewInvoice = () => {
           };
         }
       }
+
       if (
         prev[changedRowIndex].variants[0].price >= 0 &&
         prev[changedRowIndex].variants[0].inventory_quantity >= 0
@@ -196,42 +181,19 @@ const AddNewInvoice = () => {
           totalOrdersVat: totalPriceVat,
         };
       });
-
       return [...prev];
     });
+    // } else {
+    //   setItemProducts((prev) => {
+    //     const changedRowIndex = prev.findIndex((el) => el.id === id);
+    //   });
+    // }
 
     setNewItem((prev) => {
       return {
         ...prev,
         line_items: [...itemProducts],
       };
-    });
-  };
-
-  const handleSubmit = () => {
-    const lineItems = newItem.line_items.map((e) => {
-      return {
-        ...e,
-        price: e.variants[0].price,
-      };
-    });
-    console.log({
-      lineItems,
-    });
-    // newInvoice.mutate({
-    //   body: {
-    //     order: {
-    //       ...newItem,
-    //       line_items: lineItems,
-    //     },
-    //   },
-    // });
-    console.log({ newItem });
-    newCustomer.mutate({
-      body: {
-        email: "test@gmailTEST2.com",
-        ...newItem.customer,
-      },
     });
   };
 
@@ -257,50 +219,6 @@ const AddNewInvoice = () => {
       };
     });
   };
-
-  const formValidation = useMemo(() => {
-    const arr = itemProducts.filter((e) => {
-      if (
-        e.variants[0].inventory_quantity <= 0 ||
-        e.variants[0].price <= 0 ||
-        e.title?.length < 1
-      ) {
-        return e;
-      }
-    });
-
-    return !!arr.length;
-  }, [itemProducts]);
-
-  useEffect(() => {
-    const fetchCurrencies = async () => {
-      try {
-        const response = await fetch(
-          "https://www.wixapis.com/currency_converter/v1/currencies"
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setCurrenciesOptions([
-            ...data.currencies.map((e) => {
-              return {
-                value: e.code,
-                label: e.code,
-                symbol: e.symbol,
-              };
-            }),
-          ]);
-        } else {
-          throw new Error(
-            `Failed to fetch currencies. Status: ${response.status}`
-          );
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchCurrencies();
-  }, []);
 
   useEffect(() => {
     const fetchLanguages = async () => {
@@ -340,37 +258,64 @@ const AddNewInvoice = () => {
   }, []);
 
   useEffect(() => {
-    invoicesSuccess && setInvoicesNumbers(invoices.map((e) => e.number));
+    const fetchCurrencies = async () => {
+      try {
+        const response = await fetch(
+          "https://www.wixapis.com/currency_converter/v1/currencies"
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setCurrenciesOptions([
+            ...data.currencies.map((e) => {
+              return {
+                value: e.code,
+                label: e.code,
+                symbol: e.symbol,
+              };
+            }),
+          ]);
+        } else {
+          throw new Error(
+            `Failed to fetch currencies. Status: ${response.status}`
+          );
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchCurrencies();
+  }, []);
+
+  useEffect(() => {
+    invoicesSuccess &&
+      setInvoicesOptions(() => {
+        return [
+          ...invoices.map((e) => {
+            return {
+              label: e.number,
+              value: e.id,
+            };
+          }),
+        ];
+      });
   }, [invoicesSuccess]);
 
   return (
-    <div
-      className={`newInvoice page-main-papper ${newClient ? "newClient" : ""} ${
-        newProduct ? "newProduct" : ""
-      }`}
-    >
-      <div className="newInvoice__wrapper">
-        <Heading element="h1">New Invoice</Heading>
+    <div className="newCredit page-main-papper">
+      <div className="newCredit__wrapper">
+        <Heading classNames="my-custom-classname" element="h1">
+          New Credit Note
+        </Heading>
         <FormLayout>
-          <NewInvoiceTop
-            sendClient={(client) => {
-              setNewItem((prev) => {
-                return {
-                  ...prev,
-                  customer: { ...client },
-                };
-              });
-            }}
-            clientSearch={(val) => {
-              setNewClient(val);
-            }}
-            invoiceNumber={newItem.invoiceNumber}
+          <NewCreditTop
             issueDate={newItem.issueDate}
-            deliveryDate={newItem.deliveryDate}
             dueIn={newItem.dueIn}
-            client={newItem.client}
+            creditNumber={newItem.creditNumber}
             fromIssue={newItem.fromIssue}
-            invoicesNumbers={invoicesNumbers}
+            invoicesOptions={invoicesOptions}
+            invoicesLoading={invoicesLoading}
+            forInvoiceNumber={newItem.forInvoiceNumber}
             showMore={() => {
               setShowMoreOpt(!showMoreOpt);
             }}
@@ -395,54 +340,27 @@ const AddNewInvoice = () => {
             orderNumber={newItem.orderNumber}
             discount={newItem.discount}
             discountType={newItem.discountType}
+            currenciesOptions={currenciesOptions}
             shipping={newItem.shipping}
             currency={newItem.currency}
             language={newItem.language}
             fromIssue={newItem.fromIssue}
             languageOptions={languages}
-            currenciesOptions={currenciesOptions}
             changeNewItemVal={(key, val) => {
               handleSetNewItem(key, val);
             }}
           />
-          <div className="newInvoice__bottom">
+          <div className="newCredit__bottom">
             <NewElemProductTable
               rows={itemProducts}
               addNewRow={handleAddNewRow}
               deleteRow={handleDeleteRow}
               changeRow={handleChangeRow}
+              totalPriceVat={newItem?.totalOrdersVat}
               totalPrice={newItem.totalOrders}
               currency={newItem.currency}
-              totalPriceVat={newItem?.totalOrdersVat}
-              sendNewProduct={(val) => {
-                setNewProduct(val);
-              }}
+              sendNewProduct={(val) => {}}
             />
-            <div className="newInvoice-invActions">
-              <div className="invActions__left">
-                <div className="invActions__input">
-                  <label>
-                    <span>Notes</span>
-                    <textarea
-                      type="textArea"
-                      label="Notes:"
-                      value={newItem.notes}
-                      onChange={(e) => {
-                        handleSetNewItem("notes", e.target.value);
-                      }}
-                      className="invActions__textArea"
-                    />
-                  </label>
-                </div>
-              </div>
-              <div
-                className={`${
-                  !formValidation ? "_disable" : ""
-                } invActions__right`}
-              >
-                <Button onClick={handleSubmit}>Save</Button>
-              </div>
-            </div>
           </div>
         </FormLayout>
       </div>
@@ -450,4 +368,4 @@ const AddNewInvoice = () => {
   );
 };
 
-export default AddNewInvoice;
+export default AddNewCredit;

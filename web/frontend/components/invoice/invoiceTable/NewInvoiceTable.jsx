@@ -73,7 +73,6 @@ const NewInvoiceTable = ({
                             ? "number"
                             : "text"
                         }
-                        autoComplete
                         value={value}
                         onFocus={() => {
                           checkValid(key, row);

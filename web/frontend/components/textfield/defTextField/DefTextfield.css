@@ -1,6 +1,6 @@
 .defFextField {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-end;
   gap: 10px;
 }
@@ -17,4 +17,13 @@
 }
 .defFextField .Polaris-TextField--focus .Polaris-TextField__Backdrop {
   border-color: #6d27e7;
+}
+.defFextField__area {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 3px;
+}
+.defFextField__error {
+  color: red;
+  font-size: 13px;
 }

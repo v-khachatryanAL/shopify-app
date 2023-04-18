@@ -12,7 +12,6 @@ import React, { useEffect, useState } from "react";
 import { useAppQuery } from "../../hooks";
 import { customers, invoiceTableHeader } from "../../utils/constants";
 import InvoiceSortTable from "./InvoiceSortTable";
-import { mutationRequest } from "../../hooks/useAppMutation";
 import InvoiceTableHeader from "./InvoiceTableHeader";
 
 const Table = () => {

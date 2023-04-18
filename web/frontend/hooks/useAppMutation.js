@@ -5,13 +5,16 @@ import { useMemo } from "react";
 import { useMutation } from "react-query"
 import { checkHeadersForReauthorization, useAuthenticatedFetch } from "./useAuthenticatedFetch";
 
-export const mutationRequest = (url, method, urlBody, type) => {
+export const mutationRequest = (url, method, urlBody, type, search, options = {}) => {
     const app = useAppBridge();
     const fetchFunction = authenticatedFetch(app);
 
     return {
         mutate: useMutation({
-            mutationFn: (body) => apiRequest({ url, method, body, urlBody, fetchFunction, type })
+            mutationFn: ({ body, url: urlFromBody }) => {
+                return apiRequest({ url: urlFromBody || url, method, body, urlBody, fetchFunction, type, search })
+            },
+            ...options
         }),
 
     };
@@ -23,11 +26,13 @@ const apiRequest = async ({
     method,
     urlBody,
     fetchFunction,
-    type
+    type,
+    search
 }) => {
+    console.log({ url });
     try {
         const options = { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) };
-        const uri = !type ? url + body + ".json" : url + ".json" + urlBody
+        const uri = !type ? url + body + ".json" : search ? url : url + ".json" + urlBody
         const response = await fetchFunction(uri, options);
         checkHeadersForReauthorization(response.headers, app);
         return response.json();

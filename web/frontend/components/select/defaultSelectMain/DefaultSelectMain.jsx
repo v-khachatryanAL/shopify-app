@@ -1,16 +1,17 @@
-import { ActionList, Button, Popover, Select } from "@shopify/polaris";
+import { ActionList, Button, Popover } from "@shopify/polaris";
 import { useCallback, useEffect, useState } from "react";
 
-const InvoiceSelectMain = ({
+const DefaultSelectMain = ({
   options,
   val,
   changeVal,
   label,
   width,
   minLabel,
+  type,
+  simpleTxt,
 }) => {
   const [active, setActive] = useState(false);
-
   const toggleActive = useCallback(() => setActive((active) => !active), []);
   const [btnLabel, setBtnLabel] = useState();
   const [selectList, setSelectList] = useState([]);
@@ -41,14 +42,14 @@ const InvoiceSelectMain = ({
 
   const activator = (
     <Button onClick={toggleActive} disclosure>
-      {btnLabel}
+      {simpleTxt || btnLabel}
     </Button>
   );
   return (
     <div className="invoice__MainSelect def__select">
       <div className="invoice__MainSelec-label">{label}</div>
       {/* <Select options={options} value={val} onChange={changeVal} /> */}
-      <div className={`invoice__MainSelect-wrapper ${width}`}>
+      <div className={`invoice__MainSelect-wrapper ${width} ${type}`}>
         <Popover
           active={active}
           activator={activator}
@@ -63,4 +64,4 @@ const InvoiceSelectMain = ({
   );
 };
 
-export default InvoiceSelectMain;
+export default DefaultSelectMain;

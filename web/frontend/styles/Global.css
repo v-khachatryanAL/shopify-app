@@ -1,3 +1,18 @@
+.page-main-papper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+.new-element-line {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.new-element-list {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 15px;
+}
 .purple__btn {
   cursor: pointer;
   transition: all 0.2s ease;

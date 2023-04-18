@@ -155,7 +155,7 @@ const InvoiceSortTable = ({
       value={inputValue}
       prefix={<Icon source={SearchMajor} color="base" />}
       placeholder="Search Invoice"
-      autoComplete="off"
+      // autoComplete="off"
     />
   );
   const handleChangeDate = (date) => {

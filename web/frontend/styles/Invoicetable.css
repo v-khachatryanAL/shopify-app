@@ -291,3 +291,6 @@
 .Polaris-TextField__Backdrop:after {
   content: none;
 }
+.newRow__input .Polaris-TextField__Segment {
+  display: none !important;
+}

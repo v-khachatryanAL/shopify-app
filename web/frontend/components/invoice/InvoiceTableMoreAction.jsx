@@ -60,7 +60,7 @@ const InvoiceTableMoreAction = ({
     }
     if (id === 4) {
       selectedResources.map((elem) => {
-        mutate.mutate(elem);
+        mutate.mutate({ body: elem });
       });
     }
     if (id === 3) {

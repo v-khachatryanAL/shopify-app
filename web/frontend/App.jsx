@@ -35,6 +35,10 @@ export default function App() {
                   destination: "/invoice/new",
                 },
                 {
+                  label: "New Credit Note",
+                  destination: "/credit/new",
+                },
+                {
                   label: "Detail Invoice",
                   destination: "/invoice/:id",
                 },

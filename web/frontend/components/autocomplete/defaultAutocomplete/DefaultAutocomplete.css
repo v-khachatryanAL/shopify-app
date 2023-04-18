@@ -1,11 +1,16 @@
-.defaultAutocomplete.medium {
-  width: 300px;
-}
 .defaultAutocomplete.medium .Polaris-TextField {
   width: 240px !important;
 }
 .defaultAutocomplete .Polaris-TextField {
+  display: flex;
+  flex-direction: row-reverse;
   height: 32px;
+}
+.defaultAutocomplete .Polaris-TextField input {
+  padding: 0px 0px 0px 10px;
+}
+.defaultAutocomplete__textField {
+  position: relative;
 }
 .defaultAutocomplete__textField > div {
   display: flex;
@@ -13,18 +18,28 @@
   justify-content: flex-end;
   gap: 10px;
 }
+.defaultAutocomplete__textField > .loading {
+  position: absolute;
+  top: 58%;
+  right: 10px !important;
+  transform: translate(0, -50%);
+  z-index: 30;
+}
+/* .defaultAutocomplete.medium .defaultAutocomplete__textField > .loading {
+  left: unset;
+} */
 .defaultAutocomplete__textField .Polaris-Labelled__LabelWrapper {
   margin-bottom: 0;
 }
+.defaultAutocomplete__textField.loading .Polaris-Icon__Svg {
+  display: none !important;
+}
+.defaultAutocomplete__textField > .loading .Polaris-Spinner svg,
 .defaultAutocomplete .Polaris-Icon__Svg {
   fill: #6d27e7;
 }
 .defaultAutocomplete .Polaris-TextField__Backdrop {
-  border-radius: 15px;
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
-  -ms-border-radius: 15px;
-  -o-border-radius: 15px;
+  border-radius: 12px;
 }
 .defaultAutocomplete .Polaris-Label__Text {
   font-size: 13.8px;
