@@ -37,6 +37,7 @@
 .defaultAutocomplete__textField > .loading .Polaris-Spinner svg,
 .defaultAutocomplete .Polaris-Icon__Svg {
   fill: #6d27e7;
+  cursor: pointer;
 }
 .defaultAutocomplete .Polaris-TextField__Backdrop {
   border-radius: 12px;

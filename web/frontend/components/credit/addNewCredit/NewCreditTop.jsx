@@ -67,6 +67,7 @@ const NewCreditTop = ({
             <span>{convertedDate(fromIssue)}</span>
           </div>
         </div>
+
         <div className="newInvoiceTop__lineEnd">
           <div className="form__defBtn purple__btn-dark">
             <Button

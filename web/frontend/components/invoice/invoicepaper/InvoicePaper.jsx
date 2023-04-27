@@ -1,11 +1,14 @@
 import { Badge, IndexTable } from "@shopify/polaris";
+import { convertTaxesFrom } from "../../../utils/helpers";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import logo from "../../../assets/logoImage.png";
 import { useAppQuery } from "../../../hooks";
+import NewItemCounts from "../../newItemCounts/NewItemCounts";
 import { orders } from "../../../utils/constants";
+import Loading from "../../loading";
 const InvoicePaper = ({ invoiceData }) => {
-  const product = invoiceData.line_items;
+  const products = invoiceData.line_items;
   const { data, isSuccess } = useAppQuery({
     url: `/api/shop.json`,
   });
@@ -21,22 +24,33 @@ const InvoicePaper = ({ invoiceData }) => {
     plural: "orders",
   };
 
-  const rowMarkup = product?.map(
-    ({ id, name, quantity, tax_lines, price_set, price }, index) => (
-      <IndexTable.Row id={id} key={id} position={index}>
-        <IndexTable.Cell className="product_name">{name}</IndexTable.Cell>
-        <IndexTable.Cell>{quantity}</IndexTable.Cell>
-        <IndexTable.Cell>
-          {tax_lines[0]?.price}
-          {price_set?.presentment_money?.currency_code}
-        </IndexTable.Cell>
-        <IndexTable.Cell>{tax_lines[0]?.rate}%</IndexTable.Cell>
-        <IndexTable.Cell>
-          {price} {price_set?.presentment_money?.currency_code}
-        </IndexTable.Cell>
-      </IndexTable.Row>
-    )
-  );
+  const rowMarkup = products?.map((item, index) => (
+    <IndexTable.Row id={item.id} key={item.id} position={index}>
+      <IndexTable.Cell className="product_name">{item.name}</IndexTable.Cell>
+      <IndexTable.Cell>{item.quantity}</IndexTable.Cell>
+      <IndexTable.Cell>
+        {item.tax_lines[0]?.price}
+        {item.price_set?.presentment_money?.currency_code}
+      </IndexTable.Cell>
+      <IndexTable.Cell>
+        {convertTaxesFrom(
+          item,
+          invoiceData.total_line_items_price,
+          invoiceData.current_total_discounts
+        )}
+        %
+      </IndexTable.Cell>
+      <IndexTable.Cell>
+        {item.discount_allocations[index]?.amount || "-"}
+      </IndexTable.Cell>
+      <IndexTable.Cell>
+        {item.price} {item.price_set?.presentment_money?.currency_code}
+      </IndexTable.Cell>
+    </IndexTable.Row>
+  ));
+
+  console.log({ invoiceData });
+
   return (
     <div className="invoice_paper">
       <div>
@@ -96,12 +110,31 @@ const InvoicePaper = ({ invoiceData }) => {
                 { title: "Quantity" },
                 { title: "Tax-Presentment money	" },
                 { title: "Rate" },
+                { title: "Discount" },
                 { title: "Total" },
               ]}
               selectable={false}
             >
               {rowMarkup}
             </IndexTable>
+          </div>
+          <div className="item_detail_bottom">
+            <div className="item_detail_count">
+              {products ? (
+                <NewItemCounts
+                  products={products}
+                  subtotal={invoiceData.subtotal_price}
+                  totalPrice={invoiceData.total_line_items_price}
+                  totalPriceVat={invoiceData.current_total_price}
+                  currency={invoiceData.currency}
+                  discount={invoiceData.current_total_discounts}
+                />
+              ) : (
+                <div className="item_detail_count_load">
+                  <Loading />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

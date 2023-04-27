@@ -23,6 +23,34 @@
   flex-direction: column;
   gap: 10px;
 }
+.editCase__number {
+  width: 240px;
+  border-radius: 10px;
+  padding: 0px 0px 0px 10px;
+}
+.editCase__input {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+.editCase__input._error {
+  align-items: flex-start;
+  padding-top: 5px;
+}
+.editCase__input input {
+  border: none;
+  font-size: 14px !important;
+  height: 32px;
+}
+.editCase__input._error .editCase__number {
+  border-color: red !important;
+}
+.editCase__number {
+  background: #fff;
+  overflow: hidden;
+  border: 1px solid #cacaca !important;
+}
 .clientsFormCase-clientInfo {
   display: flex;
   justify-content: flex-end;
@@ -39,4 +67,17 @@
 }
 .clientsFormCase__toggle span {
   font-family: "Titillium Web", sans-serif;
+}
+.PhoneInputCountrySelect {
+  background: #fff;
+  padding: 10px;
+}
+.PhoneInputCountrySelect option {
+  height: 20px !important;
+  font-size: 15px;
+}
+.editCase__inputArea {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }

@@ -1,27 +1,26 @@
 import "./DefaultAutocomplete.css";
 import { Autocomplete, Icon, Spinner } from "@shopify/polaris";
 import { SearchMinor } from "@shopify/polaris-icons";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const DefaultAutocomplete = ({
   deselectedOptions,
-  label,
-  width,
+  className = "",
+  label = "",
+  width = "",
   changeValue,
-  newVal = false,
   inputChange,
   ipValue,
-  placeholder,
-  searchElement = false,
+  placeholder = "",
+  searchElement,
   loading,
-  searching,
+  searching = false,
   onFocus,
+  staticData = false,
 }) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
-  const [inputValue, setInputValue] = useState("");
-  const [options, setOptions] = useState([
-    { value: "rustic", label: "Rustic" },
-  ]);
+  const [inputValue, setInputValue] = useState(ipValue);
+  const [options, setOptions] = useState([]);
 
   const updateText = (value) => {
     setInputValue(value);
@@ -33,16 +32,6 @@ const DefaultAutocomplete = ({
     const resultOptions = deselectedOptions?.filter((option) => {
       return option.label?.toString().match(filterRegex);
     });
-    // if (newVal && value.length && !loading) {
-    //   resultOptions.push({
-    //     label: value,
-    //     value: value,
-    //     isNew: true,
-    //   });
-    //   inputChange(resultOptions.filter((e) => e.isNew).length);
-    // } else if (newVal && !value.length) {
-    //   inputChange(0, value);
-    // }
     setOptions(resultOptions);
   };
 
@@ -62,40 +51,54 @@ const DefaultAutocomplete = ({
   useEffect(() => {
     if (searching) {
       if (
-        deselectedOptions?.length ||
-        !deselectedOptions.filter((e) => e.label === inputValue).length
+        inputValue?.length &&
+        !deselectedOptions.find(
+          (el) => el.label.toLowerCase() === inputValue.toLowerCase()
+        )
       ) {
-        if (inputValue.length) {
-          setOptions([
-            ...deselectedOptions,
-            {
-              label: inputValue,
-              value: inputValue,
-              isNew: true,
-            },
-          ]);
-          inputChange(1);
-        } else {
-          setOptions([...deselectedOptions]);
-        }
+        setOptions([
+          ...deselectedOptions,
+          {
+            label: inputValue,
+            value: inputValue,
+            isNew: true,
+          },
+        ]);
+        inputChange(true);
+      } else {
+        inputChange && inputChange(false);
+        setOptions([...deselectedOptions]);
       }
-    } else {
-      deselectedOptions.length && setOptions(deselectedOptions);
     }
-  }, [deselectedOptions, searching]);
+  }, [deselectedOptions, inputValue]);
+
+  // useEffect(() => {
+  //   if (ipValue.length) {
+  //     setInputValue(ipValue);
+  //   }
+  // }, [ipValue]);
+
+  const handleFocus = () => {
+    onFocus && onFocus();
+    if (staticData && !inputValue?.length) {
+      setOptions([...deselectedOptions]);
+    }
+  };
 
   const textField = (
     <div
-      className={`defaultAutocomplete__textField ${loading ? "loading" : ""}`}
+      className={`defaultAutocomplete__textField ${
+        loading ? "loading" : ""
+      } ${className}`}
     >
       <Autocomplete.TextField
         onChange={updateText}
         label={label}
-        value={inputValue || ipValue}
+        value={inputValue}
         prefix={<Icon source={SearchMinor} color="base" />}
-        placeholder={placeholder || ""}
+        placeholder={placeholder}
         autoComplete="off"
-        onFocus={onFocus}
+        onFocus={handleFocus}
       />
       {loading ? (
         <span className="loading">
@@ -106,9 +109,9 @@ const DefaultAutocomplete = ({
       )}
     </div>
   );
-  console.log({ options });
+
   return (
-    <div className={`defaultAutocomplete ${width}`}>
+    <div className={`defaultAutocomplete ${width} ${className}`}>
       <Autocomplete
         options={options}
         selected={selectedOptions}

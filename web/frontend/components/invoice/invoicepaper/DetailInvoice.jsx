@@ -8,6 +8,11 @@ const DetailInvoice = () => {
   const [invoiceData, setInvoiceData] = useState({});
   const { data, isSuccess, refetch } = useAppQuery({
     url: `/api/orders/${id}.json`,
+    reactQueryOptions: {
+      onSuccess: (data) => {
+        setInvoiceData(data);
+      },
+    },
   });
 
   useEffect(() => {

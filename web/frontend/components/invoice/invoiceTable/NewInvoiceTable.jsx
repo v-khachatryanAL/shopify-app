@@ -107,14 +107,14 @@ const NewInvoiceTable = ({
             <span className="newRow__line-title">Total</span>
             <span>
               {currency}
-              {totalPrice.toFixed(2)}
+              {totalPrice?.toFixed(2) || 0}
             </span>
           </div>
           <div className="newRow__line">
             <span className="newRow__line-title">Amount Due</span>
             <span>
               {currency}
-              {totalPrice.toFixed(2)}
+              {totalPrice?.toFixed(2) || 0}
             </span>
           </div>
         </div>

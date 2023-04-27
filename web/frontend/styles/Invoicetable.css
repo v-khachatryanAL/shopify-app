@@ -158,7 +158,7 @@
   padding: 0;
 }
 .Polaris-Scrollable--vertical {
-  overflow: hidden;
+  overflow: auto !important;
 }
 .Polaris-Popover__Section .sort_status > :first-child {
   border-top: 0;

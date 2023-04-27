@@ -1,0 +1,41 @@
+.accountBody__top {
+  padding: 30px 0;
+}
+.accountBody__top h1 {
+  font-size: 27px !important;
+}
+.accountBody-infoLine {
+  display: flex;
+  align-items: center;
+}
+.infoLine__title {
+  font-weight: 800;
+  width: 150px;
+  display: flex;
+  justify-content: flex-end;
+}
+.infoLine__txt {
+  padding: 0px 0px 0px 10px;
+}
+.accountBody__list {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 15px;
+  width: max-content;
+  padding: 0px 0px 30px 0px;
+}
+.accountBody__action {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.accountBody__action .Polaris-Button {
+  max-width: 124px;
+  align-self: self-end;
+  margin-right: 30px;
+  background-color: #6d27e7;
+  color: white;
+}
+.accountBody__action .Polaris-Button .Polaris-Button__Text {
+  font-size: 12px;
+}

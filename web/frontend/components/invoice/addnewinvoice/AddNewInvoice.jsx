@@ -1,37 +1,40 @@
-import { FormLayout, Heading, Button } from "@shopify/polaris";
 import { React, useState, useMemo, useEffect } from "react";
+import { useNavigate } from "@shopify/app-bridge-react";
+import { FormLayout, Heading, Button, Spinner } from "@shopify/polaris";
 import NewElemProductTable from "../../newElemProductTable/NewElemProductTable";
-import { generateId } from "../../../utils/helpers";
 import NewInvoiceTop from "./NewInvoiceTop";
 import NewElementBody from "../../NewElementBody";
 import { mutationRequest } from "../../../hooks/useAppMutation";
+import { useAppQuery } from "../../../hooks";
+import { generateId } from "../../../utils/helpers";
 import moment from "moment";
 import axios from "axios";
-import { useAppQuery } from "../../../hooks";
 
 const AddNewInvoice = () => {
+  const navigate = useNavigate();
   const [showMoreOpt, setShowMoreOpt] = useState(false);
+  const [clientErrors, setClientErrors] = useState(true);
   const [languages, setLanguages] = useState([]);
   const [invoicesNumbers, setInvoicesNumbers] = useState([]);
   const [newClient, setNewClient] = useState(0);
   const [newProduct, setNewProduct] = useState(0);
-  const [currenciesOptions, setCurrenciesOptions] = useState([]);
   const [newItem, setNewItem] = useState({
-    invoiceNumber: "",
+    number: "",
     issueDate: new Date(),
     deliveryDate: new Date(),
-    dueIn: "",
+    dueIn: 14,
     client: "",
     paymentMethod: "",
     bankAccount: "",
     orderNumber: "",
-    discount: "",
+    discount: 0,
     shipping: "",
     currency: "USD",
     language: "eng",
-    fromIssue: new Date(),
+    fromIssue: new Date().setDate(new Date().getDate() + 14),
     totalOrdersVat: 0,
-    notes: "",
+    subTotal: 0,
+    notes: "Uw inkoop referentie: {{ order.note }}",
     line_items: [],
     test: true,
     discountType: "USD",
@@ -52,6 +55,7 @@ const AddNewInvoice = () => {
       description: "",
       price: "",
       quantity: "",
+      percent: 0,
       variants: [
         {
           id: generateId(),
@@ -60,29 +64,107 @@ const AddNewInvoice = () => {
           inventory_quantity: 0,
         },
       ],
+      tax_lines: [],
       discount: "",
       vat: "",
-      total: "",
+      total: 0,
     },
   ]);
-  const { mutate: newInvoice, isSuccess: newInvoiceSuccess } = mutationRequest(
-    "/api/orders/create",
+
+  const { data: invoices, isSuccess: invoicesSuccess } = useAppQuery({
+    url: "/api/orders.json?status=any",
+    reactQueryOptions: {
+      onSuccess: (data) => {
+        setNewItem((prev) => {
+          return {
+            ...prev,
+            number: data[0].number + 1,
+          };
+        });
+      },
+    },
+  });
+  const { mutate: newInvoice, isLoading: newInvoiceLoading } = mutationRequest(
+    "/api/orders/create.json",
     "post",
     "",
-    true
+    true,
+    true,
+    {
+      onSuccess: (data) => {
+        handleNavigate(data);
+      },
+    }
   );
-  const { mutate: newCustomer } = mutationRequest(
+  const { mutate: createNewCustomer } = mutationRequest(
     "/api/customers/create",
     "post",
     "",
     true
   );
-  // const { data: currenciesOptions } = useAppQuery({
-  //   url: "/api/currencies.json",
-  // });
-  const { data: invoices, isSuccess: invoicesSuccess } = useAppQuery({
-    url: "/api/orders.json?status=any",
-  });
+  const { mutate: editCustomer } = mutationRequest(
+    "/api/customers/update",
+    "put",
+    "",
+    true
+  );
+  const { mutate: createNewProduct } = mutationRequest(
+    "/api/products/create",
+    "post",
+    "",
+    true
+  );
+  const { mutate: editProduct } = mutationRequest(
+    "/api/products/update",
+    "put",
+    "",
+    true
+  );
+
+  const handleNavigate = (data) => {
+    navigate(`/invoice/${data.id}`);
+  };
+
+  const checkClientErrors = (val) => {
+    setClientErrors(val);
+  };
+
+  const handleCountTotal = (itemProducts, disc, discountType) => {
+    const discount = Number(disc);
+    let totalPrice = 0;
+    let subTotal = 0;
+    let totalPriceVat = 0;
+
+    itemProducts.forEach((e) => {
+      if (e.total) {
+        subTotal += e.total;
+        totalPrice += e.total;
+        totalPriceVat += e.total + e.percent;
+      }
+    });
+
+    if (
+      discount >= 0 &&
+      // discountType !== "%" &&
+      totalPrice > discount &&
+      totalPriceVat > discount
+    ) {
+      totalPrice -= discount;
+      totalPriceVat -= discount;
+    } else if (discount >= 0 && totalPrice && totalPrice > 0) {
+      totalPrice -= (totalPrice / 100) * discount;
+      totalPriceVat -= (totalPriceVat / 100) * discount;
+    }
+
+    setNewItem((prev) => {
+      return {
+        ...prev,
+        totalOrders: totalPrice,
+        totalOrdersVat: totalPriceVat,
+        subTotal: subTotal,
+      };
+    });
+  };
 
   const handleAddNewRow = () => {
     setItemProducts((prev) => {
@@ -92,156 +174,270 @@ const AddNewInvoice = () => {
           id: generateId(),
           title: "",
           body_html: "",
-          price: "",
-          quantity: "",
+          price: 0,
+          quantity: 0,
           variants: [
             {
               id: generateId(),
               created_at: new Date(),
-              price: "",
-              inventory_quantity: "",
+              price: 0,
+              inventory_quantity: 0,
             },
           ],
-          discount: "",
-          vat: "",
-          total: "",
+          tax_lines: [],
+          discount: 0,
+          vat: 0,
+          total: 0,
         },
       ];
     });
   };
 
   const handleDeleteRow = (id) => {
-    if (itemProducts.length > 1) {
-      setItemProducts((prev) => {
-        let totalPrice = 0;
-        prev = prev.filter((e) => e.id !== id);
-        prev.forEach((e) => {
-          e.total >= 1 ? (totalPrice += e.total) : (totalPrice += 0);
-        });
-        setNewItem((prev) => {
-          return {
-            ...prev,
-            totalOrders: totalPrice,
-          };
-        });
-        return [...prev];
-      });
-    }
-  };
-  const handleChangeRow = (id, key, val, inputTxt = "") => {
-    setItemProducts((prev) => {
-      const changedRowIndex = prev.findIndex((el) => el.id === id);
-      let totalPrice = 0;
-      let totalPriceVat = 0;
-      if (key !== "title") {
-        if (key === "inventory_quantity" || key === "price") {
-          key === "inventory_quantity"
-            ? (prev[changedRowIndex].quantity = val)
-            : (prev[changedRowIndex].price = val);
-          prev[changedRowIndex].variants[0][key] = val;
-        } else {
-          prev[changedRowIndex][key] = val;
-        }
-      } else {
-        if (val) {
-          prev[changedRowIndex] = { ...val, id: val.id };
-        } else {
-          const elId = generateId();
-          prev[changedRowIndex] = {
-            id: elId,
-            body_html: "",
-            variants: [
-              {
-                id: generateId(),
-                created_at: new Date(),
-                price: "",
-                inventory_quantity: "",
-              },
-            ],
-            discount: "",
-            vat: "",
-            total: "",
-            title: inputTxt,
-          };
-        }
-      }
-      if (
-        prev[changedRowIndex].variants[0].price >= 0 &&
-        prev[changedRowIndex].variants[0].inventory_quantity >= 0
-      ) {
-        prev[changedRowIndex].total =
-          prev[changedRowIndex].variants[0].price *
-          prev[changedRowIndex].variants[0].inventory_quantity;
-        prev[changedRowIndex].percent =
-          (prev[changedRowIndex].total / 100) * prev[changedRowIndex].vat;
-      }
-      prev.forEach((e) => {
-        if (e.total >= 1) {
-          totalPrice += e.total;
-          if (e.percent) {
-            totalPriceVat += e.total + (e.percent || 0);
-          } else {
-            totalPriceVat += 0;
-          }
-        } else {
-          totalPrice += 0;
-          totalPriceVat += 0;
-        }
-      });
-
-      setNewItem((prev) => {
-        return {
-          ...prev,
-          totalOrders: totalPrice,
-          totalOrdersVat: totalPriceVat,
-        };
-      });
-
-      return [...prev];
+    let totalPrice = 0;
+    const filteredData = itemProducts.filter((e) => e.id !== id);
+    filteredData.forEach((e) => {
+      e.total >= 1 ? (totalPrice += e.total) : (totalPrice += 0);
     });
 
     setNewItem((prev) => {
       return {
         ...prev,
-        line_items: [...itemProducts],
+        totalOrders: totalPrice,
+      };
+    });
+
+    if (itemProducts.length > 1) {
+      setItemProducts();
+    }
+    let data;
+
+    filteredData.forEach((item) => {
+      data = calculateDiscount(item, filteredData, newItem);
+    });
+    setItemProducts(data);
+    handleCountTotal(data, newItem.discount, newItem.discountType);
+  };
+
+  const handleChangeRow = (id, key, val, inputTxt = "") => {
+    setItemProducts((prev) => {
+      const changedRowIndex = prev.findIndex((el) => el.id === id);
+      if (key !== "title") {
+        if (key === "inventory_quantity" || key === "price") {
+          key === "inventory_quantity"
+            ? (prev[changedRowIndex].quantity = Number(val))
+            : (prev[changedRowIndex].price = Number(val));
+          prev[changedRowIndex].variants[0][key] = Number(val);
+        } else {
+          if (key === "vat") {
+            prev[changedRowIndex][key] = val.count;
+            prev[changedRowIndex].vatName = val.label;
+            prev[changedRowIndex].tax_lines = [
+              ...prev[changedRowIndex]?.tax_lines,
+              {
+                price: prev[changedRowIndex].percent,
+                rate: val.count,
+                title: val.label,
+              },
+            ];
+          } else {
+            prev[changedRowIndex][key] = val;
+          }
+        }
+      } else {
+        if (val) {
+          prev[changedRowIndex] = {
+            ...val,
+            id: val.id,
+            quantity: Number(val.variants[0].inventory_quantity),
+            price: Number(val.variants[0].price),
+            tax_lines: val.tax_lines ? [...val.tax_lines] : [],
+            discount: 0,
+            vat: 0,
+          };
+        } else {
+          const elId = generateId();
+          prev[changedRowIndex] = {
+            ...prev[changedRowIndex],
+            id: elId,
+            tax_lines: [],
+            title: inputTxt,
+          };
+          if (key === "vat") {
+            prev[changedRowIndex].tax_lines = [
+              {
+                price: prev[changedRowIndex].percent,
+                rate: val.count,
+                title: val.label,
+              },
+            ];
+          }
+        }
+      }
+      prev = calculateDiscount(prev[changedRowIndex], prev, newItem);
+      handleCountTotal(prev, newItem.discount);
+      console.log({ prev });
+      return JSON.parse(JSON.stringify(prev));
+    });
+    setNewItem((prev) => {
+      return {
+        ...prev,
+        line_items: [
+          ...itemProducts.map((el) => {
+            return {
+              ...el,
+              total_discount: el.discount,
+            };
+          }),
+        ],
+        // discount: itemProducts[0].discount,
       };
     });
   };
 
+  const calculateDiscount = (item, prev, newItem) => {
+    if (
+      item.variants[0].price >= 0 &&
+      item.variants[0].inventory_quantity >= 0
+    ) {
+      // if (prev.filter((e) => e.total).length <= 1) {
+      item.total = item.variants[0].price * item.variants[0].inventory_quantity;
+      // }
+      if (item.total > 0 && item.discount < item.total) {
+        item.total -= item.quantity * item.discount;
+      }
+      if (!newItem.discount) {
+        item.percent = (item.total * item.vat) / 100;
+      } else {
+        const summary = prev.reduce((agg, item) => {
+          return agg + item.total;
+        }, 0);
+        const convertedData = prev.map((elem) => {
+          const usdDiscount =
+            newItem.discountType !== "%"
+              ? newItem.discount
+              : summary * (newItem.discount / 100);
+          const percent =
+            ((elem.total - (elem.total / summary) * usdDiscount) * elem.vat) /
+            100;
+          return {
+            ...elem,
+            percent,
+            tax_lines: [
+              {
+                ...elem.tax_lines[0],
+                price: percent,
+                rate: (100 / elem.total) * percent,
+              },
+            ],
+          };
+        });
+        prev = [...convertedData];
+      }
+    }
+
+    return prev;
+  };
+
   const handleSubmit = () => {
-    const lineItems = newItem.line_items.map((e) => {
+    console.log("aa itemProducts", itemProducts);
+    const lineItems = itemProducts.map((e) => {
       return {
         ...e,
         price: e.variants[0].price,
       };
     });
-    console.log({
-      lineItems,
-    });
-    // newInvoice.mutate({
-    //   body: {
-    //     order: {
-    //       ...newItem,
-    //       line_items: lineItems,
-    //     },
-    //   },
-    // });
-    console.log({ newItem });
-    newCustomer.mutate({
+    console.log({ lineItems });
+    const { changedProducts, newProducts } = lineItems.reduce(
+      (agg, e) => {
+        if (e) {
+          if (typeof e.id === "number") {
+            agg.changedProducts.push(e);
+          } else {
+            agg.newProducts.push(e);
+          }
+        }
+        return agg;
+      },
+      {
+        changedProducts: [],
+        newProducts: [],
+      }
+    );
+
+    if (changedProducts.length) {
+      changedProducts.forEach((e) => {
+        editProduct.mutate({
+          url: `/api/products/${e.id}`,
+          body: {
+            product: {
+              ...e,
+            },
+          },
+        });
+      });
+    }
+    if (newProducts.length) {
+      createNewProduct.mutate({
+        body: {
+          products: newProducts,
+        },
+      });
+    }
+
+    if (newClient) {
+      createNewCustomer.mutate({
+        url: `/api/customers/create`,
+        body: {
+          ...newItem.customer,
+          addresses: [
+            {
+              ...newItem.customer.default_address,
+            },
+          ],
+        },
+      });
+    } else {
+      editCustomer.mutate({
+        url: `/api/customers/${newItem.customer.id}`,
+        body: {
+          customer: {
+            ...newItem.customer,
+          },
+        },
+      });
+    }
+    newInvoice.mutate({
       body: {
-        email: "test@gmailTEST2.com",
-        ...newItem.customer,
+        order: {
+          ...newItem,
+          line_items: lineItems,
+        },
       },
     });
   };
 
+  console.log({ itemProducts });
+
   const handleSetNewItem = (key, val) => {
-    setNewItem((prev) => {
-      return {
-        ...prev,
-        [key]: val,
-      };
+    const discountNewItem = {
+      ...newItem,
+      [key]: val,
+    };
+
+    setNewItem(discountNewItem);
+    let data = [];
+    const copyItemProducts = [...itemProducts];
+
+    itemProducts.forEach((item) => {
+      data = calculateDiscount(item, copyItemProducts, discountNewItem);
     });
+    if (key === "discount") {
+      handleCountTotal(data, val, newItem.discountType);
+    } else if (key === "discountType") {
+      handleCountTotal(data, newItem.discount, val);
+    }
+    setItemProducts(data);
   };
 
   const handleSetFromIssue = () => {
@@ -271,36 +467,6 @@ const AddNewInvoice = () => {
 
     return !!arr.length;
   }, [itemProducts]);
-
-  useEffect(() => {
-    const fetchCurrencies = async () => {
-      try {
-        const response = await fetch(
-          "https://www.wixapis.com/currency_converter/v1/currencies"
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setCurrenciesOptions([
-            ...data.currencies.map((e) => {
-              return {
-                value: e.code,
-                label: e.code,
-                symbol: e.symbol,
-              };
-            }),
-          ]);
-        } else {
-          throw new Error(
-            `Failed to fetch currencies. Status: ${response.status}`
-          );
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchCurrencies();
-  }, []);
 
   useEffect(() => {
     const fetchLanguages = async () => {
@@ -353,6 +519,7 @@ const AddNewInvoice = () => {
         <Heading element="h1">New Invoice</Heading>
         <FormLayout>
           <NewInvoiceTop
+            checkErrors={checkClientErrors}
             sendClient={(client) => {
               setNewItem((prev) => {
                 return {
@@ -364,7 +531,7 @@ const AddNewInvoice = () => {
             clientSearch={(val) => {
               setNewClient(val);
             }}
-            invoiceNumber={newItem.invoiceNumber}
+            invoiceNumber={newItem.number}
             issueDate={newItem.issueDate}
             deliveryDate={newItem.deliveryDate}
             dueIn={newItem.dueIn}
@@ -374,6 +541,7 @@ const AddNewInvoice = () => {
             showMore={() => {
               setShowMoreOpt(!showMoreOpt);
             }}
+            show={showMoreOpt}
             changeNewItemVal={(key, val) => {
               handleSetNewItem(key, val);
               handleSetFromIssue();
@@ -400,7 +568,6 @@ const AddNewInvoice = () => {
             language={newItem.language}
             fromIssue={newItem.fromIssue}
             languageOptions={languages}
-            currenciesOptions={currenciesOptions}
             changeNewItemVal={(key, val) => {
               handleSetNewItem(key, val);
             }}
@@ -410,10 +577,13 @@ const AddNewInvoice = () => {
               rows={itemProducts}
               addNewRow={handleAddNewRow}
               deleteRow={handleDeleteRow}
+              subTotal={newItem.subTotal}
               changeRow={handleChangeRow}
-              totalPrice={newItem.totalOrders}
+              totalPrice={newItem.totalOrders || 0}
               currency={newItem.currency}
               totalPriceVat={newItem?.totalOrdersVat}
+              discount={newItem.discount}
+              discountType={newItem.discountType}
               sendNewProduct={(val) => {
                 setNewProduct(val);
               }}
@@ -437,10 +607,12 @@ const AddNewInvoice = () => {
               </div>
               <div
                 className={`${
-                  !formValidation ? "_disable" : ""
+                  formValidation || clientErrors ? "_disable" : ""
                 } invActions__right`}
               >
-                <Button onClick={handleSubmit}>Save</Button>
+                <Button onClick={handleSubmit}>
+                  {!newInvoiceLoading ? "Save" : <Spinner size="small" />}
+                </Button>
               </div>
             </div>
           </div>

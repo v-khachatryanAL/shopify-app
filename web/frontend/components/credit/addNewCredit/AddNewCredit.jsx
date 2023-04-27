@@ -51,13 +51,13 @@ const AddNewCredit = () => {
         {
           id: generateId(),
           created_at: new Date(),
-          price: "",
-          inventory_quantity: "",
+          price: 0,
+          inventory_quantity: 0,
         },
       ],
-      discount: "",
-      vat: "",
-      total: "",
+      discount: 0,
+      vat: 0,
+      total: 0,
     },
   ]);
   const {

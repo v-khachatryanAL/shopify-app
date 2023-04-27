@@ -1,8 +1,9 @@
+import DefaultDatePicker from "../../datePicker/DefaultDatePicker";
 import ClientsFormCase from "../../clientsFormCase/ClientsFormCase";
 import { Button, TextField } from "@shopify/polaris";
 import { useState } from "react";
-import DefaultDatePicker from "../../datePicker/DefaultDatePicker";
 import moment from "moment";
+import ArrowDown from "../../../assets/arrow-down.png";
 
 const NewInvoiceTop = ({
   invoiceNumber,
@@ -10,12 +11,14 @@ const NewInvoiceTop = ({
   deliveryDate,
   dueIn,
   showMore,
+  show,
   changeNewItemVal,
   changeItemDate,
   fromIssue,
   invoicesNumbers,
   clientSearch,
   sendClient,
+  checkErrors,
 }) => {
   const [deliveryDateActive, setDeliveryDateActive] = useState(false);
   const [issueDateActive, setIssueDateActive] = useState(false);
@@ -54,65 +57,67 @@ const NewInvoiceTop = ({
 
   return (
     <div className="newInvoice-newInvoiceTop new-element-line">
-      <div className="newInvoice__paddCase new-element-list">
-        <div
-          className={`newInvoice__input def-input-purple ${
-            invoiceNumberError() && "_error"
-          }`}
-        >
-          <TextField
-            label="Invoice number:"
-            value={invoiceNumber}
-            onChange={(val) => {
-              changeNewItemVal("invoiceNumber", val);
-              handleValidateTouch("invoiceNumber", val);
+      <div className="newInvoice__paddCase newInvoiceTop__paper">
+        <div className="new-element-list">
+          <div
+            className={`newInvoice__input def-input-purple ${
+              invoiceNumberError() && "_error"
+            }`}
+          >
+            <TextField
+              label="Invoice number:"
+              value={invoiceNumber}
+              onChange={(val) => {
+                changeNewItemVal("number", val);
+                handleValidateTouch("invoiceNumber", val);
+              }}
+              onFocus={() => {
+                handleValidateTouch("invoiceNumber");
+              }}
+            />
+            {invoiceNumberError() ? (
+              <div className="newInvoice__input-error">
+                Invoice number is already used
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+          <DefaultDatePicker
+            date={deliveryDate}
+            show={deliveryDateActive}
+            title={"Delivery date"}
+            dateKey={"deliveryDate"}
+            changeDate={(date, key) => {
+              changeItemDate(date, key);
             }}
-            onFocus={() => {
-              handleValidateTouch("invoiceNumber");
+            handleOpenMenu={(val) => {
+              setDeliveryDateActive(val);
             }}
           />
-          {invoiceNumberError() ? (
-            <div className="newInvoice__input-error">
-              Invoice number is already used
+          <DefaultDatePicker
+            date={issueDate}
+            title={"Issue date"}
+            dateKey={"issueDate"}
+            show={issueDateActive}
+            changeDate={(date, key) => {
+              changeItemDate(date, key);
+            }}
+            handleOpenMenu={(val) => {
+              setIssueDateActive(val);
+            }}
+          />
+          <div className="newInvoice__input def-input-purple min">
+            <TextField
+              value={dueIn}
+              label="Due in:"
+              onChange={(val) => {
+                changeNewItemVal("dueIn", val);
+              }}
+            />
+            <div className="newInvoice__dateArea">
+              <span>{convertedDate(fromIssue)}</span>
             </div>
-          ) : (
-            ""
-          )}
-        </div>
-        <DefaultDatePicker
-          date={deliveryDate}
-          show={deliveryDateActive}
-          title={"Delivery date"}
-          dateKey={"deliveryDate"}
-          changeDate={(date, key) => {
-            changeItemDate(date, key);
-          }}
-          handleOpenMenu={(val) => {
-            setDeliveryDateActive(val);
-          }}
-        />
-        <DefaultDatePicker
-          date={issueDate}
-          title={"Issue date"}
-          dateKey={"issueDate"}
-          show={issueDateActive}
-          changeDate={(date, key) => {
-            changeItemDate(date, key);
-          }}
-          handleOpenMenu={(val) => {
-            setIssueDateActive(val);
-          }}
-        />
-        <div className="newInvoice__input def-input-purple min">
-          <TextField
-            value={dueIn}
-            label="Due in:"
-            onChange={(val) => {
-              changeNewItemVal("dueIn", val);
-            }}
-          />
-          <div className="newInvoice__dateArea">
-            <span>{convertedDate(fromIssue)}</span>
           </div>
         </div>
         <div className="newInvoiceTop__lineEnd">
@@ -123,12 +128,16 @@ const NewInvoiceTop = ({
               }}
             >
               More options
+              <div className={`form__defBtn-ic ${show ? "_active" : ""}`}>
+                <img src={ArrowDown} alt="" />
+              </div>
             </Button>
           </div>
         </div>
       </div>
       <div className="newInvoiceTop__right">
         <ClientsFormCase
+          checkErrors={checkErrors}
           sendClient={(client) => {
             sendClient(client);
           }}

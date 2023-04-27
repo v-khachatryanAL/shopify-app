@@ -1,15 +1,7 @@
 import { TextField } from "@shopify/polaris";
-import { useEffect } from "react";
-import { useState } from "react";
-// import InvoiceSelectMain from "../../select/defaultSelectMain/DefaultSelectMain";
+import { useEffect, useState } from "react";
+import { useAppQuery } from "../hooks";
 import DefaultSelectMain from "./select/defaultSelectMain/DefaultSelectMain";
-import DefaultSelect from "./select/defaultSelect/DefaultSelect";
-
-const currencySelectOptions = [
-  { label: "United States Dollar", value: "$" },
-  { label: "EUR", value: "e" },
-  { label: "RUB", value: "₽" },
-];
 
 const NewElementBody = ({
   showMoreOpt,
@@ -21,25 +13,46 @@ const NewElementBody = ({
   currency,
   language,
   changeNewItemVal,
-  currenciesOptions,
   discountType,
   languageOptions,
 }) => {
+  const [currenciesOptions, setCurrenciesOptions] = useState([]);
   const [selectOptions, setSelectOptions] = useState([
     { label: "", value: "" },
     { label: "%", value: "%" },
   ]);
+  const { isSuccess: currenciesSuccess } = useAppQuery({
+    url: "/api/currencies.json",
+    reactQueryOptions: {
+      onSuccess: (data) => {
+        setCurrenciesOptions(() => {
+          return [
+            ...data.map((e) => {
+              return {
+                value: e.currency,
+                label: e.currency,
+                symbol: e.currency,
+              };
+            }),
+          ];
+        });
+      },
+    },
+  });
 
   useEffect(() => {
-    setSelectOptions((prev) => {
-      const newVal = prev;
+    if (currenciesSuccess) {
       const item = currenciesOptions.find((e) => e.value === currency);
-      newVal[0].label = item?.symbol;
-      newVal[0].value = item?.value;
-      changeNewItemVal("discountType", item?.value);
-      return [...newVal];
-    });
-  }, [currency, currenciesOptions]);
+      setSelectOptions((prev) => {
+        const newVal = [...prev];
+        newVal[0].label = item.label;
+        newVal[0].value = item.value;
+
+        changeNewItemVal("discountType", item.value);
+        return [...newVal];
+      });
+    }
+  }, [currency, currenciesSuccess]);
 
   return (
     <div
@@ -51,7 +64,7 @@ const NewElementBody = ({
         <div className="newInvoice__input def-input-purple">
           <TextField
             label="Payment method:"
-            value={paymentMethod}
+            value={paymentMethod || ""}
             onChange={(val) => {
               changeNewItemVal("paymentMethod", val);
             }}
@@ -61,7 +74,7 @@ const NewElementBody = ({
         <div className="newInvoice__input def-input-purple">
           <TextField
             label="Bank account:"
-            value={bankAccount}
+            value={bankAccount || ""}
             onChange={(val) => {
               changeNewItemVal("bankAccount", val);
             }}
@@ -71,7 +84,7 @@ const NewElementBody = ({
         <div className="newInvoice__input def-input-purple">
           <TextField
             label="Order number:"
-            value={orderNumber}
+            value={orderNumber || ""}
             onChange={(val) => {
               changeNewItemVal("orderNumber", val);
             }}
@@ -86,36 +99,30 @@ const NewElementBody = ({
           </div>
           <div className="inputTwice__area def-input-purple">
             <TextField
-              value={discount}
+              type="number"
+              value={discount || ""}
               onChange={(val) => {
                 changeNewItemVal("discount", val);
               }}
-              // autoComplete="off"
+              autoComplete="off"
             />
             <DefaultSelectMain
               options={selectOptions}
-              val={discountType}
+              val={discountType || ""}
+              className="discount"
               changeVal={(val) => {
                 changeNewItemVal("discountType", val);
               }}
             />
-            {/* <DefaultSelect
-                options={selectOptions}
-                val={discountType}
-                changeVal={(val) => {
-                  changeNewItemVal("discountType", val);
-                }}
-              /> */}
           </div>
         </div>
         <div className="newInvoice__input def-input-purple start">
           <TextField
             label="Shipping:"
-            value={shipping}
+            value={shipping || ""}
             onChange={(val) => {
               changeNewItemVal("shipping", val);
             }}
-            //   autoComplete="off"
           />
         </div>
         <div>
@@ -123,7 +130,7 @@ const NewElementBody = ({
             label="Currency:"
             width="min"
             options={currenciesOptions}
-            val={currency}
+            val={currency || ""}
             changeVal={(val) => {
               changeNewItemVal("currency", val);
             }}
@@ -134,7 +141,7 @@ const NewElementBody = ({
             label="Language"
             width="min"
             options={languageOptions}
-            val={language}
+            val={language || ""}
             changeVal={(val) => {
               changeNewItemVal("language", val);
             }}

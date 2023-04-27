@@ -1,3 +1,4 @@
+import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import DefaultAutocomplete from "../autocomplete/defaultAutocomplete/DefaultAutocomplete";
 import TwiceTextfield from "../textfield/twiceTextfield/TwiceTextfield";
 import DefTextfield from "../textfield/defTextField/DefTextfield";
@@ -10,7 +11,7 @@ import axios from "axios";
 import { EMAIL_REGEX } from "../../utils/regex";
 import { mutationRequest } from "../../hooks/useAppMutation";
 import "./ClientsFormCase.css";
-import { PhoneField, render } from "@shopify/checkout-ui-extensions-react";
+import "react-phone-number-input/style.css";
 
 const addressTypes = [
   {
@@ -23,9 +24,7 @@ const addressTypes = [
   },
 ];
 
-render("Checkout::Dynamic::Render", () => <ClientsFormCase />);
-
-const ClientsFormCase = ({ clientSearch, sendClient }) => {
+const ClientsFormCase = ({ clientSearch, sendClient, checkErrors }) => {
   const [clientsOptions, setClientsOptions] = useState([]);
   const [client, setClient] = useState(null);
   const [editClientShow, setEditClientShow] = useState(false);
@@ -38,17 +37,6 @@ const ClientsFormCase = ({ clientSearch, sendClient }) => {
     email: "",
     phone: "",
   });
-  // const { data: clients, isLoading: clientsLoading } = useAppQuery({
-  //   url: "/api/customers.json",
-  // });
-  // const { data: clientsearch } = useAppQuery({
-  //   url: "/api/customers/search?first_name=f",
-  // });
-  const [validTouch, setValidTouch] = useState([
-    {
-      email: false,
-    },
-  ]);
   const { mutate: searchClients } = mutationRequest(
     "/api/customers/search?first_name=",
     "get",
@@ -93,6 +81,41 @@ const ClientsFormCase = ({ clientSearch, sendClient }) => {
         });
       }
     }
+    if (key === "phone") {
+      if (!value) {
+        setErrors((prev) => ({
+          ...prev,
+          phone: "Required!",
+        }));
+      } else if (isValidPhoneNumber(value)) {
+        setErrors((prev) => ({
+          ...prev,
+          phone: "",
+        }));
+      } else {
+        setErrors((prev) => ({
+          ...prev,
+          phone: "Invalid phone number",
+        }));
+      }
+    }
+  };
+
+  const handleChangeSelectedAddress = (key, val) => {
+    setSelectedAddress((prev) => {
+      return {
+        ...prev,
+        [key]: val,
+      };
+    });
+    setClient((prev) => {
+      return {
+        ...prev,
+        default_address: {
+          ...selectedAddress,
+        },
+      };
+    });
   };
 
   useEffect(() => {
@@ -135,9 +158,13 @@ const ClientsFormCase = ({ clientSearch, sendClient }) => {
           }),
         ];
       });
-      sendClient(client);
+      sendClient({ ...client, default_address: { ...selectedAddress } });
     }
   }, [client]);
+
+  useEffect(() => {
+    checkErrors(!!Object.values(errors).find((e) => e));
+  }, [errors]);
 
   return (
     <div className="clientsFormCase">
@@ -182,6 +209,9 @@ const ClientsFormCase = ({ clientSearch, sendClient }) => {
         <div className="clientsFormCase-clientInfo">
           <div className="clientInfo__wrapper">
             <div className="clientInfo__list">
+              {(client.first_name || client.last_name) && (
+                <span>{client.first_name + " " + client?.last_name}</span>
+              )}
               <span>
                 {
                   moment(client?.created_at).format("HH:mm") +
@@ -267,15 +297,39 @@ const ClientsFormCase = ({ clientSearch, sendClient }) => {
                   });
                   checkValid("email", value);
                 }}
-                onFocus={() => {
-                  setValidTouch((prev) => {
-                    return {
-                      ...prev,
-                      email: true,
-                    };
-                  });
-                }}
               />
+
+              <div className={`editCase__input ${errors.phone && "_error"}`}>
+                <span className="def-input-label">Phone:</span>
+                <div className="editCase__inputArea">
+                  <PhoneInput
+                    className="editCase__number"
+                    placeholder="Enter phone number"
+                    international
+                    defaultCountry="RU"
+                    value={client?.phone || ""}
+                    error={
+                      client?.phone
+                        ? isValidPhoneNumber(client?.phone)
+                          ? undefined
+                          : "Invalid phone number"
+                        : "Phone number required"
+                    }
+                    onChange={(val) => {
+                      checkValid("phone", client?.phone);
+                      setClient((prev) => {
+                        return {
+                          ...prev,
+                          phone: val,
+                        };
+                      });
+                    }}
+                  />
+                  {errors.phone && (
+                    <span className="error-txt">{errors.phone}</span>
+                  )}
+                </div>
+              </div>
 
               {client.addresses.length ? (
                 <InvoiceSelectMain
@@ -298,31 +352,17 @@ const ClientsFormCase = ({ clientSearch, sendClient }) => {
               <DefTextfield
                 label="Company:"
                 width="medium"
-                value={client.default_address?.company}
+                value={selectedAddress?.company}
                 onChange={(value) => {
-                  setClient((prev) => {
-                    return {
-                      ...prev,
-                      default_address: {
-                        ...prev.default_address,
-                        company: value,
-                      },
-                    };
-                  });
+                  handleChangeSelectedAddress("company", value);
                 }}
               />
-              <PhoneField label="Phone" value="1 (555) 555-5555" />
               <DefTextfield
                 label="Address:"
                 width="medium"
                 value={selectedAddress?.address2 || ""}
                 onChange={(value) => {
-                  setSelectedAddress((prev) => {
-                    return {
-                      ...prev,
-                      address2: value,
-                    };
-                  });
+                  handleChangeSelectedAddress("address2", value);
                 }}
               />
               <TwiceTextfield
@@ -330,14 +370,9 @@ const ClientsFormCase = ({ clientSearch, sendClient }) => {
                 value2={selectedAddress?.zip || ""}
                 label1="City"
                 label2="Postal code"
-                onChange={(key, val) => {
+                onChange={(key, value) => {
                   const field = key === "val1" ? "city" : "zip";
-                  setSelectedAddress((prev) => {
-                    return {
-                      ...prev,
-                      [field]: val,
-                    };
-                  });
+                  handleChangeSelectedAddress(field, value);
                 }}
               />
               <InvoiceSelectMain
@@ -345,13 +380,8 @@ const ClientsFormCase = ({ clientSearch, sendClient }) => {
                 minLabel={"Country"}
                 val={selectedAddress?.country}
                 options={countriesOptions}
-                changeVal={(val) => {
-                  setSelectedAddress((prev) => {
-                    return {
-                      ...prev,
-                      country: val,
-                    };
-                  });
+                changeVal={(value) => {
+                  handleChangeSelectedAddress("country", value);
                 }}
               />
               <DefTextfield

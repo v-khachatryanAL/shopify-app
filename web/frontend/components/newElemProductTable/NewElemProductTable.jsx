@@ -1,11 +1,10 @@
 import { DataTable, TextField, Button } from "@shopify/polaris";
 import DefaultAutocomplete from "../autocomplete/defaultAutocomplete/DefaultAutocomplete";
-import DefaultSelectMain from "../select/defaultSelectMain/DefaultSelectMain";
 import { React, useState, useEffect } from "react";
-import { useAppQuery } from "../../hooks";
 import CancelIc from "../../assets/cancel-ic.svg";
 import "./table.css";
 import { mutationRequest } from "../../hooks/useAppMutation";
+import { useAppQuery } from "../../hooks";
 
 const headers = [
   "Item",
@@ -18,49 +17,6 @@ const headers = [
   "",
 ];
 
-const vatsOptions = [
-  {
-    label: "21% BE TVA",
-    value: "21BETVA",
-    count: 21,
-  },
-  {
-    label: "21% BE VAT",
-    value: "21BEVAT",
-    count: 21,
-  },
-  {
-    label: "0% BTW",
-    value: "0",
-    count: 0,
-  },
-  {
-    label: "6% BTW",
-    value: "6BTW",
-    count: 6,
-  },
-  {
-    label: "19% BTW",
-    value: "19BTW",
-    count: 19,
-  },
-  {
-    label: "21% btw",
-    value: "21btw",
-    count: 21,
-  },
-  {
-    label: "21% BTW",
-    value: "21BTW",
-    count: 21,
-  },
-  {
-    label: "21% VAT",
-    value: "21VAT",
-    count: 21,
-  },
-];
-
 const NewElemProductTable = ({
   rows,
   addNewRow,
@@ -69,17 +25,34 @@ const NewElemProductTable = ({
   totalPrice,
   totalPriceVat,
   currency,
+  subTotal,
+  discount,
+  discountType,
   sendNewProduct,
 }) => {
   const [validTouch, setValidTouch] = useState([]);
   const [productsOptions, setProductsOptions] = useState([]);
+  const [vatsOptions, setVatsOptions] = useState([]);
   const [focusedId, setFocusedId] = useState();
-  const {
-    data: products,
-    isSuccess: productsSuccess,
-    isLoading: productsLoading,
-  } = useAppQuery({
-    url: "/api/products.json?title=",
+  const { isLoading: countriesLoading } = useAppQuery({
+    url: "/api/countries.json",
+    reactQueryOptions: {
+      onSuccess: (data) => {
+        setVatsOptions(() => {
+          return [
+            ...data.map((e, index) => {
+              const percent = e.tax * 100;
+              return {
+                key: index,
+                label: `${percent} % ${e.tax_name}`,
+                value: `${percent} % ${e.tax_name}`,
+                count: percent,
+              };
+            }),
+          ];
+        });
+      },
+    },
   });
 
   const { mutate: searchProducts } = mutationRequest(
@@ -99,6 +72,11 @@ const NewElemProductTable = ({
             };
           })
         );
+      },
+      onLoading: ({ loading }) => {
+        if (loading) {
+          setProductsOptions([]);
+        }
       },
     }
   );
@@ -157,6 +135,9 @@ const NewElemProductTable = ({
                     sendNewProduct(val);
                   }}
                   searchElement={(q) => {
+                    const item = searchProducts?.data?.find((e) => e.id === q);
+                    changeRow(row.id, "title", item, q);
+
                     searchProducts.mutate({
                       url: `/api/products.json?title=${q}`,
                     });
@@ -166,7 +147,9 @@ const NewElemProductTable = ({
                   }
                   newVal={true}
                   changeValue={(val) => {
-                    const item = searchProducts.data.find((e) => e.id === val);
+                    const item = searchProducts?.data?.find(
+                      (e) => e.id === val
+                    );
                     changeRow(row.id, "title", item, val);
                   }}
                 />
@@ -182,8 +165,7 @@ const NewElemProductTable = ({
               </div>,
               <div
                 className={`${
-                  (row.variants[0].inventory_quantity <= 0 ||
-                    row.variants[0].inventory_quantity.length < 1) &&
+                  row.variants[0].inventory_quantity < 1 &&
                   validTouch.length &&
                   validTouch.filter((e) => e.id === row.id)?.length &&
                   validTouch.filter((e) => e.id === row.id)[0]
@@ -207,8 +189,7 @@ const NewElemProductTable = ({
               </div>,
               <div
                 className={`${
-                  (row.variants[0].price <= 0 ||
-                    row.variants[0].price.length < 1) &&
+                  row.variants[0].price < 1 &&
                   validTouch.length &&
                   validTouch.filter((e) => e.id === row.id)?.length &&
                   validTouch.filter((e) => e.id === row.id)[0].price
@@ -217,7 +198,7 @@ const NewElemProductTable = ({
                 } newRow__input`}
               >
                 <TextField
-                  // autoComplete
+                  type="number"
                   value={row.variants[0].price || ""}
                   onFocus={() => {
                     checkValid("price", row);
@@ -230,7 +211,7 @@ const NewElemProductTable = ({
               </div>,
               <div className="newRow__input">
                 <TextField
-                  // autoComplete
+                  type="number"
                   value={row.discount || ""}
                   onChange={(val) => {
                     changeRow(row.id, "discount", val);
@@ -239,20 +220,27 @@ const NewElemProductTable = ({
               </div>,
               <div>
                 <DefaultAutocomplete
+                  className="vat-autocomplete"
                   deselectedOptions={vatsOptions}
-                  searching={true}
+                  ipValue={row.vatName}
+                  staticData={true}
+                  loading={countriesLoading}
+                  inputChange={() => {}}
                   searchElement={() => {}}
                   changeValue={(val) => {
                     changeRow(
                       row.id,
                       "vat",
-                      vatsOptions.find((e) => (e = e.value === val)).count
+                      vatsOptions.find((e) => (e = e.value === val))
                     );
+                  }}
+                  onFocus={() => {
+                    setFocusedId(row.id);
                   }}
                 />
               </div>,
               <div className="newRow__input">
-                <TextField disabled value={row.total || ""} />
+                <TextField disabled value={row.total.toFixed(2) || ""} />
               </div>,
               <Button
                 onClick={() => {
@@ -270,8 +258,31 @@ const NewElemProductTable = ({
           add new line
         </div>
         <div className="newRow__info">
+          {discount ? (
+            <>
+              <div className="newRow__line">
+                <span className="newRow__line-txt">SubTotal</span>
+                <span>
+                  {currency}
+                  {Number(subTotal).toFixed(2)}
+                </span>
+              </div>
+              <div className="newRow__line">
+                <span className="newRow__line-txt">Discount</span>
+                <span>
+                  -{discountType !== "%" ? currency : "%"}
+                  {Number(discount).toFixed(2)}
+                </span>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
+
           <div className="newRow__line">
-            <span className="newRow__line-title">Total</span>
+            <span className="newRow__line-txt">
+              {rows.find((row) => !!row.percent) ? "Total excl. VAT" : "Total"}
+            </span>
             <span>
               {currency}
               {totalPrice.toFixed(2)}
@@ -292,27 +303,17 @@ const NewElemProductTable = ({
                 </div>
               );
             })}
-          {rows.filter((e) => e.percent).length ? (
+          {rows.find((row) => !!row.percent) ? (
             <div className="newRow__line border">
               <span className="newRow__line-title">Total incl. VAT</span>
               <span>
                 {currency}
-                {totalPriceVat?.toFixed(2)}
+                {totalPriceVat.toFixed(2)}
               </span>
             </div>
           ) : (
             ""
           )}
-
-          <div className="newRow__line border">
-            <span className="newRow__line-title">Amount Due</span>
-            <span>
-              {currency}
-              {totalPriceVat
-                ? totalPriceVat?.toFixed(2)
-                : totalPrice.toFixed(2)}
-            </span>
-          </div>
         </div>
       </div>
     </div>

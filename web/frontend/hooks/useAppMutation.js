@@ -11,8 +11,11 @@ export const mutationRequest = (url, method, urlBody, type, search, options = {}
 
     return {
         mutate: useMutation({
-            mutationFn: ({ body, url: urlFromBody }) => {
-                return apiRequest({ url: urlFromBody || url, method, body, urlBody, fetchFunction, type, search })
+            mutationFn: async ({ body, url: urlFromBody }) => {
+                options.onLoading && options.onLoading({ loading: true })
+                const data = await apiRequest({ url: urlFromBody || url, method, body, urlBody, fetchFunction, type, search })
+                options.onLoading && options.onLoading({ loading: false });
+                return data;
             },
             ...options
         }),
@@ -29,7 +32,6 @@ const apiRequest = async ({
     type,
     search
 }) => {
-    console.log({ url });
     try {
         const options = { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) };
         const uri = !type ? url + body + ".json" : search ? url : url + ".json" + urlBody

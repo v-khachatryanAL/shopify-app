@@ -3,7 +3,7 @@ import "./DefTextfield.css";
 
 const DefTextfield = ({ label, width, value, onChange, errorMessage }) => {
   return (
-    <div className={`defFextField ${width}`}>
+    <div className={`defFextField ${width} ${errorMessage && "_error"}`}>
       <div>
         <span className="def-input-label">{label}</span>
       </div>
@@ -14,7 +14,9 @@ const DefTextfield = ({ label, width, value, onChange, errorMessage }) => {
             onChange(val);
           }}
         />
-        {errorMessage && <span className="defFextField__error">{errorMessage}</span>}
+        {errorMessage && (
+          <span className="defFextField__error">{errorMessage}</span>
+        )}
       </div>
     </div>
   );

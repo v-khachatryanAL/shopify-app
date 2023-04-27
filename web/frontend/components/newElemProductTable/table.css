@@ -1,10 +1,10 @@
-.newRow__table table {
-  max-width: 99%;
-  border: none !important;
-  padding: 0 0 5px 5px;
+.newRow__table {
+  width: 875px;
+  max-width: 100%;
+  margin: 0 auto;
 }
-.newRow__table .Polaris-DataTable {
-  width: calc(106% + 5px);
+.newRow__table table {
+  border: none !important;
 }
 .newRow__table table thead {
   background: #fff;
@@ -72,6 +72,9 @@
   border: none !important;
   border-bottom: 1px solid #cacaca !important;
 }
+.newRow__table table tbody tr > td:last-child {
+  position: absolute;
+}
 .newRow__table table tbody tr:last-child td,
 .newRow__table table tbody tr:last-child th {
   border: none !important;
@@ -98,12 +101,21 @@
   text-align: left;
 }
 
+.newRow__table .defaultAutocomplete .Polaris-TextField__Backdrop {
+  border-radius: 0px !important;
+}
+
+.newRow__body {
+  width: 840px;
+  margin: 0 auto;
+}
+
+.newRow__table .vat-autocomplete {
+  width: 120px !important;
+}
+
 @media screen and (max-width: 1200px) {
   .newRow__table .Polaris-DataTable {
     width: 100%;
   }
-}
-
-.newRow__table .defaultAutocomplete .Polaris-TextField__Backdrop {
-  border-radius: 0px !important;
 }

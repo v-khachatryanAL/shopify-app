@@ -44,12 +44,16 @@ const InvoiceSortTable = ({
   }, [mutateStatus]);
 
   useEffect(() => {
-    mutateStatus.mutate();
+    mutateStatus.mutate({
+      url: `api/orders`,
+    });
   }, [selected.label]);
 
   useEffect(() => {
     if (dateSort.min.length && dateSort.max.length) {
-      mutateStatus.mutate();
+      mutateStatus.mutate({
+        url: `api/orders`,
+      });
     }
   }, [dateSort]);
 

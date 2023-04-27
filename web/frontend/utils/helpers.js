@@ -6,4 +6,10 @@ const generateId = () => {
     return uniqueId
 }
 
-export { generateId };
+const convertTaxesFrom = (item, total, discount) => {
+    const itemTotal = item.fulfillable_quantity * item.price;
+    const taxesOf = itemTotal - (itemTotal / total) * discount;
+    return (item.tax_lines[0].rate / taxesOf) * 100;
+}
+
+export { generateId, convertTaxesFrom };

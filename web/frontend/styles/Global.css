@@ -1,11 +1,25 @@
+body,
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 .page-main-papper {
   min-height: 100vh;
   display: flex;
   justify-content: center;
 }
 
+.wrapper {
+  min-height: 100vh;
+  padding: 20px;
+}
+
 .new-element-line {
   display: grid;
+  width: 840px;
+  margin: 0 auto;
+  max-width: 100%;
   grid-template-columns: repeat(2, 1fr);
 }
 .new-element-list {
@@ -41,4 +55,7 @@
   text-align: right;
   vertical-align: middle;
   font-weight: 600;
+}
+.error-txt {
+  color: red;
 }

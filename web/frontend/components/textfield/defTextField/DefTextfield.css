@@ -1,8 +1,14 @@
 .defFextField {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-end;
   gap: 10px;
+}
+.defFextField._error {
+  align-items: start;
+}
+.defFextField._error .Polaris-TextField__Backdrop {
+  border-color: red !important;
 }
 .defFextField.medium .Polaris-TextField {
   width: 240px;
