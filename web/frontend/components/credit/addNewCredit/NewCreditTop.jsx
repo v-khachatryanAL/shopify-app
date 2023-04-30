@@ -15,6 +15,7 @@ const NewCreditTop = ({
   changeItemDate,
   invoicesLoading,
   creditNumber,
+  checkErrors,
 }) => {
   const [issueDateActive, setIssueDateActive] = useState(false);
   const convertedDate = (date) => {
@@ -70,18 +71,13 @@ const NewCreditTop = ({
 
         <div className="newInvoiceTop__lineEnd">
           <div className="form__defBtn purple__btn-dark">
-            <Button
-              onClick={() => {
-                showMore();
-              }}
-            >
-              More options
-            </Button>
+            <Button onClick={showMore}>More options</Button>
           </div>
         </div>
       </div>
       <div>
         <ClientsFormCase
+          checkErrors={checkErrors}
           sendClient={(client) => {}}
           clientSearch={(val) => {}}
         />

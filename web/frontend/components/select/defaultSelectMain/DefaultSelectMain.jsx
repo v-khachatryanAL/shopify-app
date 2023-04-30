@@ -6,11 +6,12 @@ const DefaultSelectMain = ({
   val,
   changeVal,
   label,
-  className,
-  width,
+  className = "",
+  width = "medium",
   minLabel,
-  type,
+  type = "",
   simpleTxt,
+  disabled = false,
 }) => {
   const [active, setActive] = useState(false);
   const [btnLabel, setBtnLabel] = useState();
@@ -43,8 +44,12 @@ const DefaultSelectMain = ({
   }, [options, changeVal]);
 
   const activator = (
-    <div className={`invoice__MainSelect-btn ${width} ${className}`}>
-      <Button onClick={toggleActive} disclosure>
+    <div
+      className={`invoice__MainSelect-btn ${width} ${className} ${
+        disabled ? "_disabled" : ""
+      }`}
+    >
+      <Button disabled={disabled} onClick={toggleActive} disclosure>
         {simpleTxt || btnLabel}
       </Button>
     </div>

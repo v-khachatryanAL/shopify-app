@@ -131,6 +131,7 @@ app.get("/api/locations.json", async (req, res) => {
 })
 
 app.get("/api/orders.json", async (req, res) => {
+  console.log(shopify.api.rest, " shopify.api.rest");
   const countData = await shopify.api.rest.Order.all({
     session: res.locals.shopify.session,
     status: req.query['status'],
@@ -161,27 +162,30 @@ app.get("/api/orders/:id.json", async (req, res) => {
 app.post("/api/orders/create.json", async (req, res) => {
   try {
     const order = new shopify.api.rest.Order({ session: res.locals.shopify.session });
+
     order.line_items = req.body.order.line_items
-    order.customer = req.body.order.customer
-    order.invoiceNumber = req.body.order.number
-    order.currency = req.body.order.currency
-
-    order.transactions = [{
-      kind: req.body.order.transactions[0].kind,
-      status: req.body.order.transactions[0].status,
-      amount: req.body.order.transactions[0].amount,
-    }]
-
-    order.test = req.body.order.test
-    order.financial_status = req.body.order.financial_status
-    order.total_discounts = req.body.order.discount
-    order.total_price = req.body.order.totalOrders
-    order.subtotal_price = req.body.order.subTotal
-
-    await order.save({
-      update: true,
+    console.log({
+      order: order.line_items
     });
-    res.status(200).send(order);
+    // order.customer = req.body.order.customer
+    // order.invoiceNumber = req.body.order.number
+    // order.currency = req.body.order.currency
+
+    // order.transactions = [{
+    //   kind: req.body.order.transactions[0].kind,
+    //   status: req.body.order.transactions[0].status,
+    //   amount: req.body.order.transactions[0].amount,
+    // }]
+
+    // order.test = req.body.order.test
+    // order.financial_status = req.body.order.financial_status
+    // order.total_discounts = req.body.order.discount
+    // order.total_price = req.body.order.totalOrders
+    // order.subtotal_price = req.body.order.subTotal
+    // await order.save({
+    //   update: true,
+    // });
+    res.status(200).send({ order, line_items: order.line_items });
   } catch (err) {
     console.log(`Failed to process orderss/create: ${err.message}`);
     res.status(500).send({ err: err.message });
@@ -250,14 +254,44 @@ app.post("/api/customers/create.json", async (req, res) => {
     res.status(500).send({ err: err.message });
   }
 
-})
-
-app.get("/api/shop.json", async (req, res) => {
-  const countData = await shopify.api.rest.Shop.all({
-    session: res.locals.shopify.session,
-  });
-  res.status(200).send(countData);
 });
+
+// app.get("/api/payment_gateway.json", async (req, res) => {
+//   try {
+//     console.log();
+//     const payments = await shopify.api.rest.PaymentGateway.all({ session: res.locals.shopify.session });
+//     console.log('payments', payments);
+//     res.status(200).send(payments);
+//   } catch (error) {
+//     res.status(500).send({ err: error.message });
+//   }
+// });
+
+app.get('/api/payment_gateways.json', async (req, res) => {
+  try {
+    const paymentGateways = await shopify.api.rest.PaymentGateway.all({
+      session: res.locals.shopify.session
+    });
+    res.status(200).send(paymentGateways);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error retrieving payment gateways');
+  }
+});
+
+app.get('/api/languages.json', async (req, res) => {
+  try {
+    // console.log(shopify.api, " shopify.api");
+    const paymentGateways = await shopify.api.rest.Location.all({
+      session: res.locals.shopify.session
+    });
+    res.status(200).send(paymentGateways);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('error');
+  }
+});
+
 
 app.get("/api/countries.json", async (req, res) => {
   let tax = req.query.tax
@@ -275,6 +309,13 @@ app.get("/api/countries.json", async (req, res) => {
   } catch (error) {
     res.status(500).send({ err: error.message });
   }
+});
+
+app.get("/api/shop.json", async (req, res) => {
+  const countData = await shopify.api.rest.Shop.all({
+    session: res.locals.shopify.session,
+  });
+  res.status(200).send(countData);
 });
 
 app.use(serveStatic(STATIC_PATH, { index: false }));

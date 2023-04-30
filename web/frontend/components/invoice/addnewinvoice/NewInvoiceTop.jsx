@@ -122,11 +122,7 @@ const NewInvoiceTop = ({
         </div>
         <div className="newInvoiceTop__lineEnd">
           <div className="form__defBtn purple__btn-dark">
-            <Button
-              onClick={() => {
-                showMore();
-              }}
-            >
+            <Button onClick={showMore}>
               More options
               <div className={`form__defBtn-ic ${show ? "_active" : ""}`}>
                 <img src={ArrowDown} alt="" />

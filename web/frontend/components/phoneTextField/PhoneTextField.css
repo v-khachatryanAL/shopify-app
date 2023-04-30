@@ -1,0 +1,53 @@
+.phone {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 5px;
+  align-items: flex-end;
+}
+.phone__wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+}
+.phone._error .phone__textField,
+.phone._error .phone__textField:has(> .PhoneInputInput:focus) {
+  border-color: red !important;
+}
+.phone .phone__textField:has(> .PhoneInputInput:focus) {
+  border-color: #6d27e7 !important;
+}
+.phone .PhoneInput--disabled {
+  border-color: rgba(221, 224, 228, 1) !important ;
+}
+.phone .PhoneInput--disabled .PhoneInputInput {
+  color: rgba(135, 144, 155, 1) !important;
+}
+.phone.mark .phone__label {
+  position: relative;
+}
+.phone.mark .phone__label::after {
+  content: "*";
+  position: absolute;
+  top: 0;
+  font-size: 19px;
+  color: #6d27e7;
+  left: -10px;
+}
+.phone__textField {
+  background: #fff;
+  height: 32px;
+  border-radius: 10px;
+  padding: 0 5px;
+  border: 1px solid rgba(171, 177, 186, 1);
+}
+.phone__textField input {
+  border: none;
+}
+.phone.medium .phone__textField,
+.phone.medium .phone__error {
+  width: 240px;
+}
+.phone.medium .phone__error {
+  color: red;
+}

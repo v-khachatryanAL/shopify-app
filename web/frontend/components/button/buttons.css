@@ -1,0 +1,21 @@
+.def-save-btn button {
+  color: #fff;
+  background: #6d27e7 !important;
+  border-radius: 10px;
+  padding: 15px 25px;
+  min-width: 84px;
+  transition: all 0.2s ease;
+}
+.def-save-btn button .Polaris-Button__Text {
+  font-size: 16px;
+}
+.def-save-btn button:hover {
+  background: #3805d3 !important;
+}
+.def-save-btn .Polaris-Button.Polaris-Button--disabled {
+  background: rgb(134, 134, 134) !important;
+  color: #fff;
+}
+.def-save-btn svg {
+  fill: #fff;
+}

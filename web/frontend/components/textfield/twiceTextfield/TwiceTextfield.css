@@ -4,6 +4,14 @@
   justify-content: flex-end;
   gap: 10px;
 }
+.twiceTextfield._disabled .Polaris-TextField__Backdrop {
+  background: #fff;
+  border-color: rgba(221, 224, 228, 1) !important;
+}
+.twiceTextfield._disabled .Polaris-TextField__Input {
+  color: rgba(135, 144, 155, 1) !important;
+}
+
 .twiceTextfield__inputs {
   display: flex;
   align-items: center;
@@ -33,8 +41,7 @@
 .twiceTextfield__inputs .Polaris-Label {
   color: #999;
   display: block;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.3em;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding: 5px 8px 0px 3px;
 }

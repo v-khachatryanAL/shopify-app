@@ -1,0 +1,68 @@
+.company__auto {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 736px;
+}
+.company__auto > span {
+  padding: 0px 5px 0px 0px;
+}
+.company__content {
+  display: flex;
+  padding: 40px 0px 0px 0px;
+}
+.company-companyInfo {
+  border-right: 1px solid rgb(223, 223, 223);
+  padding: 0px 40px 0px 0px;
+  margin-right: 50px;
+}
+.companyInfo__check {
+  display: flex;
+  justify-content: flex-end;
+}
+.companyInfo__vatCheck {
+  display: flex;
+  width: 240px;
+  grid-gap: 5px;
+}
+.companyInfo__vatCheck span {
+  font-weight: 500;
+}
+.company-companyList {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 20px;
+}
+.company-companyBottom {
+  padding: 50px 0px 0px 0px;
+}
+.companyBottom__list {
+  width: 385px;
+  padding: 0px 40px 0px 0px;
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.company__bottom {
+  padding: 35px 0px 0px 0px;
+}
+.company__bottom > .def-container {
+  display: flex;
+  justify-content: flex-end;
+}
+.companyInfo__tooltip {
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+.companyInfo__tooltip svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  /* fill: #6d27e7; */
+  filter: invert(8%) sepia(6%) saturate(995%) hue-rotate(177deg)
+    brightness(100%) contrast(89%);
+}

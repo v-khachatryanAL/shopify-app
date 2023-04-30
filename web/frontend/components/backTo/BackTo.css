@@ -1,0 +1,20 @@
+.backTo {
+  display: flex;
+  justify-content: flex-start;
+}
+.backTo__btn {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.backTo__btn:active {
+  transform: scale(0.9);
+}
+.backTo__btn img {
+  width: 30px;
+  height: 15px;
+}
+.backTo__btn span {
+  margin: 0px 0px 0px 5px;
+}

@@ -9,6 +9,7 @@ import { useAppQuery } from "../../../hooks";
 import { generateId } from "../../../utils/helpers";
 import moment from "moment";
 import axios from "axios";
+import SaveButton from "../../button/SaveButton";
 
 const AddNewInvoice = () => {
   const navigate = useNavigate();
@@ -81,6 +82,7 @@ const AddNewInvoice = () => {
             number: data[0].number + 1,
           };
         });
+        setInvoicesNumbers(data.map((e) => e.number));
       },
     },
   });
@@ -260,6 +262,16 @@ const AddNewInvoice = () => {
           prev[changedRowIndex] = {
             ...prev[changedRowIndex],
             id: elId,
+            variants: [
+              {
+                price: 0,
+                quantity: 0,
+                inventory_quantity: 0,
+              },
+            ],
+            price: 0,
+            quantity: 0,
+            total: 0,
             tax_lines: [],
             title: inputTxt,
           };
@@ -276,7 +288,6 @@ const AddNewInvoice = () => {
       }
       prev = calculateDiscount(prev[changedRowIndex], prev, newItem);
       handleCountTotal(prev, newItem.discount);
-      console.log({ prev });
       return JSON.parse(JSON.stringify(prev));
     });
     setNewItem((prev) => {
@@ -300,9 +311,7 @@ const AddNewInvoice = () => {
       item.variants[0].price >= 0 &&
       item.variants[0].inventory_quantity >= 0
     ) {
-      // if (prev.filter((e) => e.total).length <= 1) {
       item.total = item.variants[0].price * item.variants[0].inventory_quantity;
-      // }
       if (item.total > 0 && item.discount < item.total) {
         item.total -= item.quantity * item.discount;
       }
@@ -340,14 +349,13 @@ const AddNewInvoice = () => {
   };
 
   const handleSubmit = () => {
-    console.log("aa itemProducts", itemProducts);
     const lineItems = itemProducts.map((e) => {
       return {
         ...e,
         price: e.variants[0].price,
+        total_discount: e.discount,
       };
     });
-    console.log({ lineItems });
     const { changedProducts, newProducts } = lineItems.reduce(
       (agg, e) => {
         if (e) {
@@ -416,8 +424,6 @@ const AddNewInvoice = () => {
       },
     });
   };
-
-  console.log({ itemProducts });
 
   const handleSetNewItem = (key, val) => {
     const discountNewItem = {
@@ -504,10 +510,6 @@ const AddNewInvoice = () => {
 
     fetchLanguages();
   }, []);
-
-  useEffect(() => {
-    invoicesSuccess && setInvoicesNumbers(invoices.map((e) => e.number));
-  }, [invoicesSuccess]);
 
   return (
     <div
@@ -605,14 +607,12 @@ const AddNewInvoice = () => {
                   </label>
                 </div>
               </div>
-              <div
-                className={`${
-                  formValidation || clientErrors ? "_disable" : ""
-                } invActions__right`}
-              >
-                <Button onClick={handleSubmit}>
-                  {!newInvoiceLoading ? "Save" : <Spinner size="small" />}
-                </Button>
+              <div className="invActions__right">
+                <SaveButton
+                  onClick={handleSubmit}
+                  loading={newInvoiceLoading}
+                  disabled={formValidation || clientErrors}
+                />
               </div>
             </div>
           </div>

@@ -49,6 +49,14 @@ export default function App() {
                   label: "Invoice Settings",
                   destination: "/account/invoice",
                 },
+                {
+                  label: "Company Profile",
+                  destination: "/account/company",
+                },
+                {
+                  label: "Pick your plan",
+                  destination: "/plans",
+                },
               ]}
             />
             <Routes pages={pages} />

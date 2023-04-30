@@ -1,7 +1,8 @@
 import React from "react";
+import InvoiceSettings from "../../components/invoiceSettings/InvoiceSettings";
 
 const Invoice = () => {
-  return <div>AAAAA</div>;
+  return <InvoiceSettings />;
 };
 
 export default Invoice;

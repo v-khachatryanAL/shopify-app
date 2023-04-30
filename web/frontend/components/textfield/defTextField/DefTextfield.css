@@ -4,6 +4,24 @@
   justify-content: flex-end;
   gap: 10px;
 }
+.defFextField.mark .def-input-label {
+  position: relative;
+}
+.defFextField.mark .def-input-label::after {
+  content: "*";
+  position: absolute;
+  top: 0;
+  font-size: 19px;
+  color: #6d27e7;
+  left: -10px;
+}
+.defFextField._start {
+  align-items: start;
+}
+.defFextField._start .def-input-label {
+  display: inline-block !important;
+  margin-top: 5px;
+}
 .defFextField._error {
   align-items: start;
 }
@@ -14,12 +32,14 @@
   width: 240px;
   height: 32px !important;
 }
+.defFextField._disabled .Polaris-TextField__Backdrop,
+.defFextField._disabled .defFextField__textArea {
+  background: #fff;
+  border-color: rgba(221, 224, 228, 1) !important;
+  color: rgba(135, 144, 155, 1) !important;
+}
 .defFextField .Polaris-TextField__Backdrop {
   border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
 }
 .defFextField .Polaris-TextField--focus .Polaris-TextField__Backdrop {
   border-color: #6d27e7;
@@ -32,4 +52,35 @@
 .defFextField__error {
   color: red;
   font-size: 13px;
+}
+.defFextField__minLabel {
+  clear: both;
+  color: #999;
+  display: block;
+  font-size: 14px;
+  line-height: 1.3em;
+  padding-left: 2px;
+  padding-right: 8px;
+  padding-top: 5px;
+}
+.defFextField__textArea {
+  color: rgba(31, 33, 36, 1);
+}
+.defFextField.medium .defFextField__minLabel {
+  width: 240px;
+}
+.defFextField.medium .defFextField__textArea {
+  resize: none;
+  border-radius: 10px;
+  border: 1px solid rgba(171, 177, 186, 1);
+  padding: 7px;
+}
+.defFextField__textArea:focus {
+  border-color: #6d27e7 !important;
+}
+.defFextField__textArea.medium {
+  height: 50px;
+}
+.defFextField__textArea.large {
+  height: 80px;
 }

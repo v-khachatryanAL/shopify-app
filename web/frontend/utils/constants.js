@@ -145,3 +145,55 @@ export const orders = [
 
     },
 ];
+
+export const plans = [{
+    type: 'Basic',
+    price: '19',
+    list: [
+        'Automatic invoice creation',
+        'Compliant with legislation',
+        '50 invoices per month',
+        '1 language and currency'
+    ]
+},
+{
+    type: 'STANDARD',
+    price: '49',
+    popular: 'Most Popular',
+    list: [
+        'Automatic invoice creation',
+        'Compliant with legislation',
+        'Unlimited invoices',
+        'Multiple languages & currencies',
+        'Tax exemptions for businesses',
+        'Validation of VAT numbers',
+        'Credit and Delivery notes'
+    ]
+},
+{
+    type: 'PREMIUM',
+    price: '129',
+    list: [
+        'Automatic invoice creation',
+        'Compliant with legislation',
+        'Unlimited invoices',
+        'Multiple languages & currencies',
+        'Tax exemptions for businesses',
+        'Validation of VAT numbers',
+        'Credit and Delivery notes',
+        'Quotes and Estimates',
+        'Priority support'
+    ]
+},
+{
+    type: 'ENTERPRISE',
+    price: '499',
+    list: [
+        'All features in Premium plus:',
+        'Template design customizations',
+        'Custom onboarding and setup',
+        'Review of store tax settings',
+        'Recommended for Shopify Plus',
+    ]
+},
+] 

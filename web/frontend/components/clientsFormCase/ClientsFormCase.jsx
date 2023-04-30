@@ -12,6 +12,7 @@ import { EMAIL_REGEX } from "../../utils/regex";
 import { mutationRequest } from "../../hooks/useAppMutation";
 import "./ClientsFormCase.css";
 import "react-phone-number-input/style.css";
+import PhoneTextField from "../phoneTextField/PhoneTextField";
 
 const addressTypes = [
   {
@@ -298,38 +299,18 @@ const ClientsFormCase = ({ clientSearch, sendClient, checkErrors }) => {
                   checkValid("email", value);
                 }}
               />
-
-              <div className={`editCase__input ${errors.phone && "_error"}`}>
-                <span className="def-input-label">Phone:</span>
-                <div className="editCase__inputArea">
-                  <PhoneInput
-                    className="editCase__number"
-                    placeholder="Enter phone number"
-                    international
-                    defaultCountry="RU"
-                    value={client?.phone || ""}
-                    error={
-                      client?.phone
-                        ? isValidPhoneNumber(client?.phone)
-                          ? undefined
-                          : "Invalid phone number"
-                        : "Phone number required"
-                    }
-                    onChange={(val) => {
-                      checkValid("phone", client?.phone);
-                      setClient((prev) => {
-                        return {
-                          ...prev,
-                          phone: val,
-                        };
-                      });
-                    }}
-                  />
-                  {errors.phone && (
-                    <span className="error-txt">{errors.phone}</span>
-                  )}
-                </div>
-              </div>
+              <PhoneTextField
+                value={client?.phone}
+                onChange={(val) => {
+                  checkValid("phone", val);
+                  setClient((prev) => {
+                    return {
+                      ...prev,
+                      phone: val,
+                    };
+                  });
+                }}
+              />
 
               {client.addresses.length ? (
                 <InvoiceSelectMain

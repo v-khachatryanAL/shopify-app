@@ -117,7 +117,6 @@ const NewElemProductTable = ({
             "numeric",
             "numeric",
             "numeric",
-            "numeric",
           ]}
           headings={headers}
           key={rows}
@@ -175,7 +174,6 @@ const NewElemProductTable = ({
                 } newRow__input`}
               >
                 <TextField
-                  // autoComplete
                   type="number"
                   value={row.variants[0].inventory_quantity || ""}
                   onFocus={() => {

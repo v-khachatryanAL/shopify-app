@@ -15,6 +15,21 @@ body,
   padding: 20px;
 }
 
+.wrapper__top {
+  padding: 30px 0;
+}
+.wrapper__top h1,
+.wrapper__top heading {
+  font-weight: 600;
+  font-size: 27px !important;
+}
+
+.def-container {
+  width: 1280px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
 .new-element-line {
   display: grid;
   width: 840px;
@@ -58,4 +73,9 @@ body,
 }
 .error-txt {
   color: red;
+}
+.light-txt {
+  color: #999;
+  font-size: 14px;
+  line-height: 1.3em;
 }

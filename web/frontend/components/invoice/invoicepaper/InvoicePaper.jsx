@@ -29,15 +29,17 @@ const InvoicePaper = ({ invoiceData }) => {
       <IndexTable.Cell className="product_name">{item.name}</IndexTable.Cell>
       <IndexTable.Cell>{item.quantity}</IndexTable.Cell>
       <IndexTable.Cell>
-        {item.tax_lines[0]?.price}
-        {item.price_set?.presentment_money?.currency_code}
+        {item?.tax_lines[0]?.price}
+        {item?.price_set?.presentment_money?.currency_code}
       </IndexTable.Cell>
       <IndexTable.Cell>
-        {convertTaxesFrom(
-          item,
-          invoiceData.total_line_items_price,
-          invoiceData.current_total_discounts
-        )}
+        {item?.tax_lines.length
+          ? convertTaxesFrom(
+              item,
+              invoiceData.total_line_items_price,
+              invoiceData.current_total_discounts
+            )
+          : 0}
         %
       </IndexTable.Cell>
       <IndexTable.Cell>
@@ -48,8 +50,6 @@ const InvoicePaper = ({ invoiceData }) => {
       </IndexTable.Cell>
     </IndexTable.Row>
   ));
-
-  console.log({ invoiceData });
 
   return (
     <div className="invoice_paper">

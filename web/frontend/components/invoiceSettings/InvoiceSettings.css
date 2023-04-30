@@ -1,0 +1,281 @@
+.notes-textArea {
+  width: 240px;
+  resize: none;
+  border: 1px solid rgba(171, 177, 186, 1);
+  border-radius: 10px;
+  height: 80px;
+}
+.invoiceSettings__line {
+  width: 382px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.invoiceSettings__line.center {
+  align-items: center;
+}
+.invoiceSettings-numbering {
+  width: 229px;
+}
+.invoiceSettings__twiceInp > div:first-child {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.invoiceSettings__twiceInp .Polaris-TextField {
+  position: relative;
+  width: 100px;
+  margin-right: 10px;
+}
+.invoiceSettings__twiceInp .Polaris-TextField::after {
+  content: "days";
+  position: absolute;
+  top: 59%;
+  right: -35px;
+  transform: translate(0, -50%);
+}
+.invoiceSettings__twiceInp .Polaris-Label {
+  font-size: 13.8px;
+  font-weight: 500;
+  color: #333;
+  text-align: right;
+  vertical-align: middle;
+  font-weight: 600;
+}
+.invoiceSettings__twiceInp .Polaris-Connected {
+  padding: 0px 0px 0px 10px;
+  width: 249px;
+}
+.invoiceSettings__twiceInp .Polaris-TextField__Backdrop {
+  height: 32px;
+  border-radius: 10px;
+}
+.invoiceSettings__left {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 441px;
+  max-width: 100%;
+  border-right: 1px solid rgb(223, 223, 223);
+  padding-right: 50px;
+}
+.invoiceSettings__left .Polaris-Button {
+  box-shadow: none !important;
+}
+/* .invoiceSettings__left::after {
+  content: "";
+  position: absolute;
+  right: -25px;
+  width: 1px;
+  height: 240px;
+  background: rgb(223, 223, 223);
+} */
+.invoiceSettings-notes {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 5px;
+}
+.notes__body {
+  display: flex;
+  grid-gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+.notes__body > div {
+  margin-top: 5px;
+}
+.notes_bottom {
+  display: flex;
+  justify-content: flex-end;
+}
+.notes_bottom > p {
+  width: 240px;
+}
+.invoiceSettings__info {
+  padding: 0 0 25px 35px;
+}
+.invoiceSettings__info span {
+  font-size: 16px;
+}
+.wrapper.invoiceSettings {
+  display: flex;
+  flex-direction: column;
+}
+.wrapper.invoiceSettings .invActions__right {
+  align-self: center;
+  margin-right: 18%;
+}
+.invoiceSettings__body {
+  display: flex;
+}
+.setting_upload {
+  display: flex;
+  gap: 15px;
+  height: max-content;
+  padding-left: 50px;
+}
+.setting_upload .upload_file .upload_button span {
+  font-size: 16px;
+  color: white;
+}
+.setting_upload .upload_file .upload_button svg {
+  height: 20px;
+  width: 20px;
+  fill: white;
+}
+.setting_upload .upload_file .upload_button {
+  width: max-content;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
+  background-color: #6d27e7;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.setting_upload .upload_file {
+  position: relative;
+  height: max-content;
+}
+.setting_upload .upload_file label {
+  position: absolute !important;
+  top: 0;
+  width: 143px;
+  min-width: 103px;
+  height: 42px;
+  opacity: 0;
+}
+.setting_upload .upload_file .pdf_info {
+  width: 240px;
+  color: #999;
+  font-size: 14px;
+  padding-top: 10px;
+  display: block;
+  line-height: 1.3em;
+}
+.setting_upload .append {
+  padding-top: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  font-weight: 600;
+}
+.uploaded_file_div {
+  display: flex;
+  gap: 15px;
+  padding-top: 15px;
+}
+.uploaded_file_div button {
+  width: max-content;
+  min-width: 150px;
+  display: flex;
+}
+.upload_button {
+  cursor: pointer;
+  width: max-content;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
+  background-color: #6d27e7;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+}
+.upload_button svg {
+  fill: white;
+  width: 20px;
+}
+.file_name {
+  color: green;
+  font-size: 20px;
+}
+.uploaded_file_name_icon {
+  padding-top: 10px;
+}
+.uploaded_file_name_icon svg {
+  width: 20px;
+  fill: green;
+}
+.checkbox {
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.checkbox input[type="checkbox"] {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+}
+
+.checkbox input[type="checkbox"]:checked ~ .checkmark {
+  background-color: #2196f3;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox input[type="checkbox"]:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkbox .checkmark:after {
+  left: 7px;
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+.invoiceSettings__numberInp > div:first-child {
+  display: flex;
+  flex-direction: column-reverse;
+}
+.invoiceSettings__numberInp .Polaris-TextField {
+  width: 100px;
+  height: 32px;
+}
+.invoiceSettings__numberInp .Polaris-TextField input {
+  height: 32px;
+  padding: 0 10px;
+}
+.invoiceSettings__numberInp .Polaris-TextField__Backdrop {
+  border-radius: 10px;
+  height: 32px;
+}
+.invoiceSettings__numberInp {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 0px 0px 150px;
+  height: 0;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+.invoiceSettings__numberInp > span {
+  padding: 5px 0px 0px 0px;
+}
+.invoiceSettings__numberInp._active {
+  height: 60px;
+}

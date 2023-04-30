@@ -3,6 +3,12 @@
   max-width: 100%;
   margin: 0 auto;
 }
+.newRow__table .Polaris-DataTable__ScrollContainer {
+  overflow: visible;
+}
+.newRow__table .Polaris-DataTable__Navigation {
+  display: none;
+}
 .newRow__table table {
   border: none !important;
 }
@@ -112,6 +118,9 @@
 
 .newRow__table .vat-autocomplete {
   width: 120px !important;
+}
+.newRow__table .Polaris-DataTable {
+  overflow: visible;
 }
 
 @media screen and (max-width: 1200px) {

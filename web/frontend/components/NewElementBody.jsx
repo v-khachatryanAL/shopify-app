@@ -41,12 +41,12 @@ const NewElementBody = ({
   });
 
   useEffect(() => {
-    if (currenciesSuccess) {
+    if (currenciesSuccess && currency) {
       const item = currenciesOptions.find((e) => e.value === currency);
       setSelectOptions((prev) => {
         const newVal = [...prev];
-        newVal[0].label = item.label;
-        newVal[0].value = item.value;
+        newVal[0].label = item?.label;
+        newVal[0].value = item?.value;
 
         changeNewItemVal("discountType", item.value);
         return [...newVal];

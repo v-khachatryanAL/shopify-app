@@ -13,6 +13,7 @@ const AddNewCredit = () => {
   const [languages, setLanguages] = useState([]);
   const [invoicesOptions, setInvoicesOptions] = useState([]);
   const [currenciesOptions, setCurrenciesOptions] = useState([]);
+  const [clientErrors, setClientErrors] = useState(true);
   const [newItem, setNewItem] = useState({
     invoiceNumber: "",
     issueDate: new Date(),
@@ -220,6 +221,10 @@ const AddNewCredit = () => {
     });
   };
 
+  const checkClientErrors = (val) => {
+    setClientErrors(val);
+  };
+
   useEffect(() => {
     const fetchLanguages = async () => {
       try {
@@ -310,6 +315,7 @@ const AddNewCredit = () => {
         <FormLayout>
           <NewCreditTop
             issueDate={newItem.issueDate}
+            checkErrors={checkClientErrors}
             dueIn={newItem.dueIn}
             creditNumber={newItem.creditNumber}
             fromIssue={newItem.fromIssue}

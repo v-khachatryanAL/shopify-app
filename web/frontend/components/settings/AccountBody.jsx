@@ -1,3 +1,4 @@
+import { useNavigate } from "@shopify/app-bridge-react";
 import { Button, Heading } from "@shopify/polaris";
 import moment from "moment";
 import { useAppQuery } from "../../hooks";
@@ -5,13 +6,17 @@ import Loading from "../loading";
 import "./AccountBody.css";
 
 const AccountBody = () => {
-  const { data, isSuccess, isLoading } = useAppQuery({
+  const navigate = useNavigate();
+  const { data, isLoading } = useAppQuery({
     url: `/api/shop.json`,
   });
+  const handleNavigate = () => {
+    navigate(`/plans`);
+  };
 
   return (
     <div className="wrapper accountBody">
-      <div className="accountBody__top">
+      <div className="wrapper__top">
         <Heading element="h1">Account & Billing</Heading>
       </div>
       {isLoading ? (
@@ -26,7 +31,7 @@ const AccountBody = () => {
                   {data[0].plan_display_name}
                 </span>
               </div>
-              <Button>CHANGE PLAN</Button>
+              <Button onClick={handleNavigate}>CHANGE PLAN</Button>
             </div>
             <div className="accountBody-infoLine">
               <span className="infoLine__title">Connected Store:</span>
