@@ -57,6 +57,10 @@ export default function App() {
                   label: "Pick your plan",
                   destination: "/plans",
                 },
+                {
+                  label: "Emails",
+                  destination: "/account/emails",
+                },
               ]}
             />
             <Routes pages={pages} />

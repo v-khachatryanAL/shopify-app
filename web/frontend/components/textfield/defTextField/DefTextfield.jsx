@@ -12,6 +12,7 @@ const DefTextfield = ({
   onChange,
   errorMessage,
   disabled = false,
+  ...props
 }) => {
   return (
     <div
@@ -31,6 +32,7 @@ const DefTextfield = ({
             onChange={(val) => {
               onChange(val);
             }}
+            {...props}
           />
         ) : (
           <textarea

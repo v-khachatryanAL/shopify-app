@@ -1,0 +1,227 @@
+.emails .def-container {
+  margin: 0;
+}
+.emails__menu {
+  display: flex;
+  width: 700px;
+  justify-content: space-between;
+  align-items: center;
+}
+.emails__nav {
+  display: flex;
+  align-items: center;
+  grid-gap: 25px;
+  flex-wrap: wrap;
+}
+.emails__nav .Polaris-Link {
+  color: #333;
+}
+.emails__title {
+  font-weight: 600;
+  font-size: 22px !important;
+  padding: 50px 0 10px 0px;
+}
+.emails__options {
+  width: 700px;
+  max-width: 100%;
+}
+.emails__options > .emails__title {
+  padding: 50px 0 40px 0px;
+}
+.emails__content {
+  width: 700px;
+  display: flex;
+  flex-direction: column;
+  grid-gap: 24px;
+}
+.templateMain__txt {
+  font-size: 16px;
+  padding: 15px 0px 0px 0px;
+}
+.emails-include {
+  position: relative;
+  width: 700px;
+  margin: 24px 0;
+  padding: 24px;
+  background: rgb(236, 236, 236);
+}
+.emails-include::after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 100%;
+  background: #6d27e7;
+  top: 0;
+  left: 0;
+}
+.include__title {
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+.include__txt {
+  display: inline-block;
+  font-size: 14.5px;
+  width: 600px;
+  line-height: 18px;
+  max-width: 100%;
+}
+.emails__main {
+  display: flex;
+  flex-direction: column;
+}
+.emailOptions__line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.emailOptions__func {
+  height: 0px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+.emailOptions__func._active {
+  height: 130px;
+}
+.emailOptions__line.start {
+  justify-content: flex-start;
+  align-items: flex-start;
+  grid-gap: 10px;
+}
+.emailOptions__line.start .companyInfo__tooltip {
+  margin-top: 20px;
+}
+.emailOptions__txt {
+  font-size: 15px;
+  font-weight: 500;
+}
+.emailOptions__line .defFextField__label {
+  display: none;
+}
+.emailOptions__line .defFextField {
+  margin: 15px 0;
+}
+.emailOptions__minTxt {
+  max-width: 400px;
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 300;
+  margin-top: 8px;
+}
+.high-tooltip {
+  padding: 10px;
+}
+.high-tooltip__title {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+}
+.high-tooltip__link {
+  font-size: 12px;
+  color: #333;
+}
+.high-tooltip__body {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 5px;
+  padding: 10px 0 5px;
+}
+
+.emailAdvanced {
+  display: flex;
+  flex-direction: column;
+  width: 700px;
+  max-width: 100%;
+}
+.emailAdvanced__top {
+  padding: 25px 0;
+}
+.emailAdvanced__top._active .Polaris-Button__Text svg {
+  transform: rotate(180deg);
+}
+
+.emailAdvanced__top .Polaris-Button {
+  box-shadow: none;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none;
+}
+.emailAdvanced__top .Polaris-Button__Text {
+  display: flex;
+  font-size: 18px;
+  text-decoration: underline;
+  align-items: center;
+}
+.emailAdvanced__top .Polaris-Button__Text svg {
+  width: 20px;
+  transition: all 0.2s ease;
+  fill: rgba(31, 33, 36, 1);
+}
+
+.emailAdvanced__content {
+  display: flex;
+  height: 0;
+  overflow: hidden;
+  flex-direction: column;
+  transition: all 0.2s ease;
+  grid-gap: 20px;
+}
+.emailAdvanced__content._active {
+  height: 757px;
+}
+.email-emCase {
+  padding: 32px;
+  background: #fff;
+  border: 1px solid #dbdbdb;
+}
+.emCase__line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.emCase__line.col {
+  flex-direction: column;
+  align-items: flex-start;
+}
+.emCase__txt {
+  width: 400px;
+  max-width: 100%;
+  padding: 10px 0px 0px 0px;
+}
+.emCase__upload {
+  width: 100%;
+  padding: 30px 0 0 0 !important;
+}
+.emCase__upload > div {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+.emCase__upload {
+  display: flex;
+  justify-content: space-between;
+}
+.emCase__line.end .defFextField {
+  padding: 25px 0 0 0;
+}
+.emCase__line .defFextField {
+  padding: 25px 0;
+}
+.emCase__line .defFextField .defFextField__label {
+  display: none;
+}
+.emCase__line .def-link {
+  margin: 10px 0px 0px 0px;
+}
+@media only screen and (min-width: 1200px) {
+  .emails__main {
+    flex-direction: row;
+  }
+  .emails-include {
+    width: 400px;
+    height: max-content;
+    margin: 0 0 0 24px;
+  }
+}

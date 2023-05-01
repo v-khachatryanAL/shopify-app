@@ -50,10 +50,30 @@ body,
   background: #6d27e7;
   color: #fff;
 }
+.def-link {
+  transition: all 0.2s ease;
+  font-weight: 500;
+  cursor: pointer;
+  color: rgb(34, 34, 34);
+}
+.def-link:hover {
+  color: #585858;
+}
+.def-input {
+  border-radius: 10px;
+  height: 32px;
+  padding: 12px;
+  border: 1px solid #898f94;
+}
+.def-input:focus {
+  outline: none;
+  border: 1px solid #6d27e7 !important;
+}
+.def-input-purple:focus,
 .def-input-purple
   .Polaris-TextField.Polaris-TextField--focus
   .Polaris-TextField__Backdrop {
-  border: 1px solid#6d27e7;
+  border-color: #6d27e7;
 }
 .purple__btn-dark button {
   cursor: pointer;
@@ -78,4 +98,7 @@ body,
   color: #999;
   font-size: 14px;
   line-height: 1.3em;
+}
+.bold-txt {
+  font-weight: 700 !important;
 }

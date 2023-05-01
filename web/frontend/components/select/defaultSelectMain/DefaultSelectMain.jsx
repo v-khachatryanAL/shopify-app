@@ -1,5 +1,6 @@
 import { ActionList, Button, Popover } from "@shopify/polaris";
 import { useEffect, useState } from "react";
+import { DropdownMinor } from "@shopify/polaris-icons";
 
 const DefaultSelectMain = ({
   options,
@@ -12,6 +13,7 @@ const DefaultSelectMain = ({
   type = "",
   simpleTxt,
   disabled = false,
+  icon = false,
 }) => {
   const [active, setActive] = useState(false);
   const [btnLabel, setBtnLabel] = useState();
@@ -51,6 +53,7 @@ const DefaultSelectMain = ({
     >
       <Button disabled={disabled} onClick={toggleActive} disclosure>
         {simpleTxt || btnLabel}
+        {icon ? <DropdownMinor /> : ""}
       </Button>
     </div>
   );

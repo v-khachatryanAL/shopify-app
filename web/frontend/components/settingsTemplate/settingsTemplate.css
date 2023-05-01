@@ -1,0 +1,122 @@
+.settingsTemplate {
+  display: flex;
+  padding: 32px;
+  background: #fff;
+  border: 1px solid #dbdbdb;
+  flex-direction: column;
+}
+.settingsTemplate__top {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 0px 20px 0px;
+}
+.settingsTemplate__title {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 20px;
+}
+.settingsTemplate__activator {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.settingsTemplate__activator:hover .settingsTemplate__activator * {
+  color: #898f94 !important;
+  fill: #898f94 !important  ;
+}
+.settingsTemplate__activator._active svg {
+  transform: rotate(180deg);
+}
+.settingsTemplate__activator span {
+  cursor: pointer;
+  font-size: 18px;
+  text-decoration-line: underline;
+}
+.settingsTemplate__activator svg {
+  transition: all 0.2s ease;
+  width: 20px;
+  fill: #333;
+}
+.settingsTemplate._active .settingsTemplate-templateMain {
+  padding: 30px 0 20px;
+  height: 569px;
+  border-color: #dbdbdb;
+}
+.settingsTemplate-templateMain {
+  border-top: 1px solid transparent;
+  height: 0;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+.settingsTemplate-templateMain .templateMain__top {
+  padding: 0px 0px 20px 0px;
+}
+.templateMain__title {
+  text-transform: uppercase;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.settingsTemplate__bottom {
+  padding: 30px 0px 0px 0px;
+  border-top: 1px solid #dbdbdb;
+}
+.settingsTemplate-tempFunc {
+  display: flex;
+  justify-content: space-between;
+}
+.tempFunc__info {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  grid-gap: 5px;
+}
+.tempFunc__title {
+  font-weight: 500;
+  font-size: 16px;
+}
+.templateMain__content {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 20px;
+}
+.templateMain-tempField {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 2px;
+}
+.tempField__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.tempField__title {
+  font-size: 16px;
+  font-weight: 600;
+}
+.tempField__select .Polaris-Button__Text {
+  font-size: 16px !important;
+  font-weight: 500;
+}
+.tempField__select .Polaris-Button__Content {
+  text-decoration: none !important;
+}
+.tempField__content .Polaris-TextField__Backdrop {
+  border: 1px solid #898f94;
+}
+.tempField__textArea {
+  border: 1px solid #898f94;
+  resize: none;
+  width: 100%;
+  height: 280px;
+  padding: 12px;
+  border-radius: 0.25rem;
+}
+.tempField__content input,
+.tempField__content textarea {
+  color: rgba(31, 33, 36, 1);
+}
+.tempField__input {
+  width: 100%;
+  border-radius: 4px !important;
+}

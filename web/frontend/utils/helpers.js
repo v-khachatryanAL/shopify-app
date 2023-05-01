@@ -1,3 +1,5 @@
+import { EMAIL_REGEX } from "./regex";
+
 const generateId = () => {
     const timestamp = Date.now();
     const random = Math.random().toString(36).substring(2);
@@ -12,4 +14,17 @@ const convertTaxesFrom = (item, total, discount) => {
     return (item.tax_lines[0].rate / taxesOf) * 100;
 }
 
-export { generateId, convertTaxesFrom };
+const validateEmail = (value, setInputErrors, field = "email") => {
+    return setInputErrors(field, [
+        {
+            condition: !value,
+            message: "Required!",
+        },
+        {
+            condition: !EMAIL_REGEX.test(value),
+            message: "Email is not valid!",
+        },
+    ]);
+};
+
+export { generateId, convertTaxesFrom, validateEmail };

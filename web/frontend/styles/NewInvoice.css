@@ -560,9 +560,16 @@ input:focus-visible {
 }
 .invoice__MainSelect-btn .Polaris-Button__Text {
   color: #999;
+  display: flex;
+  align-items: center;
 }
 .invoice__MainSelect-btn .Polaris-Icon__Svg {
   fill: #999;
+}
+.invoice__MainSelect-btn svg {
+  fill: #333;
+  width: 20px;
+  height: 20px;
 }
 .invoice__MainSelect > .invoice__MainSelect-wrapper.min {
   width: 240px;
