@@ -6,19 +6,15 @@ import moment from "moment";
 import ArrowDown from "../../../assets/arrow-down.png";
 
 const NewInvoiceTop = ({
-  invoiceNumber,
-  issueDate,
-  deliveryDate,
-  dueIn,
   showMore,
   show,
   changeNewItemVal,
   changeItemDate,
-  fromIssue,
   invoicesNumbers,
   clientSearch,
   sendClient,
   checkErrors,
+  data,
 }) => {
   const [deliveryDateActive, setDeliveryDateActive] = useState(false);
   const [issueDateActive, setIssueDateActive] = useState(false);
@@ -51,7 +47,7 @@ const NewInvoiceTop = ({
     return (
       validTouch.filter((e) => {
         return e.type === "invoiceNumber";
-      })[0].touch && invoicesNumbers.includes(parseInt(invoiceNumber))
+      })[0].touch && invoicesNumbers.includes(parseInt(data.invoiceNumber))
     );
   };
 
@@ -66,7 +62,7 @@ const NewInvoiceTop = ({
           >
             <TextField
               label="Invoice number:"
-              value={invoiceNumber}
+              value={data.number}
               onChange={(val) => {
                 changeNewItemVal("number", val);
                 handleValidateTouch("invoiceNumber", val);
@@ -84,7 +80,7 @@ const NewInvoiceTop = ({
             )}
           </div>
           <DefaultDatePicker
-            date={deliveryDate}
+            date={data.deliveryDate}
             show={deliveryDateActive}
             title={"Delivery date"}
             dateKey={"deliveryDate"}
@@ -96,7 +92,7 @@ const NewInvoiceTop = ({
             }}
           />
           <DefaultDatePicker
-            date={issueDate}
+            date={data.issueDate}
             title={"Issue date"}
             dateKey={"issueDate"}
             show={issueDateActive}
@@ -109,14 +105,14 @@ const NewInvoiceTop = ({
           />
           <div className="newInvoice__input def-input-purple min">
             <TextField
-              value={dueIn}
+              value={data.dueIn}
               label="Due in:"
               onChange={(val) => {
                 changeNewItemVal("dueIn", val);
               }}
             />
             <div className="newInvoice__dateArea">
-              <span>{convertedDate(fromIssue)}</span>
+              <span>{convertedDate(data.fromIssue)}</span>
             </div>
           </div>
         </div>

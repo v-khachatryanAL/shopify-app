@@ -5,7 +5,7 @@ import { useAppQuery } from "../../hooks";
 import Loading from "../loading";
 import "./AccountBody.css";
 
-const AccountBody = () => {
+const   AccountBody = () => {
   const navigate = useNavigate();
   const { data, isLoading } = useAppQuery({
     url: `/api/shop.json`,

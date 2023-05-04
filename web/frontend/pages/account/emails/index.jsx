@@ -1,4 +1,4 @@
-import Emails from "../../components/emails/Emails";
+import Emails from "../../../components/emails/Emails";
 
 const AccountEmails = () => {
   return <Emails />;

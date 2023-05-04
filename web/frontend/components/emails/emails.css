@@ -147,6 +147,9 @@
   background: transparent !important;
   border: none;
 }
+.emailAdvanced__top .Polaris-Button a {
+  color: rgba(31, 33, 36, 1);
+}
 .emailAdvanced__top .Polaris-Button__Text {
   display: flex;
   font-size: 18px;

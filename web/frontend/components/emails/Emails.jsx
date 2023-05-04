@@ -4,6 +4,8 @@ import EmailOptions from "./EmailOptions";
 import EmailAdvanced from "./EmailAdvanced";
 import { validateEmail } from "../../utils/helpers";
 import { useValidation } from "../../hooks/useValidation";
+import { useNavigate } from "@shopify/app-bridge-react";
+import { useAppQuery } from "../../hooks";
 import { useState } from "react";
 import { Heading } from "@shopify/checkout-ui-extensions-react";
 import { Link } from "@shopify/polaris";
@@ -16,6 +18,7 @@ const emailFields = {
 };
 
 const Emails = () => {
+  const navigate = useNavigate();
   const [emails, setEmails] = useState({
     invoice: {
       title: "Invoice",
@@ -73,12 +76,19 @@ const Emails = () => {
     file: "",
     ...emailFields,
   });
+  const { data, isLoading } = useAppQuery({
+    url: `/api/shop.json`,
+  });
+  const handleNavigate = () => {
+    navigate(`/plans`);
+  };
 
   const { setInputErrors, errors, checkValidation } = useValidation({
     initialState: {
       ...emailFields,
     },
   });
+
   const handleChangeEmails = (key, value, title, variable = "", pos = "") => {
     setEmails((prev) => {
       return {

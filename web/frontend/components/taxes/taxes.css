@@ -1,0 +1,90 @@
+.taxes .wrapper__bottom {
+  padding: 0 0 25px 0;
+}
+.taxes-taxesExemption {
+  width: 380px;
+  max-width: 100%;
+}
+.taxes__subtitle {
+  font-size: 18px;
+  font-weight: 600;
+  padding: 0px 0px 22px 0px;
+}
+.taxesExemption__text {
+  display: flex;
+  grid-gap: 10px;
+  flex-direction: column;
+  padding: 10px 0 25px 0;
+}
+.taxesExemption__text span {
+  font-size: 16px;
+  color: #666;
+}
+.taxesExemption__func {
+  padding: 10px 0 25px 0;
+  display: flex;
+  flex-direction: column;
+  grid-gap: 23px;
+}
+.taxesExemption__line._hide {
+  height: 0;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+.taxesExemption__line._hide._active {
+  height: 30px;
+}
+.taxesExemption__line .defCheckBox__label {
+  font-size: 17px;
+  font-weight: 500;
+}
+.taxesExemption__line .def-light-link {
+  display: inline-block;
+  margin-top: 8px;
+}
+.taxRates__table .Polaris-DataTable {
+  background: transparent !important;
+}
+.taxRates__table table {
+  width: 260px;
+}
+.taxRates__table table thead th {
+  text-align: left;
+  font-weight: 600;
+  border-color: none !important;
+  padding: 0px 0px 0 20px;
+}
+.taxRates__table table th,
+.taxRates__table table td {
+  text-align: left !important;
+  border: none !important;
+  padding: 8px 0 !important;
+}
+.taxRates__table table .defFextField {
+  width: 100px !important;
+}
+.taxRates__del .Polaris-Button {
+  opacity: 0;
+  position: relative;
+  left: -12px;
+  background: transparent;
+  border: none !important;
+  box-shadow: none;
+  padding: 0 !important;
+  transition: all 0.2s ease;
+}
+.taxRates__table tbody tr:hover .taxRates__del._active .Polaris-Button {
+  opacity: 1;
+  box-shadow: none !important;
+  outline: none !important;
+  border: none !important;
+}
+.taxes .defFextField .defFextField__label {
+  display: none !important;
+}
+.taxRates__bottom .def-btn {
+  margin-top: 5px;
+}
+.taxRates__bottom .emails-include {
+  margin: 35px 0px;
+}

@@ -1,4 +1,4 @@
-// @ts-check
+// @ts-nocheck
 import { join } from "path";
 import { readFileSync } from "fs";
 import express from "express";
@@ -43,18 +43,30 @@ app.get("/api/products/count", async (_req, res) => {
 });
 
 app.get("/api/products.json", async (req, res) => {
+  let page = parseInt(req.query.page);
+  let limit = parseInt(req.query.limit);
   let title = (req.query.title)?.toString().toLowerCase()
   let data = await shopify.api.rest.Product.all({
     session: res.locals.shopify.session,
     query: req.query.title
   });
 
+  if (!page) page = 1;
+  if (!limit) limit = data.length;
+  const startIndex = (page - 1) * limit
+  const endIndex = page * limit
+
+
+
   if (title && typeof title === 'string' && title !== undefined) {
     data = data.filter(item => item.title?.toLowerCase().includes(title))
+    data = data.slice(startIndex, endIndex)
     res.status(200).send(data);
   } else {
+    data = data.slice(startIndex, endIndex)
     res.status(200).send(data);
   }
+
 });
 
 app.get("/api/products/:id.json", async (req, res) => {
@@ -295,21 +307,69 @@ app.get('/api/languages.json', async (req, res) => {
 
 app.get("/api/countries.json", async (req, res) => {
   let tax = req.query.tax
+  console.log('tax', tax);
   try {
     let getData = await shopify.api.rest.Country.all({
       session: res.locals.shopify.session,
-    });
 
-    if (tax) {
-      getData = getData.filter(item => item.tax === parseFloat(tax))
-      res.status(200).send(getData);
-    } else {
-      res.status(200).send(getData);
-    }
+    });
+    // console.log('AA getData', getData);
+
+    // if (tax) {
+    //   getData = getData.filter(item => item.tax === parseFloat(tax))
+    //   // console.log('getData', getData);
+    //   res.status(200).send(getData);
+    // } else {
+    // }
+    res.status(200).send(getData);
   } catch (error) {
     res.status(500).send({ err: error.message });
   }
 });
+
+app.post("/api/countries/create.json", async (req, res) => {
+  try {
+    // console.log('TEST', req.body.country);
+    const country = new shopify.api.rest.Country({ session: res.locals.shopify.session });
+    country.code = req.body.country.code
+    country.name = req.body.country.name
+    country.tax_name = req.body.country.tax_name
+    country.tax = req.body.country.tax
+    country.provinces = req.body.country.provinces
+
+
+    const newCountry = await country.save({
+      update: true,
+    });
+    res.status(200).send(newCountry);
+  } catch (err) {
+    console.log(`Failed to process country/create: ${err.message}`);
+    res.status(500).send({ err: err.message });
+  }
+})
+
+app.put("/api/countries/:id.json", async (req, res) => {
+  try {
+    // console.log('TEST', req.body.country);
+    const country = new shopify.api.rest.Country({ session: res.locals.shopify.session });
+    country.id = parseInt(req.params.id);
+    country.tax = req.body.country.tax
+    console.log(country.id, 'country.id');
+    console.log(country.tax, 'countrcountry.tax ');
+
+
+    let country1 = await country.save({
+      update: true,
+    });
+    console.log(country1, 'country1');
+    console.log(5555555555555);
+    res.status(200).send(country1);
+  } catch (err) {
+    console.log(`Failed to process country/update: ${err.message}`);
+    res.status(500).send({ err: err.message });
+  }
+})
+
 
 app.get("/api/shop.json", async (req, res) => {
   const countData = await shopify.api.rest.Shop.all({

@@ -61,6 +61,18 @@ export default function App() {
                   label: "Emails",
                   destination: "/account/emails",
                 },
+                {
+                  label: "Taxes",
+                  destination: "/account/taxes",
+                },
+                {
+                  label: "Email History",
+                  destination: "/account/emails/history",
+                },
+                {
+                  label: "Items PAGE",
+                  destination: "/items",
+                },
               ]}
             />
             <Routes pages={pages} />

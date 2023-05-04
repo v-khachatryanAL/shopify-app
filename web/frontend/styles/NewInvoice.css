@@ -94,6 +94,9 @@
   vertical-align: middle;
   font-weight: 600;
 }
+.inputTwice__area .Polaris-TextField {
+  width: 139px;
+}
 .newInvoice__input .Polaris-TextField,
 .newInvoice__input .Polaris-TextField__Backdrop,
 .inputTwice__area .Polaris-TextField__Backdrop,

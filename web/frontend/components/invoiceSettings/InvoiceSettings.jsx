@@ -2,6 +2,7 @@ import InvoiceSettingsBody from "./invoiceSettingsBody/InvoiceSettingsBody";
 import { Button, Heading } from "@shopify/polaris";
 import { useState } from "react";
 import "./InvoiceSettings.css";
+import SaveButton from "../button/SaveButton";
 
 const InvoiceSettings = () => {
   const [settings, setSettings] = useState({
@@ -19,7 +20,7 @@ const InvoiceSettings = () => {
       </div>
       <InvoiceSettingsBody settings={settings} />
       <div className={`invActions__right`}>
-        <Button>Save </Button>
+        <SaveButton label="Save" />
       </div>
     </div>
   );

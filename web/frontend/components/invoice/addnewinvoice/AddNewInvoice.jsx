@@ -1,6 +1,6 @@
 import { React, useState, useMemo, useEffect } from "react";
 import { useNavigate } from "@shopify/app-bridge-react";
-import { FormLayout, Heading, Button, Spinner } from "@shopify/polaris";
+import { FormLayout, Heading } from "@shopify/polaris";
 import NewElemProductTable from "../../newElemProductTable/NewElemProductTable";
 import NewInvoiceTop from "./NewInvoiceTop";
 import NewElementBody from "../../NewElementBody";
@@ -19,6 +19,7 @@ const AddNewInvoice = () => {
   const [invoicesNumbers, setInvoicesNumbers] = useState([]);
   const [newClient, setNewClient] = useState(0);
   const [newProduct, setNewProduct] = useState(0);
+  const [currenciesOptions, setCurrenciesOptions] = useState([]);
   const [newItem, setNewItem] = useState({
     number: "",
     issueDate: new Date(),
@@ -104,6 +105,24 @@ const AddNewInvoice = () => {
     "",
     true
   );
+  const { isSuccess: currenciesSuccess } = useAppQuery({
+    url: "/api/currencies.json",
+    reactQueryOptions: {
+      onSuccess: (data) => {
+        setCurrenciesOptions(() => {
+          return [
+            ...data.map((e) => {
+              return {
+                value: e.currency,
+                label: e.currency,
+                symbol: e.currency,
+              };
+            }),
+          ];
+        });
+      },
+    },
+  });
   const { mutate: editCustomer } = mutationRequest(
     "/api/customers/update",
     "put",
@@ -145,12 +164,7 @@ const AddNewInvoice = () => {
       }
     });
 
-    if (
-      discount >= 0 &&
-      // discountType !== "%" &&
-      totalPrice > discount &&
-      totalPriceVat > discount
-    ) {
+    if (discount >= 0 && totalPrice > discount && totalPriceVat > discount) {
       totalPrice -= discount;
       totalPriceVat -= discount;
     } else if (discount >= 0 && totalPrice && totalPrice > 0) {
@@ -533,12 +547,7 @@ const AddNewInvoice = () => {
             clientSearch={(val) => {
               setNewClient(val);
             }}
-            invoiceNumber={newItem.number}
-            issueDate={newItem.issueDate}
-            deliveryDate={newItem.deliveryDate}
-            dueIn={newItem.dueIn}
-            client={newItem.client}
-            fromIssue={newItem.fromIssue}
+            data={newItem}
             invoicesNumbers={invoicesNumbers}
             showMore={() => {
               setShowMoreOpt(!showMoreOpt);
@@ -559,17 +568,10 @@ const AddNewInvoice = () => {
             }}
           />
           <NewElementBody
+            data={newItem}
             showMoreOpt={showMoreOpt}
-            paymentMethod={newItem.paymentMethod}
-            bankAccount={newItem.bankAccount}
-            orderNumber={newItem.orderNumber}
-            discount={newItem.discount}
-            discountType={newItem.discountType}
-            shipping={newItem.shipping}
-            currency={newItem.currency}
-            language={newItem.language}
-            fromIssue={newItem.fromIssue}
             languageOptions={languages}
+            currencies={currenciesOptions}
             changeNewItemVal={(key, val) => {
               handleSetNewItem(key, val);
             }}
@@ -579,13 +581,8 @@ const AddNewInvoice = () => {
               rows={itemProducts}
               addNewRow={handleAddNewRow}
               deleteRow={handleDeleteRow}
-              subTotal={newItem.subTotal}
               changeRow={handleChangeRow}
-              totalPrice={newItem.totalOrders || 0}
-              currency={newItem.currency}
-              totalPriceVat={newItem?.totalOrdersVat}
-              discount={newItem.discount}
-              discountType={newItem.discountType}
+              newItem={newItem}
               sendNewProduct={(val) => {
                 setNewProduct(val);
               }}

@@ -1,6 +1,5 @@
 import DefaultToggle from "../defaultToggle/DefaultToggle";
 import DefTextfield from "../textfield/defTextField/DefTextfield";
-import QuestonSvg from "../Svg/Question";
 import { useState } from "react";
 import { Icon, Tooltip } from "@shopify/polaris";
 import { InfoMinor } from "@shopify/polaris-icons";

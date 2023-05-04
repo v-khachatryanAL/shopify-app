@@ -1,48 +1,23 @@
 import { TextField } from "@shopify/polaris";
 import { useEffect, useState } from "react";
-import { useAppQuery } from "../hooks";
 import DefaultSelectMain from "./select/defaultSelectMain/DefaultSelectMain";
 
 const NewElementBody = ({
+  data,
   showMoreOpt,
-  paymentMethod,
-  bankAccount,
-  orderNumber,
-  discount,
-  shipping,
-  currency,
-  language,
   changeNewItemVal,
-  discountType,
   languageOptions,
+  currencies,
 }) => {
-  const [currenciesOptions, setCurrenciesOptions] = useState([]);
+  // const [currencies, setCurrenciesOptions] = useState([]);
   const [selectOptions, setSelectOptions] = useState([
     { label: "", value: "" },
     { label: "%", value: "%" },
   ]);
-  const { isSuccess: currenciesSuccess } = useAppQuery({
-    url: "/api/currencies.json",
-    reactQueryOptions: {
-      onSuccess: (data) => {
-        setCurrenciesOptions(() => {
-          return [
-            ...data.map((e) => {
-              return {
-                value: e.currency,
-                label: e.currency,
-                symbol: e.currency,
-              };
-            }),
-          ];
-        });
-      },
-    },
-  });
 
   useEffect(() => {
-    if (currenciesSuccess && currency) {
-      const item = currenciesOptions.find((e) => e.value === currency);
+    if (currencies.length && data.currency) {
+      const item = currencies.find((e) => e.value === data.currency);
       setSelectOptions((prev) => {
         const newVal = [...prev];
         newVal[0].label = item?.label;
@@ -52,7 +27,7 @@ const NewElementBody = ({
         return [...newVal];
       });
     }
-  }, [currency, currenciesSuccess]);
+  }, [data.currency, currencies]);
 
   return (
     <div
@@ -64,7 +39,7 @@ const NewElementBody = ({
         <div className="newInvoice__input def-input-purple">
           <TextField
             label="Payment method:"
-            value={paymentMethod || ""}
+            value={data.paymentMethod || ""}
             onChange={(val) => {
               changeNewItemVal("paymentMethod", val);
             }}
@@ -74,7 +49,7 @@ const NewElementBody = ({
         <div className="newInvoice__input def-input-purple">
           <TextField
             label="Bank account:"
-            value={bankAccount || ""}
+            value={data.bankAccount || ""}
             onChange={(val) => {
               changeNewItemVal("bankAccount", val);
             }}
@@ -84,7 +59,7 @@ const NewElementBody = ({
         <div className="newInvoice__input def-input-purple">
           <TextField
             label="Order number:"
-            value={orderNumber || ""}
+            value={data.orderNumber || ""}
             onChange={(val) => {
               changeNewItemVal("orderNumber", val);
             }}
@@ -100,7 +75,7 @@ const NewElementBody = ({
           <div className="inputTwice__area def-input-purple">
             <TextField
               type="number"
-              value={discount || ""}
+              value={data.discount || ""}
               onChange={(val) => {
                 changeNewItemVal("discount", val);
               }}
@@ -108,7 +83,7 @@ const NewElementBody = ({
             />
             <DefaultSelectMain
               options={selectOptions}
-              val={discountType || ""}
+              val={data.discountType || ""}
               className="discount"
               changeVal={(val) => {
                 changeNewItemVal("discountType", val);
@@ -119,7 +94,7 @@ const NewElementBody = ({
         <div className="newInvoice__input def-input-purple start">
           <TextField
             label="Shipping:"
-            value={shipping || ""}
+            value={data.shipping || ""}
             onChange={(val) => {
               changeNewItemVal("shipping", val);
             }}
@@ -129,8 +104,8 @@ const NewElementBody = ({
           <DefaultSelectMain
             label="Currency:"
             width="min"
-            options={currenciesOptions}
-            val={currency || ""}
+            options={currencies}
+            val={data.currency || ""}
             changeVal={(val) => {
               changeNewItemVal("currency", val);
             }}
@@ -141,7 +116,7 @@ const NewElementBody = ({
             label="Language"
             width="min"
             options={languageOptions}
-            val={language || ""}
+            val={data.language || ""}
             changeVal={(val) => {
               changeNewItemVal("language", val);
             }}

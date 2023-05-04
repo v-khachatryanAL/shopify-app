@@ -10,7 +10,7 @@
   height: 18px;
   border-radius: 5px;
   overflow: hidden;
-  border: 2px solid #6d27e7;
+  border: 3px solid #6d27e7;
 }
 .defCheckBox__mark svg {
   filter: invert(19%) sepia(99%) saturate(3866%) hue-rotate(259deg)

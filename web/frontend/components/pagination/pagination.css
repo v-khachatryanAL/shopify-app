@@ -1,0 +1,73 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+}
+.pagination__wrapper {
+  display: flex;
+}
+.pagination__pages {
+  display: flex;
+  padding: 0 5px;
+  grid-gap: 5px;
+}
+.pagination__btn button {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background: #fff;
+  justify-content: center;
+  width: 30px !important;
+  height: 30px !important;
+  border: 1px solid #dbdbdb !important;
+  transition: all 0.2s ease;
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+.pagination__btn._read button {
+  cursor: not-allowed;
+  pointer-events: all !important;
+}
+.pagination__btn button:hover {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+.pagination__btn button:hover {
+  background: #6d27e7;
+  color: #fff;
+}
+.pagination__btn._disabled:active,
+.pagination__btn.num._active:active {
+  transform: scale(1);
+}
+.Polaris-Button__Text .Polaris-Button__Text {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  justify-content: center;
+}
+.pagination__btn:active {
+  transform: scale(0.9);
+}
+.pagination__btn._active button {
+  background: #6d27e7;
+  color: #fff;
+}
+.pagination__btn.next svg,
+.pagination__btn.prev svg {
+  fill: #fff;
+  width: 25px;
+  height: 25px;
+  margin-top: 4px;
+}
+.pagination__btn.next svg {
+  transform: rotate(-90deg);
+}
+.pagination__btn.prev svg {
+  transform: rotate(90deg);
+}
+.pagination__btn._disabled button {
+  cursor: auto;
+  background: rgb(207, 207, 207);
+}

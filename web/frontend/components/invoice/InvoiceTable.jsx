@@ -3,7 +3,6 @@ import {
   IndexTable,
   useIndexResourceState,
   Icon,
-  Pagination,
   Spinner,
 } from "@shopify/polaris";
 import { TickMinor } from "@shopify/polaris-icons";

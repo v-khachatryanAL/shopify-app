@@ -1,10 +1,10 @@
 import { DataTable, TextField, Button } from "@shopify/polaris";
-import DefaultAutocomplete from "../autocomplete/defaultAutocomplete/DefaultAutocomplete";
 import { React, useState, useEffect } from "react";
-import CancelIc from "../../assets/cancel-ic.svg";
-import "./table.css";
+import DefaultAutocomplete from "../autocomplete/defaultAutocomplete/DefaultAutocomplete";
 import { mutationRequest } from "../../hooks/useAppMutation";
 import { useAppQuery } from "../../hooks";
+import CancelIc from "../../assets/cancel-ic.svg";
+import "./table.css";
 
 const headers = [
   "Item",
@@ -21,13 +21,8 @@ const NewElemProductTable = ({
   rows,
   addNewRow,
   deleteRow,
+  newItem,
   changeRow,
-  totalPrice,
-  totalPriceVat,
-  currency,
-  subTotal,
-  discount,
-  discountType,
   sendNewProduct,
 }) => {
   const [validTouch, setValidTouch] = useState([]);
@@ -256,20 +251,20 @@ const NewElemProductTable = ({
           add new line
         </div>
         <div className="newRow__info">
-          {discount ? (
+          {newItem.discount ? (
             <>
               <div className="newRow__line">
                 <span className="newRow__line-txt">SubTotal</span>
                 <span>
-                  {currency}
-                  {Number(subTotal).toFixed(2)}
+                  {newItem.currency}
+                  {Number(newItem.subTotal).toFixed(2)}
                 </span>
               </div>
               <div className="newRow__line">
                 <span className="newRow__line-txt">Discount</span>
                 <span>
-                  -{discountType !== "%" ? currency : "%"}
-                  {Number(discount).toFixed(2)}
+                  -{newItem.discountType !== "%" ? newItem.currency : "%"}
+                  {Number(newItem.discount).toFixed(2)}
                 </span>
               </div>
             </>
@@ -282,8 +277,8 @@ const NewElemProductTable = ({
               {rows.find((row) => !!row.percent) ? "Total excl. VAT" : "Total"}
             </span>
             <span>
-              {currency}
-              {totalPrice.toFixed(2)}
+              {newItem.currency}
+              {newItem.totalOrders.toFixed(2)}
             </span>
           </div>
           {rows
@@ -295,7 +290,7 @@ const NewElemProductTable = ({
                     VAT (BTW) {row.vat}%
                   </span>
                   <span>
-                    {currency}
+                    {newItem.currency}
                     {row.percent.toFixed(2)}
                   </span>
                 </div>
@@ -305,8 +300,8 @@ const NewElemProductTable = ({
             <div className="newRow__line border">
               <span className="newRow__line-title">Total incl. VAT</span>
               <span>
-                {currency}
-                {totalPriceVat.toFixed(2)}
+                {newItem.currency}
+                {newItem.totalOrdersVat.toFixed(2)}
               </span>
             </div>
           ) : (

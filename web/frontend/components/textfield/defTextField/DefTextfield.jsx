@@ -10,6 +10,7 @@ const DefTextfield = ({
   type,
   value,
   onChange,
+  autoComplete = "off",
   errorMessage,
   disabled = false,
   ...props
@@ -27,6 +28,7 @@ const DefTextfield = ({
         {type !== "textarea" ? (
           <TextField
             disabled={disabled}
+            autoComplete={autoComplete}
             type={type}
             value={value}
             onChange={(val) => {

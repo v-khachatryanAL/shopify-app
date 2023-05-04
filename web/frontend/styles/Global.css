@@ -102,3 +102,20 @@ body,
 .bold-txt {
   font-weight: 700 !important;
 }
+.def-light-link {
+  transition: all 0.2 ease !important;
+  color: #6d27e7;
+}
+.def-light-link:hover {
+  color: #36038f;
+}
+.def-btn button {
+  background: #6d27e7;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+.def-btn button:hover {
+  background: #36038f;
+}

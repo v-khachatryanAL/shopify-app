@@ -1,0 +1,79 @@
+.emailsHistory__table table thead th {
+  font-weight: 600;
+  padding: 10px 16px;
+  font-size: 16px;
+}
+.emailsHistory__pagin {
+  padding: 25px 0;
+}
+.emailsHistory__table tbody tr > * {
+  padding: 10px 16px;
+  font-size: 16px;
+  font-weight: 500;
+}
+.emailsHistory__table tbody tr > td:last-child {
+  display: flex;
+  justify-content: center;
+}
+.emailsHistory__table thead tr > th:last-child {
+  text-align: center;
+}
+.emailsHistory__status {
+  font-size: 13px;
+  width: 80px;
+  text-align: center;
+  text-transform: uppercase;
+  color: rgb(146, 146, 146);
+  border: 1px solid rgb(207, 207, 207);
+  border-radius: 4px;
+}
+.emailsHistory__status.sent {
+  border-color: #6d27e7;
+  color: #6d27e7;
+}
+.emailsHistory__status.failed {
+  color: #ef5350;
+  border-color: #ef5350;
+}
+.emailsHistory__ic {
+  display: flex;
+  align-items: center;
+  grid-gap: 5px;
+}
+.emailsHistory__ic .companyInfo__tooltip {
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+.emailsHistory__table
+  table
+  thead
+  tr:hover
+  .emailsHistory__ic
+  .companyInfo__tooltip {
+  opacity: 1;
+}
+.emailsHistory__tooltip {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 5px;
+  padding: 20px;
+}
+.emailsHistory__tooltip span {
+  font-size: 18px;
+}
+.emailsHistory__tooltip a {
+  color: #333;
+}
+.emailsHistory__table tbody tr {
+  position: relative;
+  transition: all 0.2s ease;
+}
+.emailsHistory__table tbody tr:hover:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: #6d27e7;
+  width: 2px;
+  height: 100%;
+}

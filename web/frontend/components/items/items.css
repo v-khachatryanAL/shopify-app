@@ -1,0 +1,47 @@
+.items {
+  width: 730px;
+  margin: 0;
+}
+.items__top .def-save-btn .Polaris-Button__Text {
+  font-size: 14px;
+}
+.items__top .def-save-btn .Polaris-Button {
+  padding: 12px 25px;
+}
+.items__top > .def-container {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+.items__table {
+  min-height: 595px;
+  background: #fff;
+  position: relative;
+}
+.items__table .loading {
+  position: absolute;
+  top: 75px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  z-index: 888;
+}
+.items__table table {
+  min-height: 595px;
+  height: 100%;
+  background: #fff;
+}
+.items__table table thead tr th button > span {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgb(15, 15, 15);
+}
+.items__pagination {
+  padding: 25px 0;
+}
+.items table tbody {
+  position: relative;
+}
+.items__table
+  .Polaris-LegacyStack.Polaris-LegacyStack--vertical.Polaris-LegacyStack--alignmentCenter {
+  display: none;
+}

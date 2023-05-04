@@ -1,6 +1,8 @@
 import { FileUploader } from "react-drag-drop-files";
 import { Button } from "@shopify/polaris";
 import { useState } from "react";
+import DefTextfield from "../textfield/defTextField/DefTextfield";
+import { validateEmail } from "../../utils/helpers";
 import {
   DropdownMinor,
   PageUpMajor,
@@ -8,8 +10,6 @@ import {
   ExchangeMajor,
   CircleCancelMajor,
 } from "@shopify/polaris-icons";
-import DefTextfield from "../textfield/defTextField/DefTextfield";
-import { validateEmail } from "../../utils/helpers";
 
 const EmailAdvanced = ({ data, chnageAdvanced, errors, setInputErrors }) => {
   const [file, setFile] = useState(null);
